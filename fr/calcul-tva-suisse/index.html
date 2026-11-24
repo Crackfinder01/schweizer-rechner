@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calcul TVA Suisse : 8,1 %, 2,6 % et 3,8 %</title>
+<meta name="description" content="Ajouter ou extraire la TVA suisse : hors TVA ↔ TVA incluse avec 8,1 %, 2,6 % et 3,8 %, avec arrondi à 5 centimes en option.">
+<link rel="canonical" href="https://schweizer-rechner.ch/fr/calcul-tva-suisse/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/mwst-rechner/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-tva-suisse/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/mwst-rechner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Calculateurs suisses">
+<meta property="og:title" content="Calcul TVA Suisse : 8,1 %, 2,6 % et 3,8 %">
+<meta property="og:description" content="Ajouter ou extraire la TVA suisse : hors TVA ↔ TVA incluse avec 8,1 %, 2,6 % et 3,8 %, avec arrondi à 5 centimes en option.">
+<meta property="og:url" content="https://schweizer-rechner.ch/fr/calcul-tva-suisse/">
+<meta property="og:locale" content="fr_CH">
+<meta property="og:locale:alternate" content="de_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Calcul de la TVA suisse","url":"https://schweizer-rechner.ch/fr/calcul-tva-suisse/","description":"Ajouter ou extraire la TVA suisse : hors TVA ↔ TVA incluse avec 8,1 %, 2,6 % et 3,8 %, avec arrondi à 5 centimes en option.","inLanguage":"fr-CH","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Comment extraire la TVA d’un montant TVA incluse ?","acceptedAnswer":{"@type":"Answer","text":"Divisez le montant par 1,081 (taux normal). La différence avec le montant de départ est la TVA. CHF 540.50 donnent ainsi CHF 500.00 hors TVA et CHF 40.50 de TVA."}},{"@type":"Question","name":"Pourquoi ajouter 8,1 % puis retirer 8,1 % ne redonne-t-il pas le montant de départ ?","acceptedAnswer":{"@type":"Answer","text":"Parce que la déduction de 8,1 % est calculée sur le montant plus élevé. Pour extraire la TVA, il faut diviser par 1,081 et non retirer 8,1 %."}},{"@type":"Question","name":"Quel taux s’applique à mon produit ?","acceptedAnswer":{"@type":"Answer","text":"Cela dépend de la nature de la prestation. Consultez les informations de l’AFC ou demandez à votre fiduciaire."}},{"@type":"Question","name":"Dois-je utiliser l’arrondi à 5 centimes ?","acceptedAnswer":{"@type":"Answer","text":"Le calculateur le propose en option. La manière d’arrondir dans votre comptabilité se règle de préférence avec votre fiduciaire ou l’AFC."}},{"@type":"Question","name":"Mes montants sont-ils enregistrés ?","acceptedAnswer":{"@type":"Answer","text":"Non. Le calcul se fait uniquement dans votre navigateur, rien n’est transmis."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/fr/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Calculateurs suisses</span></a>
+<nav class="lang" aria-label="Langue"><a href="/de/mwst-rechner/" hreflang="de-CH" lang="de-CH">DE</a><span aria-current="page" lang="fr-CH">FR</span></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/fr/">Calculateurs suisses</a> › Calcul de la TVA suisse</p>
+<h1>Calcul de la TVA suisse</h1>
+<p class="lead">Ajouter ou extraire la TVA – avec les taux actuels de l’AFC et un arrondi à 5 centimes en option.</p>
+<section class="tool" data-tool="vat" aria-labelledby="tool-h">
+<h2 id="tool-h">Calculer la TVA</h2>
+<form novalidate>
+<div class="field"><label for="vat-amount">Montant en CHF</label><input type="text" inputmode="decimal" id="vat-amount" name="amount" value="100.00" autocomplete="off"></div>
+<fieldset><legend>Sens du calcul</legend><div class="choice">
+<label><input type="radio" name="dir" value="add" checked> Hors TVA → TVA incluse (ajouter)</label>
+<label><input type="radio" name="dir" value="remove"> TVA incluse → hors TVA (extraire)</label>
+</div></fieldset>
+<div class="field"><label for="vat-rate">Taux</label><select id="vat-rate" name="rate">
+<option value="8.1">Taux normal 8,1 %</option><option value="2.6">Taux réduit 2,6 %</option><option value="3.8">Hébergement 3,8 %</option></select></div>
+<div class="choice field"><label><input type="checkbox" name="round5"> Arrondir la TVA à 5 centimes</label></div>
+<button type="submit" class="btn">Calculer</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>Mode d’emploi</h2>
+<p>Saisissez un montant et choisissez le sens du calcul : «hors TVA → TVA incluse» ajoute la taxe à un prix hors TVA, «TVA incluse → hors TVA» l’extrait d’un prix qui la contient déjà. Choisissez ensuite le taux. Si vous le souhaitez, le montant de TVA est arrondi à 5 centimes.</p>
+<h2>Les taux de TVA en Suisse</h2>
+<p>Depuis le 1er janvier 2024, selon l’Administration fédérale des contributions (AFC), trois taux s’appliquent : le taux normal de 8,1 %, le taux réduit de 2,6 % et le taux spécial de 3,8 % pour les prestations d’hébergement. Le taux applicable dépend de la prestation elle-même ; en cas de doute, l’AFC renseigne.</p>
+<h2>Formules</h2>
+<p class="formula">TVA incluse = hors TVA × (1 + taux ÷ 100)<br>Hors TVA = TVA incluse ÷ (1 + taux ÷ 100)<br>TVA = TVA incluse − hors TVA</p>
+<p>Erreur fréquente : la taxe contenue dans un prix n’est pas prix × 8,1 %. Pour CHF 108.10 TVA incluse, cela donnerait CHF 8.76 ; le bon résultat est 108,10 − 108,10 ÷ 1,081 = CHF 8.10.</p>
+<h2>Exemples</h2>
+<p>Une facture de CHF 250.00 hors TVA au taux normal : 250,00 × 8,1 % = CHF 20.25 de TVA, total CHF 270.25. Une nuitée à CHF 180.00 hors TVA au taux de l’hébergement : CHF 6.84 de TVA, total CHF 186.84.</p>
+<h2>Arrondi à 5 centimes</h2>
+<p>La plus petite pièce en Suisse étant de 5 centimes, les montants sont souvent arrondis à 0,05. Avec cette option, le calculateur arrondit la TVA à 5 centimes et en déduit l’autre montant. Exemple : CHF 47.30 hors TVA donnent CHF 3.8313 de TVA, arrondis à CHF 3.85, total CHF 51.15.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Questions fréquentes</h2>
+<details><summary>Comment extraire la TVA d’un montant TVA incluse ?</summary><p>Divisez le montant par 1,081 (taux normal). La différence avec le montant de départ est la TVA. CHF 540.50 donnent ainsi CHF 500.00 hors TVA et CHF 40.50 de TVA.</p></details>
+<details><summary>Pourquoi ajouter 8,1 % puis retirer 8,1 % ne redonne-t-il pas le montant de départ ?</summary><p>Parce que la déduction de 8,1 % est calculée sur le montant plus élevé. Pour extraire la TVA, il faut diviser par 1,081 et non retirer 8,1 %.</p></details>
+<details><summary>Quel taux s’applique à mon produit ?</summary><p>Cela dépend de la nature de la prestation. Consultez les informations de l’AFC ou demandez à votre fiduciaire.</p></details>
+<details><summary>Dois-je utiliser l’arrondi à 5 centimes ?</summary><p>Le calculateur le propose en option. La manière d’arrondir dans votre comptabilité se règle de préférence avec votre fiduciaire ou l’AFC.</p></details>
+<details><summary>Mes montants sont-ils enregistrés ?</summary><p>Non. Le calcul se fait uniquement dans votre navigateur, rien n’est transmis.</p></details>
+</section>
+</article>
+<section class="sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ul><li>Administration fédérale des contributions AFC, taux de TVA : <a href="https://www.estv.admin.ch/fr/taux-de-la-tva-suisse">https://www.estv.admin.ch/fr/taux-de-la-tva-suisse</a></li></ul></section>
+<p class="stand">État : novembre 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Autres calculateurs</h2>
+<ul class="cards"><li><a href="/fr/calcul-heures-travail/"><strong>Calcul des heures de travail</strong>Heures par jour et par semaine, pauses selon la loi sur le travail, horaires de nuit.</a></li><li><a href="/fr/calcul-pourcentage/"><strong>Calcul de pourcentage</strong>Pourcentage d’un montant, part en %, variation, montant plus ou moins %.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Informations légales"><a href="/fr/mentions-legales/">Mentions légales</a> · <a href="/fr/confidentialite/">Confidentialité</a> · <a href="/fr/contact/">Contact</a></nav>
+<p>Tous les calculs se font uniquement dans votre navigateur. Informations sans garantie.</p>
+</div></footer>
+</body>
+</html>

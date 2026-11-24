@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calcul de pourcentage : part, variation, rabais</title>
+<meta name="description" content="Calculateur de pourcentage en 4 modes : X % de Y, part en %, variation en % et valeur plus ou moins %. Avec exemples en francs suisses.">
+<link rel="canonical" href="https://schweizer-rechner.ch/fr/calcul-pourcentage/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/prozentrechner/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-pourcentage/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/prozentrechner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Calculateurs suisses">
+<meta property="og:title" content="Calcul de pourcentage : part, variation, rabais">
+<meta property="og:description" content="Calculateur de pourcentage en 4 modes : X % de Y, part en %, variation en % et valeur plus ou moins %. Avec exemples en francs suisses.">
+<meta property="og:url" content="https://schweizer-rechner.ch/fr/calcul-pourcentage/">
+<meta property="og:locale" content="fr_CH">
+<meta property="og:locale:alternate" content="de_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Calcul de pourcentage","url":"https://schweizer-rechner.ch/fr/calcul-pourcentage/","description":"Calculateur de pourcentage en 4 modes : X % de Y, part en %, variation en % et valeur plus ou moins %. Avec exemples en francs suisses.","inLanguage":"fr-CH","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Comment calculer un prix après rabais ?","acceptedAnswer":{"@type":"Answer","text":"Utilisez le bloc 4 avec «moins». CHF 89.90 moins 30 % donne 89,90 × 0,7 = CHF 62.93."}},{"@type":"Question","name":"Comment retrouver le prix avant le rabais ?","acceptedAnswer":{"@type":"Answer","text":"Divisez le prix réduit par (1 − rabais ÷ 100). Pour CHF 960 après 20 % de rabais : 960 ÷ 0,8 = CHF 1'200."}},{"@type":"Question","name":"Pourquoi plus 10 % puis moins 10 % ne redonnent-ils pas le montant de départ ?","acceptedAnswer":{"@type":"Answer","text":"Parce que la deuxième étape part du nouveau montant, plus élevé. CHF 100 deviennent CHF 110, puis CHF 99."}},{"@type":"Question","name":"Que signifie un résultat négatif pour la variation ?","acceptedAnswer":{"@type":"Answer","text":"Un signe moins indique une baisse. De CHF 200 à CHF 150, la variation est de −25 %."}},{"@type":"Question","name":"Puis-je aussi calculer la TVA avec cet outil ?","acceptedAnswer":{"@type":"Answer","text":"Pour l’ajouter oui, mais pas directement pour l’extraire. Utilisez plutôt le calcul de la TVA suisse."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/fr/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Calculateurs suisses</span></a>
+<nav class="lang" aria-label="Langue"><a href="/de/prozentrechner/" hreflang="de-CH" lang="de-CH">DE</a><span aria-current="page" lang="fr-CH">FR</span></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/fr/">Calculateurs suisses</a> › Calcul de pourcentage</p>
+<h1>Calcul de pourcentage</h1>
+<p class="lead">Quatre calculs de pourcentage en un seul outil – avec formules et exemples de la vie courante en Suisse.</p>
+<section class="tool" data-tool="percent" aria-labelledby="tool-h">
+<h2 id="tool-h">Calculer un pourcentage</h2>
+<div class="subtools">
+<form data-mode="of" aria-labelledby="h-of" novalidate>
+<h3 id="h-of">1. X % de Y</h3>
+<div class="row">
+<div class="field"><label for="of-a">Pourcentage (%)</label><input type="text" inputmode="decimal" id="of-a" name="a" autocomplete="off"></div>
+<div class="field"><label for="of-b">Valeur de base</label><input type="text" inputmode="decimal" id="of-b" name="b" autocomplete="off"></div>
+</div>
+<button type="submit" class="btn">Calculer</button>
+<div class="result" aria-live="polite"></div>
+</form>
+<form data-mode="what" aria-labelledby="h-what" novalidate>
+<h3 id="h-what">2. X représente quel % de Y ?</h3>
+<div class="row">
+<div class="field"><label for="what-a">Valeur X</label><input type="text" inputmode="decimal" id="what-a" name="a" autocomplete="off"></div>
+<div class="field"><label for="what-b">Valeur de base Y</label><input type="text" inputmode="decimal" id="what-b" name="b" autocomplete="off"></div>
+</div>
+<button type="submit" class="btn">Calculer</button>
+<div class="result" aria-live="polite"></div>
+</form>
+<form data-mode="change" aria-labelledby="h-change" novalidate>
+<h3 id="h-change">3. Variation en % de A à B</h3>
+<div class="row">
+<div class="field"><label for="change-a">Ancienne valeur A</label><input type="text" inputmode="decimal" id="change-a" name="a" autocomplete="off"></div>
+<div class="field"><label for="change-b">Nouvelle valeur B</label><input type="text" inputmode="decimal" id="change-b" name="b" autocomplete="off"></div>
+</div>
+<button type="submit" class="btn">Calculer</button>
+<div class="result" aria-live="polite"></div>
+</form>
+<form data-mode="apply" aria-labelledby="h-apply" novalidate>
+<h3 id="h-apply">4. Valeur plus ou moins X %</h3>
+<div class="row">
+<div class="field"><label for="apply-a">Valeur</label><input type="text" inputmode="decimal" id="apply-a" name="a" autocomplete="off"></div>
+<div class="field"><label for="apply-sign">Opération</label><select id="apply-sign" name="sign"><option value="+">plus</option><option value="-">moins</option></select></div>
+<div class="field"><label for="apply-b">Pourcentage (%)</label><input type="text" inputmode="decimal" id="apply-b" name="b" autocomplete="off"></div>
+</div>
+<button type="submit" class="btn">Calculer</button>
+<div class="result" aria-live="polite"></div>
+</form>
+</div>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>Mode d’emploi</h2>
+<p>Choisissez le bloc qui correspond à votre question et remplissez les deux champs. Le résultat s’affiche immédiatement. Les décimales peuvent être saisies avec un point ou une virgule, les milliers aussi avec une apostrophe, par exemple 1'250.50.</p>
+<h2>Les quatre formules</h2>
+<p class="formula">1. X % de Y = Y × X ÷ 100<br>2. Part en % = X ÷ Y × 100<br>3. Variation en % = (B − A) ÷ A × 100<br>4. Y ± X % = Y × (1 ± X ÷ 100)</p>
+<h2>Exemples en francs</h2>
+<p>Un vélo coûte CHF 240 et bénéficie de 15 % de rabais : 240 × 15 ÷ 100 = CHF 36 de rabais, vous payez CHF 204. Sur un budget de CHF 180, vous avez dépensé CHF 45 : 45 ÷ 180 × 100 = 25 %. Votre prime d’assurance passe de CHF 80 à CHF 92 : (92 − 80) ÷ 80 × 100 = +15 %. Un appareil à CHF 1'200 avec 20 % de rabais coûte 1'200 × 0,8 = CHF 960.</p>
+<h2>Erreurs fréquentes</h2>
+<p>Un pourcentage se rapporte toujours à une valeur de base. Si l’on ajoute 10 % puis qu’on retire 10 %, on ne retrouve pas le montant de départ : CHF 100 deviennent CHF 110, puis CHF 99, car la baisse est calculée sur le montant plus élevé. Il faut aussi distinguer pour cent et points de pourcentage : si un taux d’intérêt passe de 1,5 % à 2 %, il augmente de 0,5 point, mais de 33 % environ en valeur relative.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Questions fréquentes</h2>
+<details><summary>Comment calculer un prix après rabais ?</summary><p>Utilisez le bloc 4 avec «moins». CHF 89.90 moins 30 % donne 89,90 × 0,7 = CHF 62.93.</p></details>
+<details><summary>Comment retrouver le prix avant le rabais ?</summary><p>Divisez le prix réduit par (1 − rabais ÷ 100). Pour CHF 960 après 20 % de rabais : 960 ÷ 0,8 = CHF 1'200.</p></details>
+<details><summary>Pourquoi plus 10 % puis moins 10 % ne redonnent-ils pas le montant de départ ?</summary><p>Parce que la deuxième étape part du nouveau montant, plus élevé. CHF 100 deviennent CHF 110, puis CHF 99.</p></details>
+<details><summary>Que signifie un résultat négatif pour la variation ?</summary><p>Un signe moins indique une baisse. De CHF 200 à CHF 150, la variation est de −25 %.</p></details>
+<details><summary>Puis-je aussi calculer la TVA avec cet outil ?</summary><p>Pour l’ajouter oui, mais pas directement pour l’extraire. Utilisez plutôt le <a href="/fr/calcul-tva-suisse/">calcul de la TVA suisse</a>.</p></details>
+</section>
+</article>
+<p class="stand">État : novembre 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Autres calculateurs</h2>
+<ul class="cards"><li><a href="/fr/calcul-heures-travail/"><strong>Calcul des heures de travail</strong>Heures par jour et par semaine, pauses selon la loi sur le travail, horaires de nuit.</a></li><li><a href="/fr/calcul-tva-suisse/"><strong>Calcul de la TVA suisse</strong>Ajouter ou extraire la TVA, avec arrondi à 5 centimes.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Informations légales"><a href="/fr/mentions-legales/">Mentions légales</a> · <a href="/fr/confidentialite/">Confidentialité</a> · <a href="/fr/contact/">Contact</a></nav>
+<p>Tous les calculs se font uniquement dans votre navigateur. Informations sans garantie.</p>
+</div></footer>
+</body>
+</html>

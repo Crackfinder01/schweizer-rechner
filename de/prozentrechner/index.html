@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prozentrechner: Prozent, Anteil und Veränderung</title>
+<meta name="description" content="Prozentrechner mit 4 Modi: X % von Y, Anteil in Prozent, prozentuale Veränderung und Wert plus/minus Prozent. Mit Beispielen in Franken.">
+<link rel="canonical" href="https://schweizer-rechner.ch/de/prozentrechner/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/prozentrechner/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-pourcentage/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/prozentrechner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Schweizer Rechner">
+<meta property="og:title" content="Prozentrechner: Prozent, Anteil und Veränderung">
+<meta property="og:description" content="Prozentrechner mit 4 Modi: X % von Y, Anteil in Prozent, prozentuale Veränderung und Wert plus/minus Prozent. Mit Beispielen in Franken.">
+<meta property="og:url" content="https://schweizer-rechner.ch/de/prozentrechner/">
+<meta property="og:locale" content="de_CH">
+<meta property="og:locale:alternate" content="fr_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Prozentrechner","url":"https://schweizer-rechner.ch/de/prozentrechner/","description":"Prozentrechner mit 4 Modi: X % von Y, Anteil in Prozent, prozentuale Veränderung und Wert plus/minus Prozent. Mit Beispielen in Franken.","inLanguage":"de-CH","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Wie berechne ich den Preis nach einem Rabatt?","acceptedAnswer":{"@type":"Answer","text":"Nehmen Sie Block 4 mit «minus». CHF 89.90 minus 30 % ergibt 89.90 × 0.7 = CHF 62.93."}},{"@type":"Question","name":"Wie finde ich den Preis vor dem Rabatt heraus?","acceptedAnswer":{"@type":"Answer","text":"Teilen Sie den reduzierten Preis durch (1 − Rabatt ÷ 100). Bei CHF 960 nach 20 % Rabatt: 960 ÷ 0.8 = CHF 1'200."}},{"@type":"Question","name":"Warum ergeben plus 10 % und minus 10 % nicht wieder den Anfangswert?","acceptedAnswer":{"@type":"Answer","text":"Weil der zweite Schritt vom neuen, höheren Betrag ausgeht. Aus CHF 100 werden CHF 110 und danach CHF 99."}},{"@type":"Question","name":"Was bedeutet ein negatives Ergebnis bei der Veränderung?","acceptedAnswer":{"@type":"Answer","text":"Ein Minus zeigt eine Abnahme. Von CHF 200 auf CHF 150 ist eine Veränderung von −25 %."}},{"@type":"Question","name":"Kann ich mit dem Rechner auch die Mehrwertsteuer berechnen?","acceptedAnswer":{"@type":"Answer","text":"Für das Hinzufügen schon, für das Herausrechnen nicht direkt. Nutzen Sie dafür den MWST-Rechner."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/de/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Schweizer Rechner</span></a>
+<nav class="lang" aria-label="Sprache"><span aria-current="page" lang="de-CH">DE</span><a href="/fr/calcul-pourcentage/" hreflang="fr-CH" lang="fr-CH">FR</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/de/">Schweizer Rechner</a> › Prozentrechner</p>
+<h1>Prozentrechner</h1>
+<p class="lead">Vier Prozentrechnungen in einem Werkzeug – mit Formeln und Beispielen aus dem Schweizer Alltag.</p>
+<section class="tool" data-tool="percent" aria-labelledby="tool-h">
+<h2 id="tool-h">Prozent berechnen</h2>
+<div class="subtools">
+<form data-mode="of" aria-labelledby="h-of" novalidate>
+<h3 id="h-of">1. X % von Y</h3>
+<div class="row">
+<div class="field"><label for="of-a">Prozent (%)</label><input type="text" inputmode="decimal" id="of-a" name="a" autocomplete="off"></div>
+<div class="field"><label for="of-b">Grundwert</label><input type="text" inputmode="decimal" id="of-b" name="b" autocomplete="off"></div>
+</div>
+<button type="submit" class="btn">Berechnen</button>
+<div class="result" aria-live="polite"></div>
+</form>
+<form data-mode="what" aria-labelledby="h-what" novalidate>
+<h3 id="h-what">2. X ist wie viel % von Y?</h3>
+<div class="row">
+<div class="field"><label for="what-a">Wert X</label><input type="text" inputmode="decimal" id="what-a" name="a" autocomplete="off"></div>
+<div class="field"><label for="what-b">Grundwert Y</label><input type="text" inputmode="decimal" id="what-b" name="b" autocomplete="off"></div>
+</div>
+<button type="submit" class="btn">Berechnen</button>
+<div class="result" aria-live="polite"></div>
+</form>
+<form data-mode="change" aria-labelledby="h-change" novalidate>
+<h3 id="h-change">3. Prozentuale Veränderung von A zu B</h3>
+<div class="row">
+<div class="field"><label for="change-a">Alter Wert A</label><input type="text" inputmode="decimal" id="change-a" name="a" autocomplete="off"></div>
+<div class="field"><label for="change-b">Neuer Wert B</label><input type="text" inputmode="decimal" id="change-b" name="b" autocomplete="off"></div>
+</div>
+<button type="submit" class="btn">Berechnen</button>
+<div class="result" aria-live="polite"></div>
+</form>
+<form data-mode="apply" aria-labelledby="h-apply" novalidate>
+<h3 id="h-apply">4. Wert plus oder minus X %</h3>
+<div class="row">
+<div class="field"><label for="apply-a">Wert</label><input type="text" inputmode="decimal" id="apply-a" name="a" autocomplete="off"></div>
+<div class="field"><label for="apply-sign">Rechenart</label><select id="apply-sign" name="sign"><option value="+">plus</option><option value="-">minus</option></select></div>
+<div class="field"><label for="apply-b">Prozent (%)</label><input type="text" inputmode="decimal" id="apply-b" name="b" autocomplete="off"></div>
+</div>
+<button type="submit" class="btn">Berechnen</button>
+<div class="result" aria-live="polite"></div>
+</form>
+</div>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>So funktioniert der Rechner</h2>
+<p>Wählen Sie den Block, der zu Ihrer Frage passt, und füllen Sie die zwei Felder aus. Das Ergebnis erscheint sofort. Dezimalstellen dürfen Sie mit Punkt oder Komma eingeben, Tausender auch mit Apostroph, etwa 1'250.50.</p>
+<h2>Die vier Formeln</h2>
+<p class="formula">1. X % von Y = Y × X ÷ 100<br>2. Anteil in % = X ÷ Y × 100<br>3. Veränderung in % = (B − A) ÷ A × 100<br>4. Y ± X % = Y × (1 ± X ÷ 100)</p>
+<h2>Beispiele mit Franken</h2>
+<p>Ein Velo kostet CHF 240 und ist 15 % reduziert: 240 × 15 ÷ 100 = CHF 36 Rabatt, Sie zahlen CHF 204. Von einem Budget von CHF 180 haben Sie CHF 45 ausgegeben: 45 ÷ 180 × 100 = 25 %. Ihre Krankenkassenprämie steigt von CHF 80 auf CHF 92: (92 − 80) ÷ 80 × 100 = +15 %. Ein Gerät für CHF 1'200 mit 20 % Rabatt kostet 1'200 × 0.8 = CHF 960.</p>
+<h2>Typische Fehler</h2>
+<p>Prozente beziehen sich immer auf einen Grundwert. Wer zuerst 10 % aufschlägt und danach 10 % abzieht, landet nicht beim Ausgangswert: CHF 100 werden zu CHF 110 und dann zu CHF 99, weil der Abzug vom höheren Betrag berechnet wird. Ebenso wichtig ist der Unterschied zwischen Prozent und Prozentpunkten: Steigt ein Zinssatz von 1.5 % auf 2 %, sind das 0.5 Prozentpunkte, aber eine Zunahme von rund 33 %.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Häufige Fragen</h2>
+<details><summary>Wie berechne ich den Preis nach einem Rabatt?</summary><p>Nehmen Sie Block 4 mit «minus». CHF 89.90 minus 30 % ergibt 89.90 × 0.7 = CHF 62.93.</p></details>
+<details><summary>Wie finde ich den Preis vor dem Rabatt heraus?</summary><p>Teilen Sie den reduzierten Preis durch (1 − Rabatt ÷ 100). Bei CHF 960 nach 20 % Rabatt: 960 ÷ 0.8 = CHF 1'200.</p></details>
+<details><summary>Warum ergeben plus 10 % und minus 10 % nicht wieder den Anfangswert?</summary><p>Weil der zweite Schritt vom neuen, höheren Betrag ausgeht. Aus CHF 100 werden CHF 110 und danach CHF 99.</p></details>
+<details><summary>Was bedeutet ein negatives Ergebnis bei der Veränderung?</summary><p>Ein Minus zeigt eine Abnahme. Von CHF 200 auf CHF 150 ist eine Veränderung von −25 %.</p></details>
+<details><summary>Kann ich mit dem Rechner auch die Mehrwertsteuer berechnen?</summary><p>Für das Hinzufügen schon, für das Herausrechnen nicht direkt. Nutzen Sie dafür den <a href="/de/mwst-rechner/">MWST-Rechner</a>.</p></details>
+</section>
+</article>
+<p class="stand">Stand: November 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Weitere Rechner</h2>
+<ul class="cards"><li><a href="/de/arbeitszeitrechner/"><strong>Arbeitszeitrechner</strong>Arbeitsstunden pro Tag und Woche, Pausen nach Arbeitsgesetz, Nachtschichten.</a></li><li><a href="/de/mwst-rechner/"><strong>MWST-Rechner</strong>Mehrwertsteuer hinzufügen oder herausrechnen, mit Rappenrundung.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Rechtliches"><a href="/de/impressum/">Impressum</a> · <a href="/de/datenschutz/">Datenschutz</a> · <a href="/de/kontakt/">Kontakt</a></nav>
+<p>Alle Berechnungen laufen nur in Ihrem Browser. Angaben ohne Gewähr.</p>
+</div></footer>
+</body>
+</html>

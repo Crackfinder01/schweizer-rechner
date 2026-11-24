@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MWST-Rechner Schweiz: 8.1 %, 2.6 % und 3.8 %</title>
+<meta name="description" content="Mehrwertsteuer Schweiz hinzufügen oder herausrechnen: Netto ↔ Brutto mit 8.1 %, 2.6 % und 3.8 %, optional mit Rundung auf 5 Rappen.">
+<link rel="canonical" href="https://schweizer-rechner.ch/de/mwst-rechner/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/mwst-rechner/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-tva-suisse/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/mwst-rechner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Schweizer Rechner">
+<meta property="og:title" content="MWST-Rechner Schweiz: 8.1 %, 2.6 % und 3.8 %">
+<meta property="og:description" content="Mehrwertsteuer Schweiz hinzufügen oder herausrechnen: Netto ↔ Brutto mit 8.1 %, 2.6 % und 3.8 %, optional mit Rundung auf 5 Rappen.">
+<meta property="og:url" content="https://schweizer-rechner.ch/de/mwst-rechner/">
+<meta property="og:locale" content="de_CH">
+<meta property="og:locale:alternate" content="fr_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"MWST-Rechner Schweiz","url":"https://schweizer-rechner.ch/de/mwst-rechner/","description":"Mehrwertsteuer Schweiz hinzufügen oder herausrechnen: Netto ↔ Brutto mit 8.1 %, 2.6 % und 3.8 %, optional mit Rundung auf 5 Rappen.","inLanguage":"de-CH","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Wie rechne ich die MWST aus einem Bruttobetrag heraus?","acceptedAnswer":{"@type":"Answer","text":"Teilen Sie den Bruttobetrag durch 1.081 (Normalsatz). Die Differenz zum Bruttobetrag ist die MWST. Aus CHF 540.50 werden so CHF 500.00 netto und CHF 40.50 MWST."}},{"@type":"Question","name":"Warum ergibt Netto plus 8.1 % und danach minus 8.1 % nicht den Ausgangsbetrag?","acceptedAnswer":{"@type":"Answer","text":"Weil der Abzug von 8.1 % auf dem höheren Bruttobetrag berechnet wird. Zum Herausrechnen muss man durch 1.081 teilen, nicht 8.1 % abziehen."}},{"@type":"Question","name":"Welcher Satz gilt für mein Produkt?","acceptedAnswer":{"@type":"Answer","text":"Das hängt von der Art der Leistung ab. Prüfen Sie die Angaben der ESTV oder fragen Sie Ihre Treuhänderin oder Ihren Treuhänder."}},{"@type":"Question","name":"Muss ich die Rappenrundung verwenden?","acceptedAnswer":{"@type":"Answer","text":"Der Rechner bietet sie als Option an. Wie Sie in Ihrer Buchhaltung runden, klären Sie am besten mit Ihrer Treuhand oder der ESTV."}},{"@type":"Question","name":"Werden meine Beträge gespeichert?","acceptedAnswer":{"@type":"Answer","text":"Nein. Die Berechnung läuft nur in Ihrem Browser, es wird nichts übermittelt."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/de/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Schweizer Rechner</span></a>
+<nav class="lang" aria-label="Sprache"><span aria-current="page" lang="de-CH">DE</span><a href="/fr/calcul-tva-suisse/" hreflang="fr-CH" lang="fr-CH">FR</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/de/">Schweizer Rechner</a> › MWST-Rechner Schweiz</p>
+<h1>MWST-Rechner Schweiz</h1>
+<p class="lead">Mehrwertsteuer aufschlagen oder herausrechnen – mit den aktuellen Sätzen der ESTV und optionaler Rappenrundung.</p>
+<section class="tool" data-tool="vat" aria-labelledby="tool-h">
+<h2 id="tool-h">MWST berechnen</h2>
+<form novalidate>
+<div class="field"><label for="vat-amount">Betrag in CHF</label><input type="text" inputmode="decimal" id="vat-amount" name="amount" value="100.00" autocomplete="off"></div>
+<fieldset><legend>Richtung</legend><div class="choice">
+<label><input type="radio" name="dir" value="add" checked> Netto → Brutto (MWST hinzufügen)</label>
+<label><input type="radio" name="dir" value="remove"> Brutto → Netto (MWST herausrechnen)</label>
+</div></fieldset>
+<div class="field"><label for="vat-rate">Steuersatz</label><select id="vat-rate" name="rate">
+<option value="8.1">Normalsatz 8.1 %</option><option value="2.6">Reduzierter Satz 2.6 %</option><option value="3.8">Beherbergung 3.8 %</option></select></div>
+<div class="choice field"><label><input type="checkbox" name="round5"> MWST-Betrag auf 5 Rappen runden</label></div>
+<button type="submit" class="btn">Berechnen</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>So funktioniert der Rechner</h2>
+<p>Geben Sie einen Betrag ein und wählen Sie die Richtung: «Netto → Brutto» schlägt die Mehrwertsteuer auf einen Preis ohne MWST auf, «Brutto → Netto» rechnet sie aus einem Preis heraus, in dem sie bereits enthalten ist. Danach wählen Sie den Steuersatz. Auf Wunsch wird der MWST-Betrag auf 5 Rappen gerundet.</p>
+<h2>Die Schweizer MWST-Sätze</h2>
+<p>Seit dem 1. Januar 2024 gelten laut der Eidgenössischen Steuerverwaltung (ESTV) drei Sätze: der Normalsatz von 8.1 %, der reduzierte Satz von 2.6 % und der Sondersatz für Beherbergungsleistungen von 3.8 %. Welcher Satz für eine Leistung gilt, hängt von der Leistung selbst ab; im Zweifel gibt die ESTV Auskunft.</p>
+<h2>Formeln</h2>
+<p class="formula">Brutto = Netto × (1 + Satz ÷ 100)<br>Netto = Brutto ÷ (1 + Satz ÷ 100)<br>MWST = Brutto − Netto</p>
+<p>Ein häufiger Fehler: Die enthaltene Steuer ist nicht Brutto × 8.1 %. Bei CHF 108.10 brutto wären das CHF 8.76, richtig sind 108.10 − 108.10 ÷ 1.081 = CHF 8.10.</p>
+<h2>Beispiele</h2>
+<p>Eine Rechnung über netto CHF 250.00 zum Normalsatz: 250.00 × 8.1 % = CHF 20.25 MWST, total CHF 270.25. Eine Übernachtung zu netto CHF 180.00 zum Beherbergungssatz: CHF 6.84 MWST, total CHF 186.84.</p>
+<h2>Rappenrundung</h2>
+<p>Weil die kleinste Münze in der Schweiz 5 Rappen ist, werden Beträge oft auf 0.05 gerundet. Mit der Option rundet der Rechner den MWST-Betrag auf 5 Rappen und berechnet den anderen Betrag daraus. Beispiel: netto CHF 47.30 ergibt CHF 3.8313 MWST, gerundet CHF 3.85, total CHF 51.15.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Häufige Fragen</h2>
+<details><summary>Wie rechne ich die MWST aus einem Bruttobetrag heraus?</summary><p>Teilen Sie den Bruttobetrag durch 1.081 (Normalsatz). Die Differenz zum Bruttobetrag ist die MWST. Aus CHF 540.50 werden so CHF 500.00 netto und CHF 40.50 MWST.</p></details>
+<details><summary>Warum ergibt Netto plus 8.1 % und danach minus 8.1 % nicht den Ausgangsbetrag?</summary><p>Weil der Abzug von 8.1 % auf dem höheren Bruttobetrag berechnet wird. Zum Herausrechnen muss man durch 1.081 teilen, nicht 8.1 % abziehen.</p></details>
+<details><summary>Welcher Satz gilt für mein Produkt?</summary><p>Das hängt von der Art der Leistung ab. Prüfen Sie die Angaben der ESTV oder fragen Sie Ihre Treuhänderin oder Ihren Treuhänder.</p></details>
+<details><summary>Muss ich die Rappenrundung verwenden?</summary><p>Der Rechner bietet sie als Option an. Wie Sie in Ihrer Buchhaltung runden, klären Sie am besten mit Ihrer Treuhand oder der ESTV.</p></details>
+<details><summary>Werden meine Beträge gespeichert?</summary><p>Nein. Die Berechnung läuft nur in Ihrem Browser, es wird nichts übermittelt.</p></details>
+</section>
+</article>
+<section class="sources" aria-labelledby="src-h"><h2 id="src-h">Quellen</h2><ul><li>Eidgenössische Steuerverwaltung ESTV, MWST-Steuersätze: <a href="https://www.estv.admin.ch/estv/de/home/mehrwertsteuer/mwst-steuersaetze.html">https://www.estv.admin.ch/estv/de/home/mehrwertsteuer/mwst-steuersaetze.html</a></li></ul></section>
+<p class="stand">Stand: November 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Weitere Rechner</h2>
+<ul class="cards"><li><a href="/de/arbeitszeitrechner/"><strong>Arbeitszeitrechner</strong>Arbeitsstunden pro Tag und Woche, Pausen nach Arbeitsgesetz, Nachtschichten.</a></li><li><a href="/de/prozentrechner/"><strong>Prozentrechner</strong>Prozent von, Anteil in Prozent, Veränderung, Wert plus oder minus Prozent.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Rechtliches"><a href="/de/impressum/">Impressum</a> · <a href="/de/datenschutz/">Datenschutz</a> · <a href="/de/kontakt/">Kontakt</a></nav>
+<p>Alle Berechnungen laufen nur in Ihrem Browser. Angaben ohne Gewähr.</p>
+</div></footer>
+</body>
+</html>

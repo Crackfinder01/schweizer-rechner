@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arbeitszeitrechner Schweiz: Stunden, Pausen, Woche</title>
+<meta name="description" content="Arbeitszeit pro Tag und Woche berechnen, in h:mm und Dezimalstunden. Mit Pausen nach Art. 15 ArG und Nachtschichten über Mitternacht.">
+<link rel="canonical" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-heures-travail/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Schweizer Rechner">
+<meta property="og:title" content="Arbeitszeitrechner Schweiz: Stunden, Pausen, Woche">
+<meta property="og:description" content="Arbeitszeit pro Tag und Woche berechnen, in h:mm und Dezimalstunden. Mit Pausen nach Art. 15 ArG und Nachtschichten über Mitternacht.">
+<meta property="og:url" content="https://schweizer-rechner.ch/de/arbeitszeitrechner/">
+<meta property="og:locale" content="de_CH">
+<meta property="og:locale:alternate" content="fr_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Arbeitszeitrechner Schweiz","url":"https://schweizer-rechner.ch/de/arbeitszeitrechner/","description":"Arbeitszeit pro Tag und Woche berechnen, in h:mm und Dezimalstunden. Mit Pausen nach Art. 15 ArG und Nachtschichten über Mitternacht.","inLanguage":"de-CH","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Wie rechne ich Minuten in Dezimalstunden um?","acceptedAnswer":{"@type":"Answer","text":"Teilen Sie die Minuten durch 60. 15 Minuten sind 0.25 Stunden, 30 Minuten 0.5 und 45 Minuten 0.75. Aus 7:20 Stunden werden so 7.33 Stunden."}},{"@type":"Question","name":"Funktioniert der Rechner auch für Nachtschichten?","acceptedAnswer":{"@type":"Answer","text":"Ja. Ist das Ende früher als der Beginn, rechnet er über Mitternacht. 22:00 bis 06:30 mit 30 Minuten Pause ergibt 8:00 Stunden Arbeitszeit."}},{"@type":"Question","name":"Zählt die Pause zur Arbeitszeit?","acceptedAnswer":{"@type":"Answer","text":"In der Regel nicht. Nach Art. 15 Abs. 2 ArG gelten Pausen aber als Arbeitszeit, wenn Sie den Arbeitsplatz nicht verlassen dürfen."}},{"@type":"Question","name":"Welche Pause gilt bei genau 7 Stunden Arbeit?","acceptedAnswer":{"@type":"Answer","text":"Das Gesetz spricht von «mehr als» sieben Stunden. Bei genau 7:00 Stunden genügt eine Viertelstunde, ab 7:01 Stunden ist eine halbe Stunde nötig."}},{"@type":"Question","name":"Werden meine Eingaben gespeichert?","acceptedAnswer":{"@type":"Answer","text":"Nein. Die Berechnung läuft nur in Ihrem Browser. Es wird nichts übermittelt und nichts gespeichert."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/de/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Schweizer Rechner</span></a>
+<nav class="lang" aria-label="Sprache"><span aria-current="page" lang="de-CH">DE</span><a href="/fr/calcul-heures-travail/" hreflang="fr-CH" lang="fr-CH">FR</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/de/">Schweizer Rechner</a> › Arbeitszeitrechner Schweiz</p>
+<h1>Arbeitszeitrechner Schweiz</h1>
+<p class="lead">Netto-Arbeitszeit aus Beginn, Ende und Pause berechnen – für einen Tag oder bis zu sieben Tage, auch über Mitternacht.</p>
+<section class="tool" data-tool="work" aria-labelledby="tool-h">
+<h2 id="tool-h">Arbeitszeit berechnen</h2>
+<table class="days">
+<thead><tr><th scope="col">Tag</th><th scope="col">Beginn</th><th scope="col">Ende</th><th scope="col">Pause (Min.)</th><th scope="col">Arbeitszeit</th><th scope="col"><span class="sr-only">Aktion</span></th></tr></thead>
+<tbody></tbody>
+</table>
+<p><button type="button" class="btn add-day">+ Tag hinzufügen (max. 7)</button></p>
+<div class="result" aria-live="polite"></div>
+<noscript><p>Für den Rechner wird JavaScript benötigt.</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>So funktioniert der Rechner</h2>
+<p>Geben Sie für jeden Arbeitstag Beginn, Ende und die Pause in Minuten ein. Mit «Tag hinzufügen» erfassen Sie bis zu sieben Tage, also eine ganze Woche. Der Rechner zeigt die Arbeitszeit pro Tag im Format Stunden:Minuten und als Dezimalzahl, darunter das Wochentotal. Liegt das Ende vor dem Beginn, rechnet er mit einer Schicht über Mitternacht, etwa von 22:00 bis 06:30.</p>
+<h2>Formel</h2>
+<p class="formula">Arbeitszeit = Ende − Beginn − Pause</p>
+<p>Bei einer Nachtschicht werden 24 Stunden zum Ende addiert. Für Dezimalstunden teilen Sie die Minuten durch 60: 45 Minuten sind 0.75 Stunden. Dezimalstunden brauchen Sie, wenn Sie Stunden mit einem Stundenlohn multiplizieren oder in eine Tabelle übertragen.</p>
+<h2>Beispiel</h2>
+<p>Sie arbeiten von 07:30 bis 17:00 und machen 45 Minuten Mittagspause. Die Anwesenheit beträgt 9:30 Stunden, die Arbeitszeit 8:45 Stunden oder 8.75 Stunden. An fünf solchen Tagen kommen Sie auf 43:45 Stunden. Bei einem Stundenlohn von CHF 32.50 ergibt das 43.75 × 32.50 = CHF 1'421.88 brutto pro Woche.</p>
+<h2>Pausen und Höchstarbeitszeit nach Arbeitsgesetz</h2>
+<p>Das Arbeitsgesetz (ArG) verlangt in Art. 15 Mindestpausen: eine Viertelstunde bei einer täglichen Arbeitszeit von mehr als fünfeinhalb Stunden, eine halbe Stunde bei mehr als sieben Stunden und eine Stunde bei mehr als neun Stunden. Der Rechner vergleicht Ihre Pause mit diesem Minimum und markiert zu kurze Pausen.</p>
+<p>Die wöchentliche Höchstarbeitszeit beträgt nach Art. 9 ArG 45 Stunden für Arbeitnehmende in industriellen Betrieben, für Büropersonal, technische und andere Angestellte sowie für das Verkaufspersonal in Grossbetrieben des Detailhandels, und 50 Stunden für alle übrigen Arbeitnehmenden. Die Hinweise sind eine Information, keine Rechtsberatung: Für manche Branchen und Betriebe gelten Sonderregeln, und Ihr Arbeitsvertrag oder ein Gesamtarbeitsvertrag kann engere Grenzen vorsehen.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Häufige Fragen</h2>
+<details><summary>Wie rechne ich Minuten in Dezimalstunden um?</summary><p>Teilen Sie die Minuten durch 60. 15 Minuten sind 0.25 Stunden, 30 Minuten 0.5 und 45 Minuten 0.75. Aus 7:20 Stunden werden so 7.33 Stunden.</p></details>
+<details><summary>Funktioniert der Rechner auch für Nachtschichten?</summary><p>Ja. Ist das Ende früher als der Beginn, rechnet er über Mitternacht. 22:00 bis 06:30 mit 30 Minuten Pause ergibt 8:00 Stunden Arbeitszeit.</p></details>
+<details><summary>Zählt die Pause zur Arbeitszeit?</summary><p>In der Regel nicht. Nach Art. 15 Abs. 2 ArG gelten Pausen aber als Arbeitszeit, wenn Sie den Arbeitsplatz nicht verlassen dürfen.</p></details>
+<details><summary>Welche Pause gilt bei genau 7 Stunden Arbeit?</summary><p>Das Gesetz spricht von «mehr als» sieben Stunden. Bei genau 7:00 Stunden genügt eine Viertelstunde, ab 7:01 Stunden ist eine halbe Stunde nötig.</p></details>
+<details><summary>Werden meine Eingaben gespeichert?</summary><p>Nein. Die Berechnung läuft nur in Ihrem Browser. Es wird nichts übermittelt und nichts gespeichert.</p></details>
+</section>
+</article>
+<section class="sources" aria-labelledby="src-h"><h2 id="src-h">Quellen</h2><ul><li>Bundesgesetz über die Arbeit in Industrie, Gewerbe und Handel (Arbeitsgesetz, ArG), SR 822.11, Art. 9 und Art. 15: <a href="https://www.fedlex.admin.ch/eli/cc/1966/57_57_57/de#art_9">https://www.fedlex.admin.ch/eli/cc/1966/57_57_57/de</a></li></ul></section>
+<p class="stand">Stand: November 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Weitere Rechner</h2>
+<ul class="cards"><li><a href="/de/prozentrechner/"><strong>Prozentrechner</strong>Prozent von, Anteil in Prozent, Veränderung, Wert plus oder minus Prozent.</a></li><li><a href="/de/mwst-rechner/"><strong>MWST-Rechner</strong>Mehrwertsteuer hinzufügen oder herausrechnen, mit Rappenrundung.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Rechtliches"><a href="/de/impressum/">Impressum</a> · <a href="/de/datenschutz/">Datenschutz</a> · <a href="/de/kontakt/">Kontakt</a></nav>
+<p>Alle Berechnungen laufen nur in Ihrem Browser. Angaben ohne Gewähr.</p>
+</div></footer>
+</body>
+</html>

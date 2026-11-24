@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calcul des heures de travail en Suisse</title>
+<meta name="description" content="Calculez vos heures de travail par jour et par semaine, en h:mm et en heures décimales, avec les pauses de l’art. 15 LTr et le travail de nuit.">
+<link rel="canonical" href="https://schweizer-rechner.ch/fr/calcul-heures-travail/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-heures-travail/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Calculateurs suisses">
+<meta property="og:title" content="Calcul des heures de travail en Suisse">
+<meta property="og:description" content="Calculez vos heures de travail par jour et par semaine, en h:mm et en heures décimales, avec les pauses de l’art. 15 LTr et le travail de nuit.">
+<meta property="og:url" content="https://schweizer-rechner.ch/fr/calcul-heures-travail/">
+<meta property="og:locale" content="fr_CH">
+<meta property="og:locale:alternate" content="de_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Calcul des heures de travail (Suisse)","url":"https://schweizer-rechner.ch/fr/calcul-heures-travail/","description":"Calculez vos heures de travail par jour et par semaine, en h:mm et en heures décimales, avec les pauses de l’art. 15 LTr et le travail de nuit.","inLanguage":"fr-CH","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Comment convertir des minutes en heures décimales ?","acceptedAnswer":{"@type":"Answer","text":"Divisez les minutes par 60. 15 minutes valent 0,25 heure, 30 minutes 0,5 et 45 minutes 0,75. Ainsi, 7:20 heures deviennent 7,33 heures."}},{"@type":"Question","name":"Le calculateur fonctionne-t-il pour le travail de nuit ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Si l’heure de fin est plus tôt que l’heure de début, il calcule après minuit. De 22:00 à 06:30 avec 30 minutes de pause, cela fait 8:00 heures de travail."}},{"@type":"Question","name":"La pause compte-t-elle comme temps de travail ?","acceptedAnswer":{"@type":"Answer","text":"En général non. Selon l’art. 15, al. 2 LTr, les pauses comptent toutefois comme temps de travail lorsque vous n’êtes pas autorisé à quitter votre place de travail."}},{"@type":"Question","name":"Quelle pause pour exactement 7 heures de travail ?","acceptedAnswer":{"@type":"Answer","text":"La loi parle de «plus de» sept heures. Pour exactement 7:00 heures, un quart d’heure suffit ; dès 7:01 heures, une demi-heure est nécessaire."}},{"@type":"Question","name":"Mes données sont-elles enregistrées ?","acceptedAnswer":{"@type":"Answer","text":"Non. Le calcul se fait uniquement dans votre navigateur. Rien n’est transmis ni enregistré."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/fr/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Calculateurs suisses</span></a>
+<nav class="lang" aria-label="Langue"><a href="/de/arbeitszeitrechner/" hreflang="de-CH" lang="de-CH">DE</a><span aria-current="page" lang="fr-CH">FR</span></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/fr/">Calculateurs suisses</a> › Calcul des heures de travail (Suisse)</p>
+<h1>Calcul des heures de travail (Suisse)</h1>
+<p class="lead">Temps de travail net à partir du début, de la fin et de la pause – pour un jour ou jusqu’à sept jours, même après minuit.</p>
+<section class="tool" data-tool="work" aria-labelledby="tool-h">
+<h2 id="tool-h">Calculer le temps de travail</h2>
+<table class="days">
+<thead><tr><th scope="col">Jour</th><th scope="col">Début</th><th scope="col">Fin</th><th scope="col">Pause (min)</th><th scope="col">Temps de travail</th><th scope="col"><span class="sr-only">Action</span></th></tr></thead>
+<tbody></tbody>
+</table>
+<p><button type="button" class="btn add-day">+ Ajouter un jour (max. 7)</button></p>
+<div class="result" aria-live="polite"></div>
+<noscript><p>Le calculateur nécessite JavaScript.</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>Mode d’emploi</h2>
+<p>Pour chaque jour de travail, saisissez l’heure de début, l’heure de fin et la pause en minutes. Avec «Ajouter un jour», vous pouvez saisir jusqu’à sept jours. Le calculateur affiche le temps de travail de chaque jour en heures:minutes et en heures décimales, puis le total de la semaine. Si l’heure de fin précède l’heure de début, il considère que le service passe minuit, par exemple de 22:00 à 06:30.</p>
+<h2>Formule</h2>
+<p class="formula">Temps de travail = fin − début − pause</p>
+<p>Pour un horaire de nuit, on ajoute 24 heures à l’heure de fin. Pour obtenir des heures décimales, divisez les minutes par 60 : 45 minutes valent 0,75 heure.</p>
+<h2>Exemple</h2>
+<p>Vous travaillez de 07:30 à 17:00 avec 45 minutes de pause de midi. La présence est de 9:30 heures, le temps de travail de 8:45 heures, soit 8,75 heures. Sur cinq jours identiques, vous totalisez 43:45 heures. Avec un salaire horaire de CHF 32.50, cela donne 43,75 × 32.50 = CHF 1'421.88 brut par semaine.</p>
+<h2>Pauses et durée maximale selon la loi sur le travail</h2>
+<p>La loi sur le travail (LTr) prévoit à l’art. 15 des pauses minimales : un quart d’heure si la journée de travail dure plus de cinq heures et demie, une demi-heure si elle dure plus de sept heures et une heure si elle dure plus de neuf heures. Le calculateur compare votre pause à ce minimum et signale une pause trop courte.</p>
+<p>Selon l’art. 9 LTr, la durée maximale de la semaine de travail est de 45 heures pour les travailleurs des entreprises industrielles, le personnel de bureau, le personnel technique et les autres employés, y compris le personnel de vente des grandes entreprises de commerce de détail, et de 50 heures pour tous les autres travailleurs. Ces indications sont informatives et ne constituent pas un conseil juridique : certaines branches et entreprises ont des règles spéciales, et votre contrat ou une convention collective de travail peut fixer des limites plus basses.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Questions fréquentes</h2>
+<details><summary>Comment convertir des minutes en heures décimales ?</summary><p>Divisez les minutes par 60. 15 minutes valent 0,25 heure, 30 minutes 0,5 et 45 minutes 0,75. Ainsi, 7:20 heures deviennent 7,33 heures.</p></details>
+<details><summary>Le calculateur fonctionne-t-il pour le travail de nuit ?</summary><p>Oui. Si l’heure de fin est plus tôt que l’heure de début, il calcule après minuit. De 22:00 à 06:30 avec 30 minutes de pause, cela fait 8:00 heures de travail.</p></details>
+<details><summary>La pause compte-t-elle comme temps de travail ?</summary><p>En général non. Selon l’art. 15, al. 2 LTr, les pauses comptent toutefois comme temps de travail lorsque vous n’êtes pas autorisé à quitter votre place de travail.</p></details>
+<details><summary>Quelle pause pour exactement 7 heures de travail ?</summary><p>La loi parle de «plus de» sept heures. Pour exactement 7:00 heures, un quart d’heure suffit ; dès 7:01 heures, une demi-heure est nécessaire.</p></details>
+<details><summary>Mes données sont-elles enregistrées ?</summary><p>Non. Le calcul se fait uniquement dans votre navigateur. Rien n’est transmis ni enregistré.</p></details>
+</section>
+</article>
+<section class="sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ul><li>Loi fédérale sur le travail dans l’industrie, l’artisanat et le commerce (loi sur le travail, LTr), RS 822.11, art. 9 et art. 15 : <a href="https://www.fedlex.admin.ch/eli/cc/1966/57_57_57/fr#art_9">https://www.fedlex.admin.ch/eli/cc/1966/57_57_57/fr</a></li></ul></section>
+<p class="stand">État : novembre 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Autres calculateurs</h2>
+<ul class="cards"><li><a href="/fr/calcul-pourcentage/"><strong>Calcul de pourcentage</strong>Pourcentage d’un montant, part en %, variation, montant plus ou moins %.</a></li><li><a href="/fr/calcul-tva-suisse/"><strong>Calcul de la TVA suisse</strong>Ajouter ou extraire la TVA, avec arrondi à 5 centimes.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Informations légales"><a href="/fr/mentions-legales/">Mentions légales</a> · <a href="/fr/confidentialite/">Confidentialité</a> · <a href="/fr/contact/">Contact</a></nav>
+<p>Tous les calculs se font uniquement dans votre navigateur. Informations sans garantie.</p>
+</div></footer>
+</body>
+</html>
