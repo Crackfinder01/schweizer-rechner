@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stundenlohn-Rechner Schweiz: Monatslohn umrechnen</title>
+<meta name="description" content="Monatslohn in Stundenlohn umrechnen und umgekehrt: mit 12 oder 13 Löhnen, Wochenstunden und Wochen pro Jahr frei wählbar. Beispiel in CHF.">
+<link rel="canonical" href="https://schweizer-rechner.ch/de/stundenlohn-rechner/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/stundenlohn-rechner/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-salaire-horaire/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/stundenlohn-rechner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Schweizer Rechner">
+<meta property="og:title" content="Stundenlohn-Rechner Schweiz: Monatslohn umrechnen">
+<meta property="og:description" content="Monatslohn in Stundenlohn umrechnen und umgekehrt: mit 12 oder 13 Löhnen, Wochenstunden und Wochen pro Jahr frei wählbar. Beispiel in CHF.">
+<meta property="og:url" content="https://schweizer-rechner.ch/de/stundenlohn-rechner/">
+<meta property="og:locale" content="de_CH">
+<meta property="og:locale:alternate" content="fr_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Stundenlohn-Rechner Schweiz","url":"https://schweizer-rechner.ch/de/stundenlohn-rechner/","description":"Monatslohn in Stundenlohn umrechnen und umgekehrt: mit 12 oder 13 Löhnen, Wochenstunden und Wochen pro Jahr frei wählbar. Beispiel in CHF.","inLanguage":"de-CH","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Wie berücksichtige ich den 13. Monatslohn?","acceptedAnswer":{"@type":"Answer","text":"Wählen Sie «13 Monatslöhne». Der Jahreslohn wird dann mit 13 multipliziert, und der Stundenlohn steigt entsprechend."}},{"@type":"Question","name":"Ist das Ergebnis brutto oder netto?","acceptedAnswer":{"@type":"Answer","text":"Brutto. Der Rechner zieht keine Sozialversicherungsbeiträge, Pensionskassenbeiträge oder Steuern ab."}},{"@type":"Question","name":"Welche Wochenstunden soll ich eingeben?","acceptedAnswer":{"@type":"Answer","text":"Die Arbeitszeit aus Ihrem Vertrag. Die 42 Stunden sind nur eine Voreinstellung; viele Verträge nennen eine andere Zahl."}},{"@type":"Question","name":"Warum unterscheidet sich mein Stundenlohn im Vertrag?","acceptedAnswer":{"@type":"Answer","text":"Oft wegen anderer Wochenstunden oder weil bei Stundenlohn Ferien und Feiertage separat als Zuschlag bezahlt werden. Vergleichen Sie die Annahmen mit Ihrem Vertrag."}},{"@type":"Question","name":"Werden meine Angaben gespeichert?","acceptedAnswer":{"@type":"Answer","text":"Nein. Die Berechnung läuft nur in Ihrem Browser, es wird nichts übermittelt."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/de/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Schweizer Rechner</span></a>
+<nav class="lang" aria-label="Sprache"><span aria-current="page" lang="de-CH">DE</span><a href="/fr/calcul-salaire-horaire/" hreflang="fr-CH" lang="fr-CH">FR</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/de/">Schweizer Rechner</a> › Stundenlohn-Rechner Schweiz</p>
+<h1>Stundenlohn-Rechner Schweiz</h1>
+<p class="lead">Monatslohn in Stundenlohn umrechnen und umgekehrt – mit 12 oder 13 Monatslöhnen und Ihren eigenen Arbeitsstunden.</p>
+<section class="tool" data-tool="salary" aria-labelledby="tool-h">
+<h2 id="tool-h">Lohn umrechnen</h2>
+<form novalidate>
+<fieldset><legend>Richtung</legend><div class="choice">
+<label><input type="radio" name="dir" value="m2h" checked> Monatslohn → Stundenlohn</label>
+<label><input type="radio" name="dir" value="h2m"> Stundenlohn → Monatslohn</label>
+</div></fieldset>
+<div class="field"><label for="sal-amount">Betrag in CHF (brutto)</label><input type="text" inputmode="decimal" id="sal-amount" name="amount" value="5500" autocomplete="off"></div>
+<div class="row">
+<div class="field"><label for="sal-hours">Wochenstunden</label><input type="text" inputmode="decimal" id="sal-hours" name="hours" value="42" autocomplete="off"></div>
+<div class="field"><label for="sal-n">Löhne pro Jahr</label><select id="sal-n" name="salaries"><option value="12">12 Monatslöhne</option><option value="13">13 Monatslöhne</option></select></div>
+<div class="field"><label for="sal-weeks">Wochen pro Jahr</label><input type="text" inputmode="decimal" id="sal-weeks" name="weeks" value="52" autocomplete="off"></div>
+</div>
+<p class="note">Voreinstellung 42 Stunden und 52 Wochen: eine Annahme, die Sie anpassen können.</p>
+<button type="submit" class="btn">Berechnen</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>So funktioniert der Rechner</h2>
+<p>Wählen Sie die Richtung, geben Sie den Bruttobetrag in Franken ein und passen Sie die Annahmen an: Wochenstunden, Anzahl Löhne pro Jahr und Wochen pro Jahr. Voreingestellt sind 42 Stunden pro Woche und 52 Wochen. Das ist eine Annahme, keine Vorgabe: Ihre Arbeitszeit steht im Arbeitsvertrag oder im Gesamtarbeitsvertrag, und Sie können jeden Wert ändern.</p>
+<h2>Formeln</h2>
+<p class="formula">Stundenlohn = Monatslohn × Löhne pro Jahr ÷ (Wochenstunden × Wochen)<br>Monatslohn = Stundenlohn × Wochenstunden × Wochen ÷ Löhne pro Jahr</p>
+<h2>Beispiel mit 13. Monatslohn</h2>
+<p>Sie verdienen CHF 5'500 brutto pro Monat, 13-mal im Jahr, bei 42 Stunden pro Woche. Jahreslohn: 5'500 × 13 = CHF 71'500. Arbeitsstunden: 42 × 52 = 2'184. Stundenlohn: 71'500 ÷ 2'184 = CHF 32.74. Ohne 13. Monatslohn wären es CHF 30.22; der 13. Lohn macht also rund CHF 2.50 pro Stunde aus.</p>
+<p>Umgekehrt entspricht ein Angebot von CHF 32.50 pro Stunde bei 42 Stunden und 52 Wochen einem Jahreslohn von CHF 70'980, also CHF 5'915 pro Monat bei 12 Löhnen.</p>
+<h2>Warum 52 Wochen?</h2>
+<p>Beim Monatslohn sind Ferien und Feiertage bezahlt. Mit allen 52 Wochen erhalten Sie deshalb den Stundenlohn, der Ihrem Monatslohn entspricht. Möchten Sie wissen, was Sie pro tatsächlich gearbeitete Stunde verdienen, setzen Sie weniger Wochen ein, nämlich 52 minus Ihre Ferien- und Feiertagswochen. Der Stundenlohn steigt dann entsprechend. Alle Beträge sind brutto, also vor Abzügen für Sozialversicherungen und Pensionskasse.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Häufige Fragen</h2>
+<details><summary>Wie berücksichtige ich den 13. Monatslohn?</summary><p>Wählen Sie «13 Monatslöhne». Der Jahreslohn wird dann mit 13 multipliziert, und der Stundenlohn steigt entsprechend.</p></details>
+<details><summary>Ist das Ergebnis brutto oder netto?</summary><p>Brutto. Der Rechner zieht keine Sozialversicherungsbeiträge, Pensionskassenbeiträge oder Steuern ab.</p></details>
+<details><summary>Welche Wochenstunden soll ich eingeben?</summary><p>Die Arbeitszeit aus Ihrem Vertrag. Die 42 Stunden sind nur eine Voreinstellung; viele Verträge nennen eine andere Zahl.</p></details>
+<details><summary>Warum unterscheidet sich mein Stundenlohn im Vertrag?</summary><p>Oft wegen anderer Wochenstunden oder weil bei Stundenlohn Ferien und Feiertage separat als Zuschlag bezahlt werden. Vergleichen Sie die Annahmen mit Ihrem Vertrag.</p></details>
+<details><summary>Werden meine Angaben gespeichert?</summary><p>Nein. Die Berechnung läuft nur in Ihrem Browser, es wird nichts übermittelt.</p></details>
+</section>
+</article>
+<p class="stand">Stand: November 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Weitere Rechner</h2>
+<ul class="cards"><li><a href="/de/arbeitszeitrechner/"><strong>Arbeitszeitrechner</strong>Arbeitsstunden pro Tag und Woche, Pausen nach Arbeitsgesetz, Nachtschichten.</a></li><li><a href="/de/prozentrechner/"><strong>Prozentrechner</strong>Prozent von, Anteil in Prozent, Veränderung, Wert plus oder minus Prozent.</a></li><li><a href="/de/mwst-rechner/"><strong>MWST-Rechner</strong>Mehrwertsteuer hinzufügen oder herausrechnen, mit Rappenrundung.</a></li><li><a href="/de/tage-zwischen-zwei-daten/"><strong>Tage zwischen zwei Daten</strong>Kalendertage, Arbeitstage Montag bis Freitag und Wochen.</a></li><li><a href="/de/iban-pruefen/"><strong>IBAN prüfen</strong>Länge und Prüfziffer einer IBAN offline prüfen, QR-IBAN erkennen.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Rechtliches"><a href="/de/impressum/">Impressum</a> · <a href="/de/datenschutz/">Datenschutz</a> · <a href="/de/kontakt/">Kontakt</a></nav>
+<p>Alle Berechnungen laufen nur in Ihrem Browser. Angaben ohne Gewähr.</p>
+</div></footer>
+</body>
+</html>

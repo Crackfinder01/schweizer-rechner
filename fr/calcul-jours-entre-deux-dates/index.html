@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jours entre deux dates : calendaires et ouvrés</title>
+<meta name="description" content="Calculez les jours entre deux dates : jours calendaires, jours ouvrés du lundi au vendredi et semaines. En option sans 1.1, 1.8 et 25.12.">
+<link rel="canonical" href="https://schweizer-rechner.ch/fr/calcul-jours-entre-deux-dates/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-jours-entre-deux-dates/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Calculateurs suisses">
+<meta property="og:title" content="Jours entre deux dates : calendaires et ouvrés">
+<meta property="og:description" content="Calculez les jours entre deux dates : jours calendaires, jours ouvrés du lundi au vendredi et semaines. En option sans 1.1, 1.8 et 25.12.">
+<meta property="og:url" content="https://schweizer-rechner.ch/fr/calcul-jours-entre-deux-dates/">
+<meta property="og:locale" content="fr_CH">
+<meta property="og:locale:alternate" content="de_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Jours entre deux dates","url":"https://schweizer-rechner.ch/fr/calcul-jours-entre-deux-dates/","description":"Calculez les jours entre deux dates : jours calendaires, jours ouvrés du lundi au vendredi et semaines. En option sans 1.1, 1.8 et 25.12.","inLanguage":"fr-CH","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Le jour de début est-il compté ?","acceptedAnswer":{"@type":"Answer","text":"Oui, toujours. Le jour de fin s’ajoute avec l’option «Compter la date de fin»."}},{"@type":"Question","name":"Pâques, l’Ascension ou les fériés cantonaux sont-ils pris en compte ?","acceptedAnswer":{"@type":"Answer","text":"Non. Sur demande, seuls le 1er janvier, le 1er août et le 25 décembre sont déduits. Les autres jours fériés doivent être déduits selon votre canton."}},{"@type":"Question","name":"Que se passe-t-il si la date de fin précède la date de début ?","acceptedAnswer":{"@type":"Answer","text":"Le calculateur inverse les deux dates, calcule normalement et vous le signale."}},{"@type":"Question","name":"Les années bissextiles sont-elles prises en compte ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Du 1er février au 1er mars 2028, le calculateur compte par exemple 29 jours, car 2028 est une année bissextile."}},{"@type":"Question","name":"Puis-je calculer des délais juridiques ?","acceptedAnswer":{"@type":"Answer","text":"Seulement comme aide approximative. Les délais juridiques suivent leurs propres règles ; ne vous fiez pas uniquement à ce calculateur."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/fr/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Calculateurs suisses</span></a>
+<nav class="lang" aria-label="Langue"><a href="/de/tage-zwischen-zwei-daten/" hreflang="de-CH" lang="de-CH">DE</a><span aria-current="page" lang="fr-CH">FR</span></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/fr/">Calculateurs suisses</a> › Jours entre deux dates</p>
+<h1>Jours entre deux dates</h1>
+<p class="lead">Jours calendaires, jours ouvrés du lundi au vendredi et semaines entre deux dates.</p>
+<section class="tool" data-tool="days" aria-labelledby="tool-h">
+<h2 id="tool-h">Calculer les jours</h2>
+<form novalidate>
+<div class="row">
+<div class="field"><label for="d-start">Date de début</label><input type="date" id="d-start" name="start" value="2027-03-01"></div>
+<div class="field"><label for="d-end">Date de fin</label><input type="date" id="d-end" name="end" value="2027-06-01"></div>
+</div>
+<div class="choice field"><label><input type="checkbox" name="includeEnd"> Compter la date de fin</label>
+<label><input type="checkbox" name="holidays"> Déduire Nouvel An (1.1), fête nationale (1.8) et Noël (25.12)</label></div>
+<button type="submit" class="btn">Calculer</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>Mode d’emploi</h2>
+<p>Choisissez la date de début et la date de fin. Par défaut, le jour de début est compté, mais pas le jour de fin, comme pour la question «dans combien de jours ?». Avec «Compter la date de fin», le dernier jour est aussi compté, par exemple pour la durée de vacances ou d’une mission. Les jours ouvrés sont tous les jours du lundi au vendredi de la période choisie.</p>
+<h2>Jours fériés</h2>
+<p>Si vous le souhaitez, le calculateur déduit trois jours fériés à date fixe : le Nouvel An (1er janvier), la fête nationale (1er août) et Noël (25 décembre), lorsqu’ils tombent un jour de semaine. Les autres jours fériés, comme le Vendredi saint, le lundi de Pâques, l’Ascension, le lundi de Pentecôte, le 2 janvier ou le 26 décembre, varient d’un canton à l’autre et ne sont <strong>pas</strong> pris en compte. Déduisez-les vous-même pour votre canton.</p>
+<h2>Formule</h2>
+<p class="formula">Jours calendaires = date de fin − date de début (+ 1 si le jour de fin compte)<br>Semaines = jours calendaires ÷ 7, le reste en jours</p>
+<h2>Exemples</h2>
+<p>Un mandat court du 1er mars 2027 au 1er juin 2027, jour de fin non compté. Cela fait 92 jours calendaires, soit 13 semaines et 1 jour, dont 66 jours ouvrés du lundi au vendredi. Avec un tarif journalier de CHF 650, cela donne au maximum 66 × 650 = CHF 42'900, avant déduction des fériés cantonaux comme le lundi de Pâques ou l’Ascension.</p>
+<p>Autour du Nouvel An, du 21 décembre 2026 au 8 janvier 2027 inclus, le calculateur compte 19 jours calendaires et 15 jours ouvrés. Avec l’option des jours fériés, il en reste 13, car le 25 décembre 2026 et le 1er janvier 2027 tombent un vendredi.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Questions fréquentes</h2>
+<details><summary>Le jour de début est-il compté ?</summary><p>Oui, toujours. Le jour de fin s’ajoute avec l’option «Compter la date de fin».</p></details>
+<details><summary>Pâques, l’Ascension ou les fériés cantonaux sont-ils pris en compte ?</summary><p>Non. Sur demande, seuls le 1er janvier, le 1er août et le 25 décembre sont déduits. Les autres jours fériés doivent être déduits selon votre canton.</p></details>
+<details><summary>Que se passe-t-il si la date de fin précède la date de début ?</summary><p>Le calculateur inverse les deux dates, calcule normalement et vous le signale.</p></details>
+<details><summary>Les années bissextiles sont-elles prises en compte ?</summary><p>Oui. Du 1er février au 1er mars 2028, le calculateur compte par exemple 29 jours, car 2028 est une année bissextile.</p></details>
+<details><summary>Puis-je calculer des délais juridiques ?</summary><p>Seulement comme aide approximative. Les délais juridiques suivent leurs propres règles ; ne vous fiez pas uniquement à ce calculateur.</p></details>
+</section>
+</article>
+<p class="stand">État : novembre 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Autres calculateurs</h2>
+<ul class="cards"><li><a href="/fr/calcul-heures-travail/"><strong>Calcul des heures de travail</strong>Heures par jour et par semaine, pauses selon la loi sur le travail, horaires de nuit.</a></li><li><a href="/fr/calcul-pourcentage/"><strong>Calcul de pourcentage</strong>Pourcentage d’un montant, part en %, variation, montant plus ou moins %.</a></li><li><a href="/fr/calcul-tva-suisse/"><strong>Calcul de la TVA suisse</strong>Ajouter ou extraire la TVA, avec arrondi à 5 centimes.</a></li><li><a href="/fr/calcul-salaire-horaire/"><strong>Calcul du salaire horaire</strong>Salaire mensuel en salaire horaire et inversement, avec 12 ou 13 salaires.</a></li><li><a href="/fr/verifier-iban/"><strong>Vérifier une IBAN</strong>Longueur et clé de contrôle d’une IBAN hors ligne, détection de la QR-IBAN.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Informations légales"><a href="/fr/mentions-legales/">Mentions légales</a> · <a href="/fr/confidentialite/">Confidentialité</a> · <a href="/fr/contact/">Contact</a></nav>
+<p>Tous les calculs se font uniquement dans votre navigateur. Informations sans garantie.</p>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tage zwischen zwei Daten: Kalender- und Arbeitstage</title>
+<meta name="description" content="Tage zwischen zwei Daten berechnen: Kalendertage, Arbeitstage Montag bis Freitag und Wochen. Optional ohne 1.1., 1.8. und 25.12.">
+<link rel="canonical" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-jours-entre-deux-dates/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Schweizer Rechner">
+<meta property="og:title" content="Tage zwischen zwei Daten: Kalender- und Arbeitstage">
+<meta property="og:description" content="Tage zwischen zwei Daten berechnen: Kalendertage, Arbeitstage Montag bis Freitag und Wochen. Optional ohne 1.1., 1.8. und 25.12.">
+<meta property="og:url" content="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/">
+<meta property="og:locale" content="de_CH">
+<meta property="og:locale:alternate" content="fr_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Tage zwischen zwei Daten","url":"https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/","description":"Tage zwischen zwei Daten berechnen: Kalendertage, Arbeitstage Montag bis Freitag und Wochen. Optional ohne 1.1., 1.8. und 25.12.","inLanguage":"de-CH","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Zählt der Starttag mit?","acceptedAnswer":{"@type":"Answer","text":"Ja, der Starttag wird immer gezählt. Den Endtag zählen Sie mit der Option «Enddatum mitzählen» dazu."}},{"@type":"Question","name":"Werden Ostern, Auffahrt oder kantonale Feiertage berücksichtigt?","acceptedAnswer":{"@type":"Answer","text":"Nein. Abgezogen werden auf Wunsch nur der 1. Januar, der 1. August und der 25. Dezember. Alle anderen Feiertage müssen Sie für Ihren Kanton selbst abziehen."}},{"@type":"Question","name":"Was passiert, wenn das Enddatum vor dem Startdatum liegt?","acceptedAnswer":{"@type":"Answer","text":"Der Rechner vertauscht die beiden Daten, rechnet normal weiter und weist Sie darauf hin."}},{"@type":"Question","name":"Werden Schaltjahre berücksichtigt?","acceptedAnswer":{"@type":"Answer","text":"Ja. Vom 1. Februar bis zum 1. März 2028 zählt der Rechner zum Beispiel 29 Tage, weil 2028 ein Schaltjahr ist."}},{"@type":"Question","name":"Kann ich damit rechtliche Fristen berechnen?","acceptedAnswer":{"@type":"Answer","text":"Nur als grobe Hilfe. Für rechtliche Fristen gelten eigene Regeln; verlassen Sie sich dafür nicht allein auf diesen Rechner."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/de/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Schweizer Rechner</span></a>
+<nav class="lang" aria-label="Sprache"><span aria-current="page" lang="de-CH">DE</span><a href="/fr/calcul-jours-entre-deux-dates/" hreflang="fr-CH" lang="fr-CH">FR</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/de/">Schweizer Rechner</a> › Tage zwischen zwei Daten</p>
+<h1>Tage zwischen zwei Daten</h1>
+<p class="lead">Kalendertage, Arbeitstage von Montag bis Freitag und Wochen zwischen zwei Daten berechnen.</p>
+<section class="tool" data-tool="days" aria-labelledby="tool-h">
+<h2 id="tool-h">Tage berechnen</h2>
+<form novalidate>
+<div class="row">
+<div class="field"><label for="d-start">Startdatum</label><input type="date" id="d-start" name="start" value="2027-03-01"></div>
+<div class="field"><label for="d-end">Enddatum</label><input type="date" id="d-end" name="end" value="2027-06-01"></div>
+</div>
+<div class="choice field"><label><input type="checkbox" name="includeEnd"> Enddatum mitzählen</label>
+<label><input type="checkbox" name="holidays"> Neujahr (1.1.), Bundesfeiertag (1.8.) und Weihnachten (25.12.) abziehen</label></div>
+<button type="submit" class="btn">Berechnen</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>So funktioniert der Rechner</h2>
+<p>Wählen Sie Start- und Enddatum. Standardmässig zählt der Starttag mit, der Endtag nicht, so wie bei der Frage «in wie vielen Tagen?». Mit «Enddatum mitzählen» wird auch der letzte Tag gezählt, etwa für die Dauer von Ferien oder eines Einsatzes. Als Arbeitstage gelten alle Tage von Montag bis Freitag im gewählten Zeitraum.</p>
+<h2>Feiertage</h2>
+<p>Auf Wunsch zieht der Rechner drei Feiertage mit festem Datum ab: Neujahr (1. Januar), den Bundesfeiertag (1. August) und Weihnachten (25. Dezember), sofern sie auf einen Werktag fallen. Weitere Feiertage wie Karfreitag, Ostermontag, Auffahrt, Pfingstmontag, Berchtoldstag oder Stephanstag sind von Kanton zu Kanton verschieden und werden <strong>nicht</strong> berücksichtigt. Ziehen Sie diese für Ihren Kanton selbst ab.</p>
+<h2>Formel</h2>
+<p class="formula">Kalendertage = Enddatum − Startdatum (+ 1, wenn der Endtag mitzählt)<br>Wochen = Kalendertage ÷ 7, der Rest sind einzelne Tage</p>
+<h2>Beispiele</h2>
+<p>Ein Auftrag läuft vom 1. März 2027 bis zum 1. Juni 2027, der Endtag zählt nicht. Das sind 92 Kalendertage oder 13 Wochen und 1 Tag, davon 66 Arbeitstage von Montag bis Freitag. Bei einem Tagessatz von CHF 650 ergibt das höchstens 66 × 650 = CHF 42'900, bevor kantonale Feiertage wie Ostermontag oder Auffahrt abgezogen werden.</p>
+<p>Über den Jahreswechsel, vom 21. Dezember 2026 bis und mit 8. Januar 2027, zählt der Rechner 19 Kalendertage und 15 Arbeitstage. Mit der Feiertagsoption bleiben 13, weil der 25. Dezember 2026 und der 1. Januar 2027 auf einen Freitag fallen.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Häufige Fragen</h2>
+<details><summary>Zählt der Starttag mit?</summary><p>Ja, der Starttag wird immer gezählt. Den Endtag zählen Sie mit der Option «Enddatum mitzählen» dazu.</p></details>
+<details><summary>Werden Ostern, Auffahrt oder kantonale Feiertage berücksichtigt?</summary><p>Nein. Abgezogen werden auf Wunsch nur der 1. Januar, der 1. August und der 25. Dezember. Alle anderen Feiertage müssen Sie für Ihren Kanton selbst abziehen.</p></details>
+<details><summary>Was passiert, wenn das Enddatum vor dem Startdatum liegt?</summary><p>Der Rechner vertauscht die beiden Daten, rechnet normal weiter und weist Sie darauf hin.</p></details>
+<details><summary>Werden Schaltjahre berücksichtigt?</summary><p>Ja. Vom 1. Februar bis zum 1. März 2028 zählt der Rechner zum Beispiel 29 Tage, weil 2028 ein Schaltjahr ist.</p></details>
+<details><summary>Kann ich damit rechtliche Fristen berechnen?</summary><p>Nur als grobe Hilfe. Für rechtliche Fristen gelten eigene Regeln; verlassen Sie sich dafür nicht allein auf diesen Rechner.</p></details>
+</section>
+</article>
+<p class="stand">Stand: November 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Weitere Rechner</h2>
+<ul class="cards"><li><a href="/de/arbeitszeitrechner/"><strong>Arbeitszeitrechner</strong>Arbeitsstunden pro Tag und Woche, Pausen nach Arbeitsgesetz, Nachtschichten.</a></li><li><a href="/de/prozentrechner/"><strong>Prozentrechner</strong>Prozent von, Anteil in Prozent, Veränderung, Wert plus oder minus Prozent.</a></li><li><a href="/de/mwst-rechner/"><strong>MWST-Rechner</strong>Mehrwertsteuer hinzufügen oder herausrechnen, mit Rappenrundung.</a></li><li><a href="/de/stundenlohn-rechner/"><strong>Stundenlohn-Rechner</strong>Monatslohn in Stundenlohn umrechnen und umgekehrt, mit 12 oder 13 Löhnen.</a></li><li><a href="/de/iban-pruefen/"><strong>IBAN prüfen</strong>Länge und Prüfziffer einer IBAN offline prüfen, QR-IBAN erkennen.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Rechtliches"><a href="/de/impressum/">Impressum</a> · <a href="/de/datenschutz/">Datenschutz</a> · <a href="/de/kontakt/">Kontakt</a></nav>
+<p>Alle Berechnungen laufen nur in Ihrem Browser. Angaben ohne Gewähr.</p>
+</div></footer>
+</body>
+</html>

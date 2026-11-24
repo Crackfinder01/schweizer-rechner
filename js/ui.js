@@ -3,6 +3,7 @@ import {
   parseNumber, addVat, removeVat,
   percentOf, whatPercent, percentChange, applyPercent,
   parseTime, dayWork, breakCheck, weekCheck, formatHM, toDecimalHours,
+  validateIban, monthlyToHourly, hourlyToMonthly, daysBetween,
 } from './calc.js';
 
 const LANG = document.documentElement.lang.startsWith('fr') ? 'fr' : 'de';
@@ -20,6 +21,18 @@ const T = {
     under45: 'Innerhalb von 45 Stunden pro Woche.',
     vatLabel: 'MWST', netLabel: 'Netto', grossLabel: 'Brutto',
     is: 'ist', of: 'von', change: 'Veränderung',
+    ibanOk: 'Format und Prüfziffer sind korrekt.',
+    ibanNote: 'Ob das Konto existiert, kann dieser Test nicht prüfen.',
+    ibanQr: 'QR-IBAN: nur für QR-Rechnungen mit QR-Referenz gedacht, nicht für normale Zahlungen.',
+    ibanUnknown: (c) => `Für das Land ${c} ist keine Länge hinterlegt; geprüft wurde nur die Prüfziffer.`,
+    ibanErr: { empty: 'Bitte eine IBAN eingeben.', chars: 'Unerlaubte Zeichen: erlaubt sind nur Buchstaben und Ziffern, beginnend mit Ländercode und zwei Prüfziffern.', country: 'Die IBAN muss mit einem Ländercode aus zwei Buchstaben beginnen (z. B. CH).', length: (n, e) => e ? `Falsche Länge: ${n} Zeichen, erwartet ${e}.` : `Unplausible Länge: ${n} Zeichen.`, checksum: 'Die Prüfziffer stimmt nicht: Vermutlich ist ein Zeichen falsch oder vertauscht.' },
+    ibanInvalid: 'Ungültig',
+    ibanValid: 'Gültig',
+    hourly: 'Stundenlohn', monthly: 'Monatslohn', annual: 'Jahreslohn', hoursYear: 'Arbeitsstunden pro Jahr', perSalary: (n) => `(bei ${n} Löhnen)`,
+    calDays: 'Kalendertage', workDays: 'Arbeitstage (Mo–Fr)', weeks: 'Wochen', and: 'und', days: 'Tage', day1: 'Tag',
+    holEx: (n) => `Abgezogene feste Feiertage (Mo–Fr): ${n}`,
+    swapped: 'Hinweis: Das Enddatum lag vor dem Startdatum; die Daten wurden vertauscht.',
+    needDates: 'Bitte zwei gültige Daten eingeben.',
   },
   fr: {
     invalid: 'Veuillez saisir des nombres valides.',
@@ -34,6 +47,18 @@ const T = {
     under45: 'Dans la limite de 45 heures par semaine.',
     vatLabel: 'TVA', netLabel: 'Hors TVA', grossLabel: 'TVA incluse',
     is: 'représente', of: 'de', change: 'Variation',
+    ibanOk: 'Le format et la clé de contrôle sont corrects.',
+    ibanNote: 'Ce test ne peut pas vérifier si le compte existe.',
+    ibanQr: 'QR-IBAN : prévue uniquement pour les QR-factures avec référence QR, pas pour les paiements ordinaires.',
+    ibanUnknown: (c) => `Aucune longueur enregistrée pour le pays ${c} ; seule la clé de contrôle a été vérifiée.`,
+    ibanErr: { empty: 'Veuillez saisir une IBAN.', chars: 'Caractères non autorisés : seulement des lettres et des chiffres, en commençant par le code pays et deux chiffres de contrôle.', country: 'L’IBAN doit commencer par un code pays de deux lettres (p. ex. CH).', length: (n, e) => e ? `Longueur incorrecte : ${n} caractères, ${e} attendus.` : `Longueur invraisemblable : ${n} caractères.`, checksum: 'La clé de contrôle ne correspond pas : un caractère est probablement faux ou inversé.' },
+    ibanInvalid: 'Non valable',
+    ibanValid: 'Valable',
+    hourly: 'Salaire horaire', monthly: 'Salaire mensuel', annual: 'Salaire annuel', hoursYear: 'Heures de travail par an', perSalary: (n) => `(sur ${n} salaires)`,
+    calDays: 'Jours calendaires', workDays: 'Jours ouvrés (lun–ven)', weeks: 'semaines', and: 'et', days: 'jours', day1: 'jour',
+    holEx: (n) => `Jours fériés fixes déduits (lun–ven) : ${n}`,
+    swapped: 'Remarque : la date de fin précédait la date de début ; les dates ont été inversées.',
+    needDates: 'Veuillez saisir deux dates valables.',
   },
 }[LANG];
 
@@ -159,7 +184,80 @@ function initWork(root) {
   addRow();
 }
 
+// ---------- IBAN ----------
+function initIban(root) {
+  const form = $('form', root);
+  const out = $('.result', root);
+  const esc = (x) => x.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const run = () => {
+    if (!form.iban.value.trim()) { out.textContent = ''; return; }
+    const r = validateIban(form.iban.value);
+    const msgs = r.errors.map((e) => (e === 'length' ? T.ibanErr.length(r.iban.length, r.expectedLength) : T.ibanErr[e]));
+    let h = `<p class="iban-out"><strong>${esc(r.formatted)}</strong></p>`;
+    if (r.valid) {
+      h += `<p class="flag ok">${T.ibanValid}: ${T.ibanOk}</p>`;
+      if (!r.known) h += `<p class="flag warn">${T.ibanUnknown(esc(r.country))}</p>`;
+      if (r.qr) h += `<p class="flag warn">${T.ibanQr}</p>`;
+    } else {
+      h += msgs.map((m) => `<p class="flag warn">${T.ibanInvalid}: ${m}</p>`).join('');
+    }
+    h += `<p class="note">${T.ibanNote}</p>`;
+    out.innerHTML = h;
+  };
+  form.addEventListener('input', run);
+  form.addEventListener('submit', (e) => { e.preventDefault(); run(); });
+}
+
+// ---------- Salary ----------
+function initSalary(root) {
+  const form = $('form', root);
+  const out = $('.result', root);
+  const run = () => {
+    const amount = val(form.amount);
+    const hours = val(form.hours);
+    const weeks = val(form.weeks);
+    const n = Number(form.salaries.value);
+    if (form.amount.value.trim() === '') { out.textContent = ''; return; }
+    if (![amount, hours, weeks].every(Number.isFinite) || hours <= 0 || weeks <= 0) { out.textContent = T.invalid; return; }
+    let rows;
+    if (form.dir.value === 'm2h') {
+      const r = monthlyToHourly(amount, hours, n, weeks);
+      rows = [[T.annual, chf(r.annual)], [T.hoursYear, num(r.hoursPerYear, 1) + ' h'], [T.hourly, chf(r.hourly), true]];
+    } else {
+      const r = hourlyToMonthly(amount, hours, n, weeks);
+      rows = [[T.annual, chf(r.annual)], [T.hoursYear, num(r.hoursPerYear, 1) + ' h'], [`${T.monthly} ${T.perSalary(n)}`, chf(r.monthly), true]];
+    }
+    out.innerHTML = '<dl class="res-grid">' + rows.map(([k, v, big]) => `<dt>${k}</dt><dd${big ? ' class="big"' : ''}>${v}</dd>`).join('') + '</dl>';
+  };
+  form.addEventListener('input', run);
+  form.addEventListener('change', run);
+  form.addEventListener('submit', (e) => { e.preventDefault(); run(); });
+  run();
+}
+
+// ---------- Days between dates ----------
+function initDays(root) {
+  const form = $('form', root);
+  const out = $('.result', root);
+  const run = () => {
+    if (!form.start.value || !form.end.value) { out.textContent = ''; return; }
+    const r = daysBetween(form.start.value, form.end.value, { includeEnd: form.includeEnd.checked, excludeFixedHolidays: form.holidays.checked });
+    if (!r) { out.textContent = T.needDates; return; }
+    const wk = `${r.weeks} ${T.weeks} ${T.and} ${r.restDays} ${r.restDays === 1 ? T.day1 : T.days}`;
+    out.innerHTML = `<dl class="res-grid">
+      <dt>${T.calDays}</dt><dd class="big">${num(r.calendar, 0)}</dd>
+      <dt>${T.workDays}</dt><dd class="big">${num(r.weekdays, 0)}</dd>
+      <dt>${T.weeks[0].toUpperCase() + T.weeks.slice(1)}</dt><dd>${wk}</dd></dl>`
+      + (form.holidays.checked ? `<p class="note">${T.holEx(r.holidaysExcluded)}</p>` : '')
+      + (r.swapped ? `<p class="flag warn">${T.swapped}</p>` : '');
+  };
+  form.addEventListener('input', run);
+  form.addEventListener('change', run);
+  form.addEventListener('submit', (e) => { e.preventDefault(); run(); });
+  run();
+}
+
 const tool = document.querySelector('[data-tool]');
 if (tool) {
-  ({ vat: initVat, percent: initPercent, work: initWork })[tool.dataset.tool]?.(tool);
+  ({ vat: initVat, percent: initPercent, work: initWork, iban: initIban, salary: initSalary, days: initDays })[tool.dataset.tool]?.(tool);
 }

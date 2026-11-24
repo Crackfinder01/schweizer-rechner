@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IBAN prüfen: Prüfziffer, Länge und QR-IBAN</title>
+<meta name="description" content="IBAN offline prüfen: Länge, Prüfziffer nach ISO 13616 (Modulo 97), Vierergruppen und Erkennung der Schweizer QR-IBAN. Nichts wird gesendet.">
+<link rel="canonical" href="https://schweizer-rechner.ch/de/iban-pruefen/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/iban-pruefen/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/verifier-iban/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/iban-pruefen/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Schweizer Rechner">
+<meta property="og:title" content="IBAN prüfen: Prüfziffer, Länge und QR-IBAN">
+<meta property="og:description" content="IBAN offline prüfen: Länge, Prüfziffer nach ISO 13616 (Modulo 97), Vierergruppen und Erkennung der Schweizer QR-IBAN. Nichts wird gesendet.">
+<meta property="og:url" content="https://schweizer-rechner.ch/de/iban-pruefen/">
+<meta property="og:locale" content="de_CH">
+<meta property="og:locale:alternate" content="fr_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"IBAN prüfen","url":"https://schweizer-rechner.ch/de/iban-pruefen/","description":"IBAN offline prüfen: Länge, Prüfziffer nach ISO 13616 (Modulo 97), Vierergruppen und Erkennung der Schweizer QR-IBAN. Nichts wird gesendet.","inLanguage":"de-CH","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Bedeutet «gültig», dass das Konto existiert?","acceptedAnswer":{"@type":"Answer","text":"Nein. Geprüft werden nur Aufbau, Länge und Prüfziffer. Ob das Konto existiert und wem es gehört, kann nur die Bank bestätigen."}},{"@type":"Question","name":"Warum wird meine IBAN als zu kurz gemeldet?","acceptedAnswer":{"@type":"Answer","text":"Meist fehlt beim Abtippen ein Zeichen. Vergleichen Sie die Vierergruppen mit der Vorlage: Eine Schweizer IBAN hat 21 Zeichen, also fünf volle Gruppen und ein einzelnes Zeichen."}},{"@type":"Question","name":"Was ist der Unterschied zwischen IBAN und QR-IBAN?","acceptedAnswer":{"@type":"Answer","text":"Die QR-IBAN hat denselben Aufbau, aber eine Bank-Identifikation zwischen 30000 und 31999. Sie dient für QR-Rechnungen mit QR-Referenz, nicht für normale Überweisungen."}},{"@type":"Question","name":"Welche Länder kennt der Rechner?","acceptedAnswer":{"@type":"Answer","text":"Die Länge ist unter anderem für CH, LI, DE, AT, FR und IT hinterlegt. Bei anderen Ländern wird nur die Prüfziffer kontrolliert, und der Rechner sagt das auch."}},{"@type":"Question","name":"Wird meine IBAN gespeichert oder übermittelt?","acceptedAnswer":{"@type":"Answer","text":"Nein. Die Prüfung läuft vollständig in Ihrem Browser. Es wird nichts gesendet und nichts gespeichert."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/de/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Schweizer Rechner</span></a>
+<nav class="lang" aria-label="Sprache"><span aria-current="page" lang="de-CH">DE</span><a href="/fr/verifier-iban/" hreflang="fr-CH" lang="fr-CH">FR</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/de/">Schweizer Rechner</a> › IBAN prüfen</p>
+<h1>IBAN prüfen</h1>
+<p class="lead">Prüfen Sie eine IBAN auf Länge, Zeichen und Prüfziffer – offline, mit Erkennung der Schweizer QR-IBAN.</p>
+<section class="tool" data-tool="iban" aria-labelledby="tool-h">
+<h2 id="tool-h">IBAN prüfen</h2>
+<form novalidate>
+<div class="field"><label for="iban-input">IBAN</label><input type="text" id="iban-input" name="iban" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="50" aria-describedby="iban-hint"><span class="note" id="iban-hint">Mit oder ohne Leerzeichen, z. B. CH93 0076 2011 6238 5295 7</span></div>
+<button type="submit" class="btn">Prüfen</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>So funktioniert die Prüfung</h2>
+<p>Fügen Sie die IBAN ein, mit oder ohne Leerzeichen. Der Rechner entfernt Leerzeichen, wandelt Kleinbuchstaben um und zeigt die IBAN in Vierergruppen, so wie sie auf Rechnungen steht. Dann prüft er den Ländercode, die Länge für dieses Land und die zweistellige Prüfziffer. Alles läuft in Ihrem Browser; die IBAN wird nirgendwohin gesendet.</p>
+<p><strong>Wichtig:</strong> Eine korrekte Prüfziffer heisst nur, dass die IBAN richtig aufgebaut ist. Ob das Konto existiert, offen ist oder wem es gehört, kann kein Offline-Test feststellen. Das weiss nur die Bank.</p>
+<h2>Aufbau einer Schweizer IBAN</h2>
+<p>Eine Schweizer IBAN hat 21 Zeichen: «CH», zwei Prüfziffern, eine fünfstellige Bank-Identifikation (IID) und eine zwölfstellige Kontonummer. Liechtensteiner IBAN haben ebenfalls 21 Zeichen, deutsche 22, österreichische 20, französische und italienische 27.</p>
+<h2>Die Formel: Modulo 97</h2>
+<p>Die Prüfziffer folgt der Norm ISO 13616. Man stellt die ersten vier Zeichen ans Ende, ersetzt jeden Buchstaben durch eine Zahl (A = 10, B = 11 … Z = 35) und teilt die so entstandene lange Zahl durch 97.</p>
+<p class="formula">gültig, wenn Rest (umgestellte IBAN ÷ 97) = 1</p>
+<p>So fallen fast alle Tippfehler und vertauschten Ziffern auf.</p>
+<h2>Beispiel</h2>
+<p>Eine Kundin gibt für eine Rückerstattung von CHF 180.00 die IBAN CH93 0076 2011 6238 5295 7 an. Der Rechner meldet: gültig. Hätte sie als letzte Ziffer eine 8 statt einer 7 geschrieben, wäre die Prüfziffer falsch, und Sie bemerken den Fehler, bevor Sie die Zahlung erfassen.</p>
+<h2>QR-IBAN erkennen</h2>
+<p>Für QR-Rechnungen mit QR-Referenz verwenden Schweizer Banken eine besondere IBAN, die QR-IBAN. Sie ist daran erkennbar, dass die Bank-Identifikation (Stellen 5 bis 9) zwischen 30000 und 31999 liegt. Der Rechner weist darauf hin, denn eine QR-IBAN ist nur zusammen mit einer QR-Referenz gedacht.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Häufige Fragen</h2>
+<details><summary>Bedeutet «gültig», dass das Konto existiert?</summary><p>Nein. Geprüft werden nur Aufbau, Länge und Prüfziffer. Ob das Konto existiert und wem es gehört, kann nur die Bank bestätigen.</p></details>
+<details><summary>Warum wird meine IBAN als zu kurz gemeldet?</summary><p>Meist fehlt beim Abtippen ein Zeichen. Vergleichen Sie die Vierergruppen mit der Vorlage: Eine Schweizer IBAN hat 21 Zeichen, also fünf volle Gruppen und ein einzelnes Zeichen.</p></details>
+<details><summary>Was ist der Unterschied zwischen IBAN und QR-IBAN?</summary><p>Die QR-IBAN hat denselben Aufbau, aber eine Bank-Identifikation zwischen 30000 und 31999. Sie dient für QR-Rechnungen mit QR-Referenz, nicht für normale Überweisungen.</p></details>
+<details><summary>Welche Länder kennt der Rechner?</summary><p>Die Länge ist unter anderem für CH, LI, DE, AT, FR und IT hinterlegt. Bei anderen Ländern wird nur die Prüfziffer kontrolliert, und der Rechner sagt das auch.</p></details>
+<details><summary>Wird meine IBAN gespeichert oder übermittelt?</summary><p>Nein. Die Prüfung läuft vollständig in Ihrem Browser. Es wird nichts gesendet und nichts gespeichert.</p></details>
+</section>
+</article>
+<p class="stand">Stand: November 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Weitere Rechner</h2>
+<ul class="cards"><li><a href="/de/arbeitszeitrechner/"><strong>Arbeitszeitrechner</strong>Arbeitsstunden pro Tag und Woche, Pausen nach Arbeitsgesetz, Nachtschichten.</a></li><li><a href="/de/prozentrechner/"><strong>Prozentrechner</strong>Prozent von, Anteil in Prozent, Veränderung, Wert plus oder minus Prozent.</a></li><li><a href="/de/mwst-rechner/"><strong>MWST-Rechner</strong>Mehrwertsteuer hinzufügen oder herausrechnen, mit Rappenrundung.</a></li><li><a href="/de/stundenlohn-rechner/"><strong>Stundenlohn-Rechner</strong>Monatslohn in Stundenlohn umrechnen und umgekehrt, mit 12 oder 13 Löhnen.</a></li><li><a href="/de/tage-zwischen-zwei-daten/"><strong>Tage zwischen zwei Daten</strong>Kalendertage, Arbeitstage Montag bis Freitag und Wochen.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Rechtliches"><a href="/de/impressum/">Impressum</a> · <a href="/de/datenschutz/">Datenschutz</a> · <a href="/de/kontakt/">Kontakt</a></nav>
+<p>Alle Berechnungen laufen nur in Ihrem Browser. Angaben ohne Gewähr.</p>
+</div></footer>
+</body>
+</html>

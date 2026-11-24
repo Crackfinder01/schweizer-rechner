@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vérifier une IBAN : clé de contrôle et QR-IBAN</title>
+<meta name="description" content="Vérifiez une IBAN hors ligne : longueur, clé de contrôle ISO 13616 (modulo 97), groupes de quatre et détection de la QR-IBAN suisse.">
+<link rel="canonical" href="https://schweizer-rechner.ch/fr/verifier-iban/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/iban-pruefen/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/verifier-iban/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/iban-pruefen/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Calculateurs suisses">
+<meta property="og:title" content="Vérifier une IBAN : clé de contrôle et QR-IBAN">
+<meta property="og:description" content="Vérifiez une IBAN hors ligne : longueur, clé de contrôle ISO 13616 (modulo 97), groupes de quatre et détection de la QR-IBAN suisse.">
+<meta property="og:url" content="https://schweizer-rechner.ch/fr/verifier-iban/">
+<meta property="og:locale" content="fr_CH">
+<meta property="og:locale:alternate" content="de_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Vérifier une IBAN","url":"https://schweizer-rechner.ch/fr/verifier-iban/","description":"Vérifiez une IBAN hors ligne : longueur, clé de contrôle ISO 13616 (modulo 97), groupes de quatre et détection de la QR-IBAN suisse.","inLanguage":"fr-CH","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"«Valable» signifie-t-il que le compte existe ?","acceptedAnswer":{"@type":"Answer","text":"Non. Seuls la structure, la longueur et la clé de contrôle sont vérifiés. Seule la banque peut confirmer que le compte existe et à qui il appartient."}},{"@type":"Question","name":"Pourquoi mon IBAN est-elle signalée comme trop courte ?","acceptedAnswer":{"@type":"Answer","text":"Le plus souvent, un caractère a été oublié. Comparez les groupes de quatre avec l’original : une IBAN suisse compte 21 caractères, soit cinq groupes complets et un caractère seul."}},{"@type":"Question","name":"Quelle différence entre IBAN et QR-IBAN ?","acceptedAnswer":{"@type":"Answer","text":"La QR-IBAN a la même structure, mais un identifiant de banque entre 30000 et 31999. Elle sert aux QR-factures avec référence QR, pas aux virements ordinaires."}},{"@type":"Question","name":"Quels pays le calculateur connaît-il ?","acceptedAnswer":{"@type":"Answer","text":"La longueur est enregistrée notamment pour CH, LI, DE, AT, FR et IT. Pour les autres pays, seule la clé de contrôle est vérifiée, et le calculateur l’indique."}},{"@type":"Question","name":"Mon IBAN est-elle enregistrée ou transmise ?","acceptedAnswer":{"@type":"Answer","text":"Non. La vérification se fait entièrement dans votre navigateur. Rien n’est envoyé ni enregistré."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/fr/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Calculateurs suisses</span></a>
+<nav class="lang" aria-label="Langue"><a href="/de/iban-pruefen/" hreflang="de-CH" lang="de-CH">DE</a><span aria-current="page" lang="fr-CH">FR</span></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/fr/">Calculateurs suisses</a> › Vérifier une IBAN</p>
+<h1>Vérifier une IBAN</h1>
+<p class="lead">Contrôlez la longueur, les caractères et la clé d’une IBAN – hors ligne, avec détection de la QR-IBAN suisse.</p>
+<section class="tool" data-tool="iban" aria-labelledby="tool-h">
+<h2 id="tool-h">Vérifier une IBAN</h2>
+<form novalidate>
+<div class="field"><label for="iban-input">IBAN</label><input type="text" id="iban-input" name="iban" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="50" aria-describedby="iban-hint"><span class="note" id="iban-hint">Avec ou sans espaces, p. ex. CH93 0076 2011 6238 5295 7</span></div>
+<button type="submit" class="btn">Vérifier</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>Comment fonctionne la vérification</h2>
+<p>Collez l’IBAN, avec ou sans espaces. Le calculateur supprime les espaces, met les lettres en majuscules et affiche l’IBAN par groupes de quatre, comme sur une facture. Il contrôle ensuite le code pays, la longueur prévue pour ce pays et les deux chiffres de contrôle. Tout se passe dans votre navigateur ; l’IBAN n’est envoyée nulle part.</p>
+<p><strong>Important :</strong> une clé de contrôle correcte signifie seulement que l’IBAN est bien construite. Aucun test hors ligne ne peut dire si le compte existe, s’il est ouvert ou à qui il appartient. Seule la banque le sait.</p>
+<h2>Structure d’une IBAN suisse</h2>
+<p>Une IBAN suisse compte 21 caractères : «CH», deux chiffres de contrôle, un identifiant de banque à cinq chiffres (IID) et un numéro de compte à douze caractères. Les IBAN du Liechtenstein ont aussi 21 caractères, celles d’Allemagne 22, d’Autriche 20, de France et d’Italie 27.</p>
+<h2>La formule : modulo 97</h2>
+<p>La clé de contrôle suit la norme ISO 13616. On place les quatre premiers caractères à la fin, on remplace chaque lettre par un nombre (A = 10, B = 11 … Z = 35) et on divise le long nombre obtenu par 97.</p>
+<p class="formula">valable si reste (IBAN réarrangée ÷ 97) = 1</p>
+<p>Ce contrôle détecte presque toutes les fautes de frappe et les chiffres inversés.</p>
+<h2>Exemple</h2>
+<p>Une cliente indique l’IBAN CH93 0076 2011 6238 5295 7 pour un remboursement de CHF 180.00. Le calculateur répond : valable. Si elle avait écrit un 8 au lieu du 7 final, la clé serait fausse et vous verriez l’erreur avant de saisir le paiement.</p>
+<h2>Reconnaître une QR-IBAN</h2>
+<p>Pour les QR-factures avec référence QR, les banques suisses utilisent une IBAN particulière, la QR-IBAN. On la reconnaît à son identifiant de banque (positions 5 à 9) compris entre 30000 et 31999. Le calculateur le signale, car une QR-IBAN est prévue uniquement avec une référence QR.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Questions fréquentes</h2>
+<details><summary>«Valable» signifie-t-il que le compte existe ?</summary><p>Non. Seuls la structure, la longueur et la clé de contrôle sont vérifiés. Seule la banque peut confirmer que le compte existe et à qui il appartient.</p></details>
+<details><summary>Pourquoi mon IBAN est-elle signalée comme trop courte ?</summary><p>Le plus souvent, un caractère a été oublié. Comparez les groupes de quatre avec l’original : une IBAN suisse compte 21 caractères, soit cinq groupes complets et un caractère seul.</p></details>
+<details><summary>Quelle différence entre IBAN et QR-IBAN ?</summary><p>La QR-IBAN a la même structure, mais un identifiant de banque entre 30000 et 31999. Elle sert aux QR-factures avec référence QR, pas aux virements ordinaires.</p></details>
+<details><summary>Quels pays le calculateur connaît-il ?</summary><p>La longueur est enregistrée notamment pour CH, LI, DE, AT, FR et IT. Pour les autres pays, seule la clé de contrôle est vérifiée, et le calculateur l’indique.</p></details>
+<details><summary>Mon IBAN est-elle enregistrée ou transmise ?</summary><p>Non. La vérification se fait entièrement dans votre navigateur. Rien n’est envoyé ni enregistré.</p></details>
+</section>
+</article>
+<p class="stand">État : novembre 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Autres calculateurs</h2>
+<ul class="cards"><li><a href="/fr/calcul-heures-travail/"><strong>Calcul des heures de travail</strong>Heures par jour et par semaine, pauses selon la loi sur le travail, horaires de nuit.</a></li><li><a href="/fr/calcul-pourcentage/"><strong>Calcul de pourcentage</strong>Pourcentage d’un montant, part en %, variation, montant plus ou moins %.</a></li><li><a href="/fr/calcul-tva-suisse/"><strong>Calcul de la TVA suisse</strong>Ajouter ou extraire la TVA, avec arrondi à 5 centimes.</a></li><li><a href="/fr/calcul-salaire-horaire/"><strong>Calcul du salaire horaire</strong>Salaire mensuel en salaire horaire et inversement, avec 12 ou 13 salaires.</a></li><li><a href="/fr/calcul-jours-entre-deux-dates/"><strong>Jours entre deux dates</strong>Jours calendaires, jours ouvrés du lundi au vendredi et semaines.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Informations légales"><a href="/fr/mentions-legales/">Mentions légales</a> · <a href="/fr/confidentialite/">Confidentialité</a> · <a href="/fr/contact/">Contact</a></nav>
+<p>Tous les calculs se font uniquement dans votre navigateur. Informations sans garantie.</p>
+</div></footer>
+</body>
+</html>

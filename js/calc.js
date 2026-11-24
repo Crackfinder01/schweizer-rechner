@@ -133,3 +133,136 @@ export function formatHM(min) {
 export function toDecimalHours(min) {
   return round2(min / 60);
 }
+
+// ---------- IBAN (ISO 13616, offline check only) ----------
+
+/** IBAN length per country (ISO 13616 registry). Countries not listed: only the mod-97 check is done. */
+export const IBAN_LENGTHS = Object.freeze({
+  AT: 20, BE: 16, CH: 21, DE: 22, DK: 18, ES: 24, FI: 18, FR: 27, GB: 22,
+  IE: 22, IT: 27, LI: 21, LU: 20, NL: 18, NO: 15, PT: 25, SE: 24,
+});
+
+/** Remove spaces and dashes, upper-case. */
+export function normalizeIban(input) {
+  return String(input ?? '').replace(/[\s\-.]/g, '').toUpperCase();
+}
+
+/** Group by 4 characters: "CH93 0076 2011 6238 5295 7" */
+export function formatIban(input) {
+  return normalizeIban(input).replace(/(.{4})(?=.)/g, '$1 ');
+}
+
+/** ISO 7064 MOD 97-10 on the rearranged IBAN, computed piecewise (no BigInt needed). */
+export function ibanMod97(iban) {
+  const s = iban.slice(4) + iban.slice(0, 4);
+  let rem = 0;
+  for (const ch of s) {
+    const v = ch >= 'A' && ch <= 'Z' ? String(ch.charCodeAt(0) - 55) : ch;
+    for (const d of v) rem = (rem * 10 + Number(d)) % 97;
+  }
+  return rem;
+}
+
+/** Swiss / Liechtenstein QR-IBAN: IID (positions 5-9) between 30000 and 31999. */
+export function isQrIban(input) {
+  const s = normalizeIban(input);
+  if (!/^(CH|LI)\d{7}/.test(s)) return false;
+  const iid = Number(s.slice(4, 9));
+  return iid >= 30000 && iid <= 31999;
+}
+
+/**
+ * Validate format and check digits. Does NOT check that the account exists.
+ * Returns { valid, iban, formatted, country, errors: [code], qr, expectedLength }.
+ * Error codes: empty, chars, country, length, checksum.
+ */
+export function validateIban(input) {
+  const iban = normalizeIban(input);
+  const errors = [];
+  const country = iban.slice(0, 2);
+  const expectedLength = IBAN_LENGTHS[country] ?? null;
+  if (!iban) errors.push('empty');
+  else if (!/^[A-Z]{2}\d{2}[A-Z0-9]+$/.test(iban)) errors.push(/^[A-Z]{2}/.test(iban) ? 'chars' : 'country');
+  if (iban && expectedLength !== null && iban.length !== expectedLength) errors.push('length');
+  if (iban && expectedLength === null && (iban.length < 15 || iban.length > 34)) errors.push('length');
+  if (!errors.length && ibanMod97(iban) !== 1) errors.push('checksum');
+  if (iban && (country === 'CH' || country === 'LI') && !/^\d+$/.test(iban.slice(4, 9))) {
+    if (!errors.includes('chars')) errors.push('chars');
+  }
+  return {
+    valid: errors.length === 0,
+    iban,
+    formatted: formatIban(iban),
+    country,
+    known: expectedLength !== null,
+    expectedLength,
+    qr: errors.length === 0 && isQrIban(iban),
+    errors,
+  };
+}
+
+// ---------- Hourly / monthly salary ----------
+
+export const SALARY_DEFAULTS = Object.freeze({ weeklyHours: 42, weeksPerYear: 52, salariesPerYear: 12 });
+
+/** Monthly salary -> hourly wage. Annual = monthly x salaries; hours = weekly hours x weeks. */
+export function monthlyToHourly(monthly, weeklyHours = 42, salariesPerYear = 12, weeksPerYear = 52) {
+  const hours = weeklyHours * weeksPerYear;
+  if (!(hours > 0) || !(salariesPerYear > 0)) return null;
+  const annual = monthly * salariesPerYear;
+  return { annual, hoursPerYear: hours, hourly: annual / hours };
+}
+
+/** Hourly wage -> monthly salary (per salary payment). */
+export function hourlyToMonthly(hourly, weeklyHours = 42, salariesPerYear = 12, weeksPerYear = 52) {
+  const hours = weeklyHours * weeksPerYear;
+  if (!(hours > 0) || !(salariesPerYear > 0)) return null;
+  const annual = hourly * hours;
+  return { annual, hoursPerYear: hours, monthly: annual / salariesPerYear };
+}
+
+// ---------- Days between two dates ----------
+
+const DAY_MS = 86400000;
+
+/** "YYYY-MM-DD" -> UTC day number (days since 1970-01-01), or NaN. */
+export function parseIsoDate(str) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(str ?? '').trim());
+  if (!m) return NaN;
+  const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const t = Date.UTC(y, mo - 1, d);
+  const back = new Date(t);
+  if (back.getUTCFullYear() !== y || back.getUTCMonth() !== mo - 1 || back.getUTCDate() !== d) return NaN;
+  return t / DAY_MS;
+}
+
+/** Fixed holidays offered as an option: 1 January, 1 August, 25 December. [month, day] */
+export const FIXED_HOLIDAYS = Object.freeze([[1, 1], [8, 1], [12, 25]]);
+
+/**
+ * Days from start to end. The start day counts, the end day only with includeEnd.
+ * Returns { calendar, weekdays, holidaysExcluded, weeks, restDays, swapped } or null.
+ * weekdays = Monday to Friday; with excludeFixedHolidays, the fixed holidays falling on Mon-Fri are removed.
+ */
+export function daysBetween(startStr, endStr, { includeEnd = false, excludeFixedHolidays = false } = {}) {
+  let a = parseIsoDate(startStr);
+  let b = parseIsoDate(endStr);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
+  const swapped = b < a;
+  if (swapped) [a, b] = [b, a];
+  const last = includeEnd ? b : b - 1; // inclusive last day counted
+  const calendar = last - a + 1;
+  let weekdays = 0;
+  let holidaysExcluded = 0;
+  for (let day = a; day <= last; day++) {
+    const dt = new Date(day * DAY_MS);
+    const wd = dt.getUTCDay(); // 0 = Sunday
+    if (wd === 0 || wd === 6) continue;
+    if (excludeFixedHolidays && FIXED_HOLIDAYS.some(([mo, d]) => dt.getUTCMonth() + 1 === mo && dt.getUTCDate() === d)) {
+      holidaysExcluded++;
+      continue;
+    }
+    weekdays++;
+  }
+  return { calendar, weekdays, holidaysExcluded, weeks: Math.floor(calendar / 7), restDays: calendar % 7, swapped };
+}
