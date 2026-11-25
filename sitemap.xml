@@ -141,6 +141,34 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/lebenslauf-schweiz/"/>
   </url>
   <url>
+    <loc>https://schweizer-rechner.ch/de/lebenslauf-bewilligung/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/lebenslauf-bewilligung/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/cv-permis-de-sejour/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/lebenslauf-bewilligung/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/fr/cv-permis-de-sejour/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/lebenslauf-bewilligung/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/cv-permis-de-sejour/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/lebenslauf-bewilligung/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/de/sprachniveau-lebenslauf/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/sprachniveau-lebenslauf/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/niveau-de-langue-cv/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/sprachniveau-lebenslauf/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/fr/niveau-de-langue-cv/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/sprachniveau-lebenslauf/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/niveau-de-langue-cv/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/sprachniveau-lebenslauf/"/>
+  </url>
+  <url>
     <loc>https://schweizer-rechner.ch/de/impressum/</loc>
     <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/impressum/"/>

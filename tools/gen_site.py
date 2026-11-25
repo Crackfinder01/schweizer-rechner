@@ -27,6 +27,8 @@ PAIRS = {
     'net': ('/de/brutto-netto-rechner/', '/fr/salaire-brut-net-suisse/'),
     'rent': ('/de/mietzinsrechner/', '/fr/calcul-loyer-taux-reference/'),
     'cv': ('/de/lebenslauf-schweiz/', '/fr/cv-suisse/'),
+    'g_permit': ('/de/lebenslauf-bewilligung/', '/fr/cv-permis-de-sejour/'),
+    'g_lang': ('/de/sprachniveau-lebenslauf/', '/fr/niveau-de-langue-cv/'),
     'imp': ('/de/impressum/', '/fr/mentions-legales/'),
     'priv': ('/de/datenschutz/', '/fr/confidentialite/'),
     'contact': ('/de/kontakt/', '/fr/contact/'),
@@ -1270,6 +1272,7 @@ CV_ART_DE = f'''<h2>So funktioniert der Lebenslauf-Generator</h2>
 <tbody>{''.join(f'<tr><td>{k}</td><td>{n.split("(", 1)[1].rstrip(")") if "(" in n else "–"}</td></tr>' for k, n in CV_PERMITS['de'])}</tbody></table>
 <h2>Beispiel</h2>
 <p>Laura Beispiel, 30, Italienerin mit Ausweis C, bewirbt sich in Bern als Sachbearbeiterin. Ihr Lebenslauf beginnt mit Name, Beruf und Foto. Darunter stehen Adresse, Telefon, E-Mail, Geburtsdatum, Nationalität und «Ausweis C (Niederlassungsbewilligung)». Es folgen ihre zwei Stellen, die aktuelle zuerst, je mit zwei bis drei Stichworten, dann ihre Weiterbildung und die kaufmännische Lehre. Bei den Sprachen steht Italienisch als Muttersprache, danach Deutsch C1, Französisch B2 und Englisch B1. Ganz unten: «Referenzen: Auf Anfrage». Ergebnis: eine Seite A4. Die zwei Arbeitszeugnisse legt sie dem Dossier als PDF bei. Mit «Beispiel laden» sehen Sie diesen Lebenslauf direkt im Generator.</p>
+<p>Ratgeber zu zwei Fragen, die oft Unsicherheit auslösen: <a href="/de/lebenslauf-bewilligung/">Aufenthaltsbewilligung im Lebenslauf richtig angeben</a> und <a href="/de/sprachniveau-lebenslauf/">Sprachniveau A1 bis C2 im Lebenslauf</a>.</p>
 <p>Weitere Werkzeuge für die Stellensuche: der <a href="/de/brutto-netto-rechner/">Brutto-Netto-Rechner</a> für die Lohnfrage und der <a href="/de/stundenlohn-rechner/">Stundenlohn-Rechner</a>.</p>'''
 
 CV_FAQ_DE = [
@@ -1315,6 +1318,7 @@ CV_ART_FR = f'''<h2>Comment fonctionne le générateur de CV</h2>
 <tbody>{''.join(f'<tr><td>{k}</td><td>{n.split("(", 1)[1].rstrip(")") if "(" in n else "–"}</td></tr>' for k, n in CV_PERMITS['fr'])}</tbody></table>
 <h2>Exemple</h2>
 <p>Julie Exemple, 30 ans, Portugaise avec permis C, postule à Fribourg comme collaboratrice administrative. Son CV commence par son nom, son métier et sa photo. Viennent ensuite l’adresse, le téléphone, l’e-mail, la date de naissance, la nationalité et « Permis C (autorisation d’établissement) ». Puis ses deux postes, le plus récent d’abord, chacun avec deux ou trois mots-clés, sa formation continue et son CFC. Côté langues : portugais et français comme langues maternelles, allemand B2, anglais B1. Tout en bas : « Références : sur demande ». Résultat : une page A4. Elle joint ses deux certificats de travail en PDF à son dossier. Le bouton « Charger un exemple » affiche ce CV dans le générateur.</p>
+<p>Deux guides pour les questions qui font souvent hésiter : <a href="/fr/cv-permis-de-sejour/">indiquer son permis de séjour sur le CV</a> et <a href="/fr/niveau-de-langue-cv/">niveau de langue A1 à C2 sur le CV</a>.</p>
 <p>Autres outils utiles pour la recherche d’emploi : le calculateur <a href="/fr/salaire-brut-net-suisse/">salaire brut-net</a> et le <a href="/fr/calcul-salaire-horaire/">calcul du salaire horaire</a>.</p>'''
 
 CV_FAQ_FR = [
@@ -1368,6 +1372,482 @@ WORDCOUNT['cv_fr'] = tool_page(
     cv_tool('fr'), CV_ART_FR, CV_FAQ_FR, CVSRC['fr'], 'BusinessApplication',
     ' · Sources vérifiées le 25.11.2026', script='/js/cv-ui.js')
 
+
+# =====================================================================
+# 3c. Guides (Ratgeber / guides) linked to the CV builder
+# =====================================================================
+G_SRC = {
+    'b_de': 'https://www.sem.admin.ch/de/ausweis-b-eu-efta-aufenthaltsbewilligung',
+    'b_fr': 'https://www.sem.admin.ch/fr/permis-b-ue-aele-autorisation-de-sejour',
+    'c_de': 'https://www.sem.admin.ch/de/ausweis-c-eu-efta-niederlassungsbewilligung',
+    'c_fr': 'https://www.sem.admin.ch/fr/permis-c-ue-aele-autorisation-d-etablissement',
+    'g_de': 'https://www.sem.admin.ch/de/ausweis-g-eu-efta-grenzgaengerbewilligung',
+    'g_fr': 'https://www.sem.admin.ch/fr/permis-g-ue-aele-autorisation-frontaliere',
+    'g3_de': 'https://www.sem.admin.ch/de/ausweis-g-grenzgaengerbewilligung',
+    'g3_fr': 'https://www.sem.admin.ch/fr/livret-g-autorisation-frontaliere',
+    'f_de': 'https://www.sem.admin.ch/de/ausweis-f-vorlaeufig-aufgenommene-auslaender',
+    'f_fr': 'https://www.sem.admin.ch/fr/livret-f-etrangers-admis-provisoirement',
+    'n_de': 'https://www.sem.admin.ch/de/ausweis-n-asylsuchende',
+    'n_fr': 'https://www.sem.admin.ch/fr/livret-n-requerants-d-asile',
+    's_de': 'https://www.sem.admin.ch/de/ausweis-s-schutzbeduerftige',
+    's_fr': 'https://www.sem.admin.ch/fr/livret-s-personnes-a-proteger',
+    'asyl_de': 'https://www.sem.admin.ch/de/arbeit-asylbereich',
+    'asyl_fr': 'https://www.sem.admin.ch/fr/travail-domaine-d-asile',
+    'fzp_de': 'https://www.sem.admin.ch/de/faq-personenfreizuegigkeit',
+    'fzp_fr': 'https://www.sem.admin.ch/fr/faq-libre-circulation-des-personnes',
+    'work_de': 'https://www.sem.admin.ch/de/faq-arbeit',
+    'work_fr': 'https://www.sem.admin.ch/fr/faq-travail',
+    'ag_de': 'https://www.ag.ch/de/themen/migration-integration/aufenthalt/bewilligungsarten/bewilligungsarten-nicht-eu-efta',
+    'grid_de': 'https://europass.europa.eu/system/files/2020-05/CEFR%20self-assessment%20grid%20DE.pdf',
+    'grid_fr': 'https://europass.europa.eu/system/files/2020-05/CEFR%20self-assessment%20grid%20FR.pdf',
+    'coe': 'https://www.coe.int/en/web/common-european-framework-reference-languages/level-descriptions',
+    'coe_cv': 'https://rm.coe.int/16809ea0d4',
+    'zh': 'https://www.zh.ch/content/dam/zhweb/bilder-dokumente/organisation/sicherheitsdirektion/migrationsamt/Brosch%C3%BCre%20Sprachanforderungen.pdf',
+    'ge': 'https://www.ge.ch/demander-permis-c/permis-c-examen-office',
+}
+
+LEGAL_NOTE = {
+    'de': '<p class="legal-note"><strong>Allgemeine Information, keine Rechtsberatung.</strong> Massgebend sind die Angaben des Staatssekretariats für Migration (SEM) und des Migrationsamts Ihres Kantons.</p>',
+    'fr': '<p class="legal-note"><strong>Information générale, pas un conseil juridique.</strong> Font foi les indications du Secrétariat d’État aux migrations (SEM) et du service des migrations de votre canton.</p>',
+}
+
+
+def cta(lang, text):
+    url, label = (('/de/lebenslauf-schweiz/', 'Zum Lebenslauf-Generator') if lang == 'de'
+                  else ('/fr/cv-suisse/', 'Ouvrir le générateur de CV'))
+    h = 'Direkt umsetzen' if lang == 'de' else 'Passer à la pratique'
+    return (f'<aside class="tool cta" aria-label="{h}"><h2>{h}</h2><p>{text}</p>'
+            f'<p><a class="btn" href="{url}">{label}</a></p></aside>')
+
+
+def src_link(label, url):
+    return f'{label}: <a href="{url}">{url}</a>'
+
+
+def guide_page(key, lang, title, desc, h1, crumb, lead, article, faq, sources, legal=False):
+    de_path, fr_path = PAIRS[key]
+    path = de_path if lang == 'de' else fr_path
+    cv_path = PAIRS['cv'][0 if lang == 'de' else 1]
+    src_h = 'Quellen' if lang == 'de' else 'Sources'
+    src = (f'<section class="sources" aria-labelledby="src-h"><h2 id="src-h">{src_h}</h2><ul>'
+           + ''.join(f'<li>{s}</li>' for s in sources) + '</ul></section>\n')
+    checked = ' · Quellen geprüft am 25.11.2026' if lang == 'de' else ' · Sources vérifiées le 25.11.2026'
+    other_guides = [(PAIRS[k][0 if lang == 'de' else 1], n, d) for k, n, d in GUIDE_CARDS[lang] if k != key]
+    cards = [(cv_path, *[(n, d) for u, n, d in TOOLS[lang] if u == cv_path][0])] + other_guides
+    more_h = 'Mehr zum Lebenslauf' if lang == 'de' else 'Pour aller plus loin'
+    cards_html = ''.join(f'<li><a href="{u}"><strong>{n}</strong>{d}</a></li>' for u, n, d in cards)
+    body = f'''<h1>{h1}</h1>
+<p class="lead">{lead}</p>
+{LEGAL_NOTE[lang] if legal else ''}<article>
+{article}
+{faq_html(faq, lang)}
+</article>
+{src}<p class="stand">{STAND[lang]}{checked}</p>
+{AD2}
+<h2>{more_h}</h2>
+<ul class="cards">{cards_html}</ul>'''
+    url = BASE + path
+    ld = {'@context': 'https://schema.org', '@graph': [
+        {'@type': 'Article', 'headline': h1, 'description': desc, 'inLanguage': 'de-CH' if lang == 'de' else 'fr-CH',
+         'datePublished': '2026-11-25', 'dateModified': '2026-11-25', 'mainEntityOfPage': url,
+         'author': {'@type': 'Organization', 'name': SITE[lang], 'url': f'{BASE}/{lang}/'},
+         'publisher': {'@type': 'Organization', 'name': SITE[lang], 'url': f'{BASE}/{lang}/'}},
+        {'@type': 'FAQPage', 'mainEntity': [
+            {'@type': 'Question', 'name': strip_tags(q),
+             'acceptedAnswer': {'@type': 'Answer', 'text': strip_tags(a)}} for q, a in faq]},
+    ]}
+    page(key, lang, title, desc, body, ld, crumbs=f'<a href="{cv_path}">{"Lebenslauf Schweiz" if lang == "de" else "CV suisse"}</a> › {crumb}')
+    return len(strip_tags(article + ' ' + ' '.join(q + ' ' + a for q, a in faq)).split())
+
+
+GUIDE_CARDS = {
+    'de': [('g_permit', 'Bewilligung im Lebenslauf', 'Ausweis B, C, G, L, F oder S: wo und wie Sie ihn angeben.'),
+           ('g_lang', 'Sprachniveau im Lebenslauf', 'A1 bis C2 verständlich erklärt, mit Selbsteinschätzung und Beispielen.')],
+    'fr': [('g_permit', 'Permis de séjour sur le CV', 'Permis B, C, G, L, F ou S : où et comment l’indiquer.'),
+           ('g_lang', 'Niveau de langue sur le CV', 'A1 à C2 expliqués simplement, avec autoévaluation et exemples.')],
+}
+
+PERMIT_ROWS = {
+    'de': [
+        ('B', 'Aufenthaltsbewilligung', 'Ausweis B (Aufenthaltsbewilligung)', 'Für EU/EFTA-Angehörige fünf Jahre gültig, erteilt bei einer unbefristeten oder mindestens 365 Tage dauernden Anstellung. Für Drittstaatsangehörige auf ein Jahr befristet.'),
+        ('C', 'Niederlassungsbewilligung', 'Ausweis C (Niederlassungsbewilligung)', 'Nach fünf oder zehn Jahren Aufenthalt; das Aufenthaltsrecht ist unbefristet und an keine Bedingungen geknüpft.'),
+        ('G', 'Grenzgängerbewilligung', 'Ausweis G (Grenzgängerbewilligung)', 'Wohnsitz im Ausland, Arbeit in der Schweiz. EU/EFTA: wöchentliche Rückkehr an den ausländischen Wohnort, keine Grenzzonen mehr.'),
+        ('L', 'Kurzaufenthaltsbewilligung', 'Ausweis L (Kurzaufenthaltsbewilligung)', 'Für eine Anstellung unter einem Jahr (höchstens 364 Tage); gültig so lange wie der Arbeitsvertrag.'),
+        ('Ci', 'Aufenthaltsbewilligung mit Erwerbstätigkeit', 'Ausweis Ci', 'Für Ehepartner und Kinder von Angestellten internationaler Organisationen und ausländischer Vertretungen, die arbeiten.'),
+        ('F', 'Vorläufig aufgenommen', 'Ausweis F (vorläufig aufgenommen)', 'Erwerbstätigkeit in der ganzen Schweiz erlaubt; der Arbeitgeber meldet die Stelle einfach beim Kanton.'),
+        ('N', 'Asylsuchende', 'Ausweis N (Asylsuchende)', 'Während des Asylverfahrens kann eine unselbständige Erwerbstätigkeit nur unter bestimmten Umständen erlaubt werden.'),
+        ('S', 'Schutzstatus S', 'Ausweis S (Schutzstatus S)', 'Stellenantritt und Stellenwechsel sind meldepflichtig; bei Bewerbungen ist der Ausweis dem Arbeitgeber vorzulegen.'),
+    ],
+    'fr': [
+        ('B', 'Autorisation de séjour', 'Permis B (autorisation de séjour)', 'Pour les ressortissants UE/AELE : valable cinq ans, délivré avec un contrat de durée indéterminée ou d’au moins 365 jours. Pour les ressortissants d’États tiers : limité à un an.'),
+        ('C', 'Autorisation d’établissement', 'Permis C (autorisation d’établissement)', 'Après cinq ou dix ans de séjour ; droit de séjour de durée indéterminée.'),
+        ('G', 'Autorisation frontalière', 'Permis G (autorisation frontalière)', 'Domicile à l’étranger, travail en Suisse. UE/AELE : retour hebdomadaire au domicile étranger, plus de zones frontalières.'),
+        ('L', 'Autorisation de courte durée', 'Permis L (autorisation de courte durée)', 'Pour un emploi de moins d’un an (364 jours au maximum) ; valable pendant la durée du contrat.'),
+        ('Ci', 'Autorisation de séjour avec activité lucrative', 'Permis Ci', 'Pour les conjoints et enfants des fonctionnaires internationaux et des membres de représentations étrangères qui travaillent.'),
+        ('F', 'Admission provisoire', 'Permis F (admission provisoire)', 'Travail autorisé dans toute la Suisse ; l’employeur fait une simple annonce au canton.'),
+        ('N', 'Requérant d’asile', 'Permis N (requérant d’asile)', 'Pendant la procédure d’asile, une activité salariée n’est possible que dans certaines circonstances.'),
+        ('S', 'Statut de protection S', 'Permis S (statut de protection S)', 'Début, fin d’activité et changement d’emploi doivent être annoncés ; le livret doit être présenté à l’employeur lors d’une postulation.'),
+    ],
+}
+
+
+def permit_table(lang):
+    hd = (('Ausweis', 'So schreiben Sie es', 'Was er bedeutet') if lang == 'de'
+          else ('Permis', 'À écrire sur le CV', 'Ce qu’il signifie'))
+    cap = ('Bewilligungen und ihre Schreibweise im Lebenslauf (Kurzfassung nach SEM und Kantonen)' if lang == 'de'
+           else 'Les permis et leur formulation sur le CV (résumé d’après le SEM et les cantons)')
+    rows = ''.join(f'<tr><td>{k}</td><td>{w}</td><td>{m}</td></tr>' for k, _, w, m in PERMIT_ROWS[lang])
+    return (f'<table class="data-table"><caption>{cap}</caption><thead><tr>'
+            + ''.join(f'<th scope="col">{h}</th>' for h in hd) + f'</tr></thead><tbody>{rows}</tbody></table>')
+
+
+PERMIT_ART_DE = f'''<h2>Kurz gesagt</h2>
+<ul>
+<li>Die Bewilligung gehört zu den <strong>persönlichen Angaben</strong>, direkt unter die Nationalität.</li>
+<li>Schreiben Sie den Buchstaben <strong>und</strong> die Bezeichnung aus: «Ausweis C (Niederlassungsbewilligung)». Ein einzelnes «B» ist missverständlich.</li>
+<li>Mit Schweizer Pass steht nur «Nationalität: Schweiz», allenfalls mit Heimatort. Eine Bewilligung gibt es dann nicht.</li>
+<li>Ausweisnummer, Ablaufdatum oder eine Kopie des Ausweises gehören nicht in den Lebenslauf. Den Ausweis zeigen Sie, wenn die Anstellung konkret wird (mit Ausweis S bereits bei der Bewerbung, siehe Tabelle).</li>
+</ul>
+<h2>Warum die Bewilligung im Lebenslauf steht</h2>
+<p>Das offizielle Portal der Berufsberatung (berufsberatung.ch) empfiehlt ausdrücklich: Wer Ausländerin oder Ausländer ist, gibt die Aufenthaltsbewilligung an, zum Beispiel Ausweis C oder B. Auch die Career Services der ZHAW nennen die Bewilligung als Teil der Personalien. Der Grund ist praktisch: Die Personalabteilung sieht auf einen Blick, ob Sie sofort arbeiten dürfen oder ob zuerst ein Gesuch nötig ist. Für Drittstaatsangehörige genügt ein Stellenangebot nämlich nicht. Der Arbeitgeber muss laut SEM den Vorrang inländischer Arbeitskräfte und von EU/EFTA-Angehörigen beachten, Qualifikation sowie Lohn- und Arbeitsbedingungen nachweisen, und die Zulassungen sind durch Kontingente begrenzt. Fehlt die Angabe, muss die Personalabteilung nachfragen oder raten.</p>
+<p>Eine fehlende Angabe ist kein Fehler im rechtlichen Sinn. Sie kann aber Zeit kosten – und bei vielen Bewerbungen einen Platz auf der Liste für das Vorstellungsgespräch.</p>
+<h2>Wo genau: so sieht es aus</h2>
+<p>Die Bewilligung steht im Kopf des Lebenslaufs, bei Adresse, Geburtsdatum und Nationalität. Ein Beispiel:</p>
+<p class="formula">Ana Beispiel<br>Musterweg 4, 3000 Bern<br>+41 79 000 00 00 · ana.beispiel@example.ch<br>Geburtsdatum: 14.03.1994<br>Nationalität: Portugal<br>Ausweis B (Aufenthaltsbewilligung)</p>
+<p>Bei einer Bewerbung auf Französisch heisst dieselbe Zeile «Permis B (autorisation de séjour)», auf Italienisch «Permesso B (permesso di dimora)», auf Englisch «Permit B (residence permit)». Bleiben Sie bei der Sprache des Lebenslaufs; eine Mischung wie «Permis B» in einem deutschen Lebenslauf wirkt unaufmerksam.</p>
+{cta('de', 'Im Lebenslauf-Generator wählen Sie die Bewilligung aus einer Liste. Das Werkzeug schreibt die richtige Bezeichnung in Deutsch, Französisch, Italienisch oder Englisch und warnt, wenn bei einer ausländischen Nationalität die Bewilligung fehlt.')}
+<h2>Alle Ausweise im Überblick</h2>
+{permit_table('de')}
+<h2>Sonderfälle</h2>
+<h3>Grenzgängerin oder Grenzgänger (Ausweis G)</h3>
+<p>Geben Sie Ihre ausländische Wohnadresse vollständig an, mit Land und internationaler Telefonvorwahl, und darunter «Ausweis G (Grenzgängerbewilligung)». Für EU/EFTA-Angehörige ist der Ausweis G fünf Jahre gültig, wenn der Arbeitsvertrag unbefristet ist oder länger als ein Jahr dauert; Bedingung ist die wöchentliche Rückkehr an den ausländischen Wohnort. Wer noch keinen Ausweis G hat, weil es die erste Stelle in der Schweiz ist, schreibt nichts Falsches hinein: siehe nächster Punkt.</p>
+<h3>EU/EFTA-Bürger, die noch nicht in der Schweiz arbeiten</h3>
+<p>Wer aus der EU oder EFTA kommt, erhält die Bewilligung in der Regel erst mit der Stelle: Innert 14 Tagen nach der Ankunft und vor Stellenantritt meldet man sich bei der Wohngemeinde und beantragt die Bewilligung, mit Pass oder Identitätskarte und Arbeitsvertrag. Bei bis zu drei Monaten Arbeit pro Kalenderjahr braucht es keine Bewilligung, aber eine Meldung. Im Lebenslauf schreiben Sie deshalb die Nationalität und einen klaren Hinweis, zum Beispiel: «Nationalität: Frankreich (EU) – Bewilligung wird mit der Anstellung beantragt».</p>
+<h3>Drittstaatsangehörige im Ausland</h3>
+<p>Ohne Bewilligung nennen Sie einfach Ihre Nationalität. Erfinden Sie keinen Status. Das Gesuch stellt der Arbeitgeber; ob es Chancen hat, hängt von den Regeln oben ab (Vorrang, Qualifikation, Kontingent). Wer an einer Schweizer Hochschule abgeschlossen hat, darf laut SEM sechs Monate bleiben, um eine passende Stelle zu suchen. Das darf man im Lebenslauf erwähnen, etwa bei der Ausbildung.</p>
+<h3>Ausweis läuft ab oder Gesuch ist hängig</h3>
+<p>Schreiben Sie den aktuellen Ausweis und ergänzen Sie den Stand in wenigen Worten, zum Beispiel «Ausweis B (Aufenthaltsbewilligung), Gesuch um Niederlassung eingereicht». Ehrlichkeit zahlt sich aus: Spätestens beim Vertrag sieht der Arbeitgeber den Ausweis ohnehin.</p>
+<h3>Doppelbürger</h3>
+<p>Mit Schweizer Pass schreiben Sie «Nationalität: Schweiz und Italien» oder nur «Schweiz». Eine Bewilligung führen Sie nicht auf, weil Sie keine brauchen.</p>
+<h2>Häufige Fehler</h2>
+<ul>
+<li><strong>«Ausweis B» mit dem Führerausweis verwechseln.</strong> Die Fahrerlaubnis schreiben Sie als «Führerausweis Kat. B», am besten bei den weiteren Angaben. So ist klar, was gemeint ist.</li>
+<li><strong>Nur den Buchstaben angeben.</strong> «B» allein kann Bewilligung oder Fahrkategorie heissen.</li>
+<li><strong>Sensible Nummern aufführen.</strong> Ausweisnummer und AHV-Nummer braucht der Arbeitgeber erst für den Vertrag und die Lohnabrechnung.</li>
+<li><strong>Die Bewilligung verstecken.</strong> Ganz unten in kleiner Schrift sucht sie niemand. Sie gehört nach oben.</li>
+<li><strong>Einen alten Status stehen lassen.</strong> Wer inzwischen den Ausweis C hat, sollte das zeigen: Er bedeutet ein unbefristetes Aufenthaltsrecht, eine nützliche Information für den Arbeitgeber.</li>
+</ul>
+<h2>Beispiel aus der Praxis</h2>
+<p>Marco, 27, italienischer Staatsangehöriger, wohnt in Como und bewirbt sich in Lugano und Zürich. Er hat noch keine Stelle in der Schweiz. In seinem deutschen Lebenslauf stehen seine Adresse in Como mit Vorwahl +39, «Nationalität: Italien (EU)» und «Grenzgänger, Bewilligung G wird mit der Anstellung beantragt». Bei den Sprachen steht Italienisch als Muttersprache, dann Deutsch B2 und Englisch C1. Die Personalverantwortliche muss nicht nachfragen: Situation und nächster Schritt stehen schon im Lebenslauf.</p>
+<p>Diese Seite gibt es auch auf <a href="/fr/cv-permis-de-sejour/" hreflang="fr-CH" lang="fr-CH">Französisch</a>.</p>'''
+
+PERMIT_FAQ_DE = [
+    ('Muss ich meine Bewilligung im Lebenslauf angeben?',
+     'Vorgeschrieben ist es nicht, aber in der Schweiz üblich und von der Berufsberatung empfohlen. Ohne Angabe muss der Arbeitgeber nachfragen oder raten, ob Sie sofort arbeiten dürfen.'),
+    ('Wo steht die Bewilligung im Lebenslauf?',
+     'Bei den persönlichen Angaben im Kopf des Lebenslaufs, direkt nach der Nationalität. Beispiel: «Nationalität: Spanien» und darunter «Ausweis C (Niederlassungsbewilligung)».'),
+    ('Was schreibe ich, wenn ich aus der EU komme und noch keinen Ausweis habe?',
+     'Ihre Nationalität mit dem Zusatz EU und den Hinweis, dass die Bewilligung mit der Anstellung beantragt wird. EU/EFTA-Angehörige beantragen sie nach der Anmeldung bei der Wohngemeinde, vor Stellenantritt.'),
+    ('Wie schreibe ich den Ausweis G als Grenzgänger?',
+     '«Ausweis G (Grenzgängerbewilligung)» bei den Personalien, zusammen mit Ihrer vollständigen ausländischen Adresse und der internationalen Telefonvorwahl.'),
+    ('Gehört die Ausweisnummer in den Lebenslauf?',
+     'Nein. Nummer, Ablaufdatum und Kopie des Ausweises braucht der Arbeitgeber erst für den Arbeitsvertrag. Ausnahme Ausweis S: Laut SEM ist er bei Stellenbewerbungen dem Arbeitgeber vorzulegen – zeigen Sie ihn, die Nummer gehört trotzdem nicht in den Lebenslauf.'),
+    ('Wie heisst die Bewilligung in einem englischen Lebenslauf?',
+     'Zum Beispiel «Permit B (residence permit)», «Permit C (settlement permit)» oder «Permit G (cross-border commuter permit)». Der Generator übersetzt die Bezeichnung automatisch.'),
+]
+
+PERMIT_SRC_DE = [
+    src_link('Berufsberatung.ch (SDBB), Lebenslauf erstellen – «gib deine Aufenthaltsbewilligung an»', CV_SRC['sdbb_de']),
+    src_link('ZHAW Career Services, Anleitung Bewerbungsunterlagen (PDF)', CV_SRC['zhaw']),
+    src_link('SEM, Ausweis B EU/EFTA (Aufenthaltsbewilligung)', G_SRC['b_de']),
+    src_link('SEM, Ausweis C EU/EFTA (Niederlassungsbewilligung)', G_SRC['c_de']),
+    src_link('SEM, Ausweis G EU/EFTA (Grenzgängerbewilligung)', G_SRC['g_de']),
+    src_link('SEM, Ausweis G für Drittstaatsangehörige', G_SRC['g3_de']),
+    src_link('SEM, Ausweis F, N und S', G_SRC['f_de']) + f', <a href="{G_SRC["n_de"]}">{G_SRC["n_de"]}</a>, <a href="{G_SRC["s_de"]}">{G_SRC["s_de"]}</a>',
+    src_link('SEM, Erwerbstätigkeit im Asylbereich (einfache Meldung)', G_SRC['asyl_de']),
+    src_link('SEM, FAQ Personenfreizügigkeit (Anmeldung innert 14 Tagen, Meldeverfahren bis drei Monate)', G_SRC['fzp_de']),
+    src_link('SEM, FAQ Arbeit (Vorrang, Kontingente, sechs Monate nach Hochschulabschluss)', G_SRC['work_de']),
+    src_link('Kanton Freiburg, Die verschiedenen Bewilligungsarten (L, B, C, G, Ci)', CV_SRC['fr_de']),
+    src_link('Kanton Aargau, Bewilligungsarten Nicht-EU/EFTA (Ausweis B ein Jahr befristet)', G_SRC['ag_de']),
+]
+
+PERMIT_ART_FR = f'''<h2>L’essentiel</h2>
+<ul>
+<li>Le permis figure dans les <strong>données personnelles</strong>, juste sous la nationalité.</li>
+<li>Écrivez la lettre <strong>et</strong> son nom : « Permis C (autorisation d’établissement) ». Un « B » tout seul prête à confusion.</li>
+<li>Avec un passeport suisse, on écrit seulement « Nationalité : suisse », éventuellement avec le lieu d’origine. Il n’y a alors pas de permis.</li>
+<li>Le numéro du livret, sa date d’échéance ou une copie n’ont rien à faire sur le CV. Vous montrez le livret quand l’engagement se concrétise (avec un permis S, dès la postulation : voir le tableau).</li>
+</ul>
+<h2>Pourquoi indiquer son permis</h2>
+<p>L’orientation professionnelle officielle (orientation.ch) le dit clairement : si vous êtes de nationalité étrangère, indiquez votre permis de séjour, par exemple permis C ou B. Le canton de Vaud et les services carrière des hautes écoles donnent le même conseil. La raison est pratique : le service du personnel voit tout de suite si vous pouvez commencer sans démarche ou si une demande d’autorisation est nécessaire. Pour une personne d’un État tiers, une offre d’emploi ne suffit pas : selon le SEM, l’employeur doit respecter la priorité des travailleurs indigènes et des pays UE/AELE, démontrer que les qualifications et les conditions de salaire et de travail sont respectées, et une unité du contingent doit être disponible. Si l’information manque, le service du personnel doit la demander ou la deviner.</p>
+<p>Omettre son permis n’est pas illégal. Mais cela peut coûter du temps, voire, face à de nombreuses candidatures, une place pour l’entretien.</p>
+<h2>Où l’écrire : exemple</h2>
+<p>Le permis se place en tête du CV, avec l’adresse, la date de naissance et la nationalité :</p>
+<p class="formula">Ana Exemple<br>Chemin des Essais 4, 1700 Fribourg<br>+41 79 000 00 00 · ana.exemple@example.ch<br>Date de naissance : 14.03.1994<br>Nationalité : portugaise<br>Permis B (autorisation de séjour)</p>
+<p>Dans un CV en allemand, la même ligne devient « Ausweis B (Aufenthaltsbewilligung) » ; en italien « Permesso B (permesso di dimora) » ; en anglais « Permit B (residence permit) ». Restez dans la langue du CV : un « Permis B » au milieu d’un CV en allemand donne une impression de négligence.</p>
+{cta('fr', 'Dans le générateur de CV, vous choisissez votre permis dans une liste. L’outil écrit la bonne désignation en français, allemand, italien ou anglais, et vous avertit si le permis manque alors que la nationalité est étrangère.')}
+<h2>Tous les permis en un coup d’œil</h2>
+{permit_table('fr')}
+<h2>Cas particuliers</h2>
+<h3>Frontalière ou frontalier (permis G)</h3>
+<p>Indiquez votre adresse complète à l’étranger, avec le pays et l’indicatif téléphonique international, puis « Permis G (autorisation frontalière) ». Pour les ressortissants UE/AELE, le permis G est valable cinq ans si le contrat est de durée indéterminée ou supérieur à un an ; la seule condition est le retour hebdomadaire au domicile à l’étranger. Si c’est votre premier emploi en Suisse et que vous n’avez pas encore de permis G, n’inventez rien : voir le point suivant.</p>
+<h3>Ressortissants UE/AELE qui ne travaillent pas encore en Suisse</h3>
+<p>Pour les citoyens de l’UE ou de l’AELE, le permis arrive en général avec l’emploi : dans les 14 jours suivant l’arrivée et avant de commencer à travailler, on s’annonce à la commune de domicile et on demande l’autorisation, avec une pièce d’identité et le contrat de travail. Pour un emploi de trois mois au plus par année civile, aucune autorisation n’est nécessaire, mais une annonce l’est. Sur le CV, écrivez donc votre nationalité et une mention claire, par exemple : « Nationalité : française (UE) – permis demandé à l’engagement ».</p>
+<h3>Ressortissants d’États tiers à l’étranger</h3>
+<p>Sans permis, indiquez simplement votre nationalité, sans inventer de statut. C’est l’employeur qui dépose la demande ; ses chances dépendent des règles ci-dessus (priorité, qualifications, contingent). Si vous avez terminé une formation dans une haute école suisse, le SEM vous accorde six mois pour chercher un emploi correspondant à votre diplôme : vous pouvez le signaler, par exemple dans la rubrique formation.</p>
+<h3>Permis qui arrive à échéance ou demande en cours</h3>
+<p>Indiquez le permis actuel et ajoutez l’état de la démarche en quelques mots, par exemple « Permis B (autorisation de séjour), demande de permis C déposée ». La transparence paie : au plus tard à la signature du contrat, l’employeur verra le livret.</p>
+<h3>Double nationalité</h3>
+<p>Avec un passeport suisse, écrivez « Nationalité : suisse et italienne » ou seulement « suisse ». Pas de permis à mentionner, puisque vous n’en avez pas besoin.</p>
+<h2>Erreurs fréquentes</h2>
+<ul>
+<li><strong>Confondre permis B et permis de conduire B.</strong> Pour la conduite, écrivez « Permis de conduire cat. B », de préférence dans les autres informations. En français, les deux s’appellent « permis B » : d’où la confusion.</li>
+<li><strong>N’écrire que la lettre.</strong> « B » seul peut désigner le séjour ou la catégorie de conduite.</li>
+<li><strong>Donner des numéros sensibles.</strong> Le numéro du livret et le numéro AVS ne servent qu’au contrat et aux salaires.</li>
+<li><strong>Cacher le permis.</strong> En bas de page en petits caractères, personne ne le trouve. Il va en haut.</li>
+<li><strong>Garder un ancien statut.</strong> Si vous avez obtenu le permis C entre-temps, montrez-le : il signifie un droit de séjour de durée indéterminée, une information utile pour l’employeur.</li>
+</ul>
+<h2>Exemple concret</h2>
+<p>Léa, 26 ans, Française, habite à Pontarlier et postule à Yverdon-les-Bains et à Neuchâtel. Elle n’a pas encore d’emploi en Suisse. Son CV indique son adresse à Pontarlier avec l’indicatif +33, « Nationalité : française (UE) » et « Frontalière, permis G demandé à l’engagement ». Dans les langues : français langue maternelle, allemand B1, anglais B2. Le recruteur n’a pas besoin de poser la question : la situation et la prochaine étape figurent déjà sur le CV.</p>
+<p>Cette page existe aussi en <a href="/de/lebenslauf-bewilligung/" hreflang="de-CH" lang="de-CH">allemand</a>.</p>'''
+
+PERMIT_FAQ_FR = [
+    ('Dois-je obligatoirement indiquer mon permis sur mon CV ?',
+     'Ce n’est pas une obligation, mais c’est l’usage en Suisse et l’orientation professionnelle le recommande. Sans cette information, l’employeur doit demander ou deviner si vous pouvez travailler tout de suite.'),
+    ('Où mettre le permis sur le CV ?',
+     'Dans les données personnelles en tête du CV, juste après la nationalité. Exemple : « Nationalité : espagnole », puis « Permis C (autorisation d’établissement) ».'),
+    ('Je viens de l’UE et je n’ai pas encore de permis : que dois-je écrire ?',
+     'Votre nationalité avec la mention UE, et le fait que le permis sera demandé à l’engagement. Les ressortissants UE/AELE le demandent après s’être annoncés à leur commune, avant de commencer le travail.'),
+    ('Comment écrire le permis G de frontalier ?',
+     '« Permis G (autorisation frontalière) » dans les données personnelles, avec votre adresse complète à l’étranger et l’indicatif téléphonique international.'),
+    ('« Permis B » sur un CV, c’est le permis de séjour ou de conduire ?',
+     'Justement, les deux sont possibles : écrivez « Permis B (autorisation de séjour) » pour le séjour et « Permis de conduire cat. B » pour la conduite. Ainsi, aucune confusion.'),
+    ('Faut-il donner le numéro du livret ?',
+     'Non. Le numéro, l’échéance et la copie du livret ne servent qu’au contrat. Exception, le permis S : selon le SEM, le livret doit être présenté à l’employeur lors d’une postulation – montrez-le, mais son numéro n’a toujours pas sa place sur le CV.'),
+]
+
+PERMIT_SRC_FR = [
+    src_link('Orientation.ch (CSFO), Créer un curriculum vitæ – permis de séjour à indiquer', CV_SRC['sdbb_fr']),
+    src_link('Canton de Vaud, OCOSP, Créer un curriculum vitae (PDF)', CV_SRC['vd']),
+    src_link('SEM, Permis B UE/AELE (autorisation de séjour)', G_SRC['b_fr']),
+    src_link('SEM, Permis C UE/AELE (autorisation d’établissement)', G_SRC['c_fr']),
+    src_link('SEM, Permis G UE/AELE (autorisation frontalière)', G_SRC['g_fr']),
+    src_link('SEM, Livret G pour ressortissants d’États tiers', G_SRC['g3_fr']),
+    src_link('SEM, Livrets F, N et S', G_SRC['f_fr']) + f', <a href="{G_SRC["n_fr"]}">{G_SRC["n_fr"]}</a>, <a href="{G_SRC["s_fr"]}">{G_SRC["s_fr"]}</a>',
+    src_link('SEM, Personnes relevant de l’asile et activité lucrative (simple annonce)', G_SRC['asyl_fr']),
+    src_link('SEM, FAQ libre circulation des personnes (annonce dans les 14 jours, procédure d’annonce jusqu’à trois mois)', G_SRC['fzp_fr']),
+    src_link('SEM, FAQ Travail (priorité, contingents, six mois après un diplôme suisse)', G_SRC['work_fr']),
+    src_link('Canton de Fribourg, Les types de permis de séjour (L, B, C, G, Ci)', CV_SRC['fr_fr']),
+    src_link('Canton d’Argovie, types d’autorisation pour États tiers (permis B limité à un an ; en allemand)', G_SRC['ag_de']),
+]
+
+WORDCOUNT['permit_de'] = guide_page(
+    'g_permit', 'de', 'Aufenthaltsbewilligung im Lebenslauf: B, C, G, L angeben',
+    'Wo und wie Sie Ausweis B, C, G, L, F oder S im Schweizer Lebenslauf angeben – mit Beispielen, Sonderfällen und offiziellen Quellen des SEM.',
+    'Aufenthaltsbewilligung im Lebenslauf richtig angeben', 'Bewilligung im Lebenslauf',
+    'Wer keinen Schweizer Pass hat, nennt im Lebenslauf seine Bewilligung. Hier steht, wo sie hingehört, wie man sie genau schreibt und was für Grenzgänger, EU-Bürger ohne Ausweis und hängige Gesuche gilt.',
+    PERMIT_ART_DE, PERMIT_FAQ_DE, PERMIT_SRC_DE, legal=True)
+WORDCOUNT['permit_fr'] = guide_page(
+    'g_permit', 'fr', 'Permis de séjour sur le CV suisse : B, C, G, L',
+    'Où et comment indiquer le permis B, C, G, L, F ou S sur un CV suisse – exemples, cas particuliers et sources officielles du SEM.',
+    'Indiquer son permis de séjour sur un CV suisse', 'Permis de séjour sur le CV',
+    'Sans passeport suisse, on indique son permis sur le CV. Voici où le placer, comment le formuler exactement et que faire si vous êtes frontalier, citoyen de l’UE sans permis ou en attente d’une décision.',
+    PERMIT_ART_FR, PERMIT_FAQ_FR, PERMIT_SRC_FR, legal=True)
+
+LEVEL_ROWS = {
+    'de': [
+        ('A1', 'Elementare Sprachverwendung', 'Vertraute Wörter und ganz einfache Sätze verstehen und benutzen, wenn langsam gesprochen wird.', 'Sich vorstellen, einfache Anweisungen verstehen.'),
+        ('A2', 'Elementare Sprachverwendung', 'Kurze Routinegespräche über vertraute Themen; einfache Texte wie Fahrpläne oder Anzeigen.', 'Kurze Auskünfte geben, einfache Notizen schreiben.'),
+        ('B1', 'Selbstständige Sprachverwendung', 'Die Hauptpunkte verstehen, wenn klare Standardsprache über Arbeit, Schule oder Freizeit gesprochen wird; zusammenhängend über Erfahrungen und Pläne sprechen.', 'Kundenfragen zu vertrauten Themen beantworten, einfache E-Mails schreiben.'),
+        ('B2', 'Selbstständige Sprachverwendung', 'Spontan und fliessend genug, dass ein normales Gespräch mit Muttersprachlern recht gut möglich ist; klare, detaillierte Texte schreiben.', 'In Sitzungen mitdiskutieren, Berichte verfassen.'),
+        ('C1', 'Kompetente Sprachverwendung', 'Sich spontan und fliessend ausdrücken, ohne erkennbar nach Worten zu suchen; die Sprache im Berufsleben wirksam und flexibel gebrauchen.', 'Verhandeln, präsentieren, anspruchsvolle Texte redigieren.'),
+        ('C2', 'Kompetente Sprachverwendung', 'Praktisch alles mühelos verstehen und auch feinere Bedeutungsnuancen genau ausdrücken.', 'Texte für die Veröffentlichung schreiben, feine Unterschiede in Verträgen erkennen.'),
+    ],
+    'fr': [
+        ('A1', 'Utilisateur élémentaire', 'Comprendre et utiliser des mots familiers et des phrases très simples si l’on parle lentement.', 'Se présenter, comprendre des consignes simples.'),
+        ('A2', 'Utilisateur élémentaire', 'Échanges courts et habituels sur des sujets familiers ; textes simples comme des horaires ou des petites annonces.', 'Donner un renseignement bref, écrire une note simple.'),
+        ('B1', 'Utilisateur indépendant', 'Comprendre l’essentiel quand un langage clair et standard est utilisé sur le travail, l’école ou les loisirs ; raconter une expérience, expliquer un projet.', 'Répondre à des clients sur des sujets connus, écrire un e-mail simple.'),
+        ('B2', 'Utilisateur indépendant', 'Assez de spontanéité et d’aisance pour une conversation normale avec un locuteur natif ; écrire des textes clairs et détaillés.', 'Participer à une séance, rédiger un rapport.'),
+        ('C1', 'Utilisateur expérimenté', 'S’exprimer spontanément et couramment sans trop chercher ses mots ; utiliser la langue de façon efficace et souple dans la vie professionnelle.', 'Négocier, présenter, relire des textes exigeants.'),
+        ('C2', 'Utilisateur expérimenté', 'Comprendre sans effort pratiquement tout et exprimer avec précision de fines nuances de sens.', 'Rédiger des textes destinés à être publiés, saisir les nuances d’un contrat.'),
+    ],
+}
+
+
+def level_table(lang):
+    hd = (('Niveau', 'Stufe', 'Was Sie können (nach dem Raster zur Selbstbeurteilung)', 'Im Berufsalltag zum Beispiel') if lang == 'de'
+          else ('Niveau', 'Catégorie', 'Ce que vous savez faire (d’après la grille d’autoévaluation)', 'Au travail, par exemple'))
+    cap = ('Die sechs Niveaus des Gemeinsamen europäischen Referenzrahmens (GER), in eigenen Worten zusammengefasst' if lang == 'de'
+           else 'Les six niveaux du Cadre européen commun de référence (CECR), résumés avec nos mots')
+    rows = ''.join(f'<tr><td>{a}</td><td>{b}</td><td>{c}</td><td>{d}</td></tr>' for a, b, c, d in LEVEL_ROWS[lang])
+    return (f'<table class="data-table"><caption>{cap}</caption><thead><tr>'
+            + ''.join(f'<th scope="col">{h}</th>' for h in hd) + f'</tr></thead><tbody>{rows}</tbody></table>')
+
+
+LANG_ART_DE = f'''<h2>Kurz gesagt</h2>
+<ul>
+<li>Zuerst die <strong>Muttersprache</strong>, dann jede weitere Sprache mit ihrem Niveau von <strong>A1 bis C2</strong>, vom höchsten zum tiefsten.</li>
+<li>Ein Zertifikat steht in Klammern dahinter: «Englisch C1 (Cambridge C1 Advanced, 2023)».</li>
+<li>Keine Balken, Sterne oder Prozentzahlen. Niemand weiss, was «vier von fünf Punkten» bedeutet.</li>
+<li>Lieber ehrlich als hoch: Sprachkenntnisse werden im Vorstellungsgespräch oft direkt getestet.</li>
+</ul>
+<p>Die Berufsberatung (berufsberatung.ch), der Kanton Waadt und die Career Services der ZHAW empfehlen alle diese Angabe nach dem Gemeinsamen europäischen Referenzrahmen für Sprachen (GER). In der mehrsprachigen Schweiz ist sie besonders wichtig: In vielen Stelleninseraten steht eine zweite Landessprache, und der Arbeitgeber will schnell sehen, ob es passt.</p>
+<h2>Die sechs Niveaus verständlich erklärt</h2>
+<p>Der GER, herausgegeben vom Europarat, teilt Sprachkenntnisse in sechs Niveaus und drei Stufen ein. Die Tabelle fasst das offizielle Raster zur Selbstbeurteilung in eigenen Worten zusammen und ergänzt Beispiele aus dem Arbeitsalltag:</p>
+{level_table('de')}
+<h2>So schätzen Sie Ihr Niveau ein</h2>
+<p>Ohne Zertifikat nehmen Sie das <strong>Raster zur Selbstbeurteilung</strong> von Europass. Es beschreibt jede Stufe mit «Ich kann»-Sätzen für fünf Fertigkeiten: Hören, Lesen, an Gesprächen teilnehmen, zusammenhängendes Sprechen und Schreiben. So gehen Sie vor:</p>
+<ol>
+<li>Lesen Sie für jede Fertigkeit die Beschreibungen von A1 aufwärts.</li>
+<li>Halten Sie beim höchsten Niveau an, bei dem Sie ehrlich «ja, das kann ich» sagen.</li>
+<li>Liegen Ihre Werte nahe beieinander, nehmen Sie den mittleren Wert. Liegen Mündlich und Schriftlich weit auseinander, geben Sie beide an.</li>
+</ol>
+<p>Beispiel: Sie verstehen und sprechen Italienisch auf B1, schreiben aber nur auf A2. Dann steht im Lebenslauf «Italienisch: B1 mündlich, A2 schriftlich». Diese Aufteilung ist in der Schweiz vertraut, denn auch das Ausländerrecht unterscheidet zwischen mündlichen und schriftlichen Kenntnissen (siehe unten).</p>
+{cta('de', 'Im Lebenslauf-Generator wählen Sie für jede Sprache das Niveau aus einer Liste. Das Werkzeug setzt die Muttersprache automatisch nach oben, sortiert die übrigen Sprachen von C2 bis A1, meldet einen Fehler bei einer Sprache ohne Niveau und eine Warnung, wenn die Muttersprache fehlt.')}
+<h2>Zertifikate richtig angeben</h2>
+<p>Ein Sprachdiplom macht die Angabe glaubwürdig. Nennen Sie den Namen des Diploms, das Niveau und das Jahr, zum Beispiel «Französisch B2 (DELF B2, 2024)» oder «Deutsch B1 (telc Deutsch B1, 2025)». Das Zeugnis selbst kommt wie die Arbeitszeugnisse in die Beilagen des Bewerbungsdossiers, nicht in den Lebenslauf. Ist ein Zertifikat schon älter und Sie sprechen die Sprache seither täglich, geben Sie Ihr heutiges Niveau an und das Zertifikat als Beleg dazu.</p>
+<p>Für Deutsch akzeptiert zum Beispiel das Migrationsamt des Kantons Zürich die Zertifikate telc, Goethe, ÖSD, SDS, TestDaF, KDE und fide. Arbeitgeber kennen diese Namen.</p>
+<h2>Sprachniveaus im Schweizer Ausländerrecht</h2>
+<p>Für einige Bewilligungen verlangt das Gesetz Mindestniveaus in der Landessprache des Wohnorts. Sie zeigen, was diese Niveaus im Alltag bedeuten, sind aber <strong>keine</strong> Anforderungen für eine Stelle:</p>
+<ul>
+<li>Niederlassungsbewilligung (Ausweis C), ordentliche Erteilung: A2 mündlich und A1 schriftlich.</li>
+<li>Vorzeitige Niederlassungsbewilligung: B1 mündlich und A1 schriftlich.</li>
+<li>Familiennachzug zu Personen aus Drittstaaten: A1 mündlich oder die Anmeldung zu einem Sprachkurs, der zu diesem Niveau führt.</li>
+</ul>
+<p class="note">Allgemeine Information, keine Rechtsberatung. Massgebend sind die Weisungen Ihres kantonalen Migrationsamts; die Liste stammt aus der Broschüre des Kantons Zürich.</p>
+<h2>Besonderheiten in der Schweiz</h2>
+<ul>
+<li><strong>Landessprachen:</strong> Verlangt ein Inserat «gute Französischkenntnisse», hilft die genaue Stufe dem Arbeitgeber mehr als jedes Adjektiv.</li>
+<li><strong>Schweizerdeutsch:</strong> Es ist nicht dasselbe wie Hochdeutsch. Wenn es für die Stelle zählt, etwa im Kundenkontakt, geben Sie es separat und konkret an: «Schweizerdeutsch: verstehe ich gut».</li>
+<li><strong>Zweisprachig aufgewachsen:</strong> Zwei Muttersprachen sind möglich, wenn Sie in beiden Sprachen aufgewachsen sind oder die Schule besucht haben.</li>
+<li><strong>Sprache des Lebenslaufs:</strong> Schreiben Sie die Sprachnamen in der Sprache des Lebenslaufs, also «Französisch», nicht «Français».</li>
+</ul>
+<h2>Drei Beispiele</h2>
+<p><strong>Lernende, 15, Bern:</strong> Deutsch – Muttersprache · Französisch – A2 · Englisch – A2. Für eine Lehrstelle genügt das, die Schulnoten zeigen den Rest.</p>
+<p><strong>Pflegefachfrau, 34, aus Portugal, bewirbt sich in Zürich:</strong> Portugiesisch – Muttersprache · Deutsch – B2 (Goethe-Zertifikat B2, 2025) · Englisch – B1 · Französisch – A2.</p>
+<p><strong>Ingenieur, 41, in Freiburg zweisprachig aufgewachsen:</strong> Deutsch und Französisch – Muttersprachen · Englisch – C1 (Cambridge C1 Advanced, 2022) · Italienisch – B1 mündlich, A2 schriftlich · Schweizerdeutsch – verstehe ich gut.</p>
+<h2>Häufige Fehler</h2>
+<ul>
+<li><strong>Nur Adjektive:</strong> «fliessend», «verhandlungssicher» oder «gute Kenntnisse» sind keine offiziellen Stufen. Jede Person versteht etwas anderes darunter.</li>
+<li><strong>C2 statt Muttersprache:</strong> C2 beschreibt sehr hohe Kompetenz, nicht Herkunft. Der Europarat hat im Begleitband von 2020 Beschreibungen überarbeitet, die «Muttersprachler» erwähnten, weil der Begriff umstritten geworden ist. Ihre Erstsprache bleibt «Muttersprache».</li>
+<li><strong>Schulkenntnisse überschätzen:</strong> Fünf Jahre Schulfranzösisch heissen nicht automatisch B2. Prüfen Sie sich mit dem Raster.</li>
+<li><strong>Grafiken:</strong> Balken und Sterne sehen ordentlich aus, sagen aber nichts Messbares. Das GER-Niveau schon.</li>
+</ul>
+<p>Diese Seite gibt es auch auf <a href="/fr/niveau-de-langue-cv/" hreflang="fr-CH" lang="fr-CH">Französisch</a>.</p>'''
+
+LANG_FAQ_DE = [
+    ('Ist C2 dasselbe wie Muttersprache?',
+     'Nein. C2 beschreibt sehr hohe Sprachkompetenz, unabhängig von der Herkunft. Ihre Erstsprache geben Sie als «Muttersprache» an, alle anderen Sprachen mit Niveau.'),
+    ('Ist B2 fliessend?',
+     'Nach dem Raster zur Selbstbeurteilung können Sie auf B2 so spontan und fliessend sprechen, dass ein normales Gespräch mit Muttersprachlern recht gut möglich ist. Für sicheres Verhandeln und Präsentieren spricht man eher von C1.'),
+    ('Wie schreibt man das Sprachniveau im Lebenslauf?',
+     'Sprache, Niveau und allenfalls Zertifikat: «Französisch – B2 (DELF B2, 2024)». Die Muttersprache steht zuerst, dann die übrigen Sprachen vom höchsten zum tiefsten Niveau.'),
+    ('Ich habe kein Zertifikat. Darf ich trotzdem ein Niveau angeben?',
+     'Ja. Schätzen Sie sich mit dem offiziellen Raster zur Selbstbeurteilung ehrlich ein. Ein Zertifikat ist ein Plus, aber keine Pflicht.'),
+    ('Was bedeutet «verhandlungssicher»?',
+     'Das Wort ist keine offizielle Stufe und wird unterschiedlich verstanden. Schreiben Sie das GER-Niveau, zum Beispiel C1; ein erklärendes Wort daneben ist erlaubt.'),
+    ('Wie gebe ich Schweizerdeutsch an?',
+     'Separat von Deutsch und konkret, wenn es für die Stelle zählt, etwa «Schweizerdeutsch: verstehe ich gut» oder «spreche ich fliessend».'),
+]
+
+LANG_SRC_DE = [
+    src_link('Europass (Europäische Union / Europarat), Raster zur Selbstbeurteilung, Deutsch (PDF)', G_SRC['grid_de']),
+    src_link('Europarat, Gemeinsamer europäischer Referenzrahmen: Beschreibung der Niveaus (Englisch)', G_SRC['coe']),
+    src_link('Europarat, GER-Begleitband 2020 (Englisch, PDF; Anpassungen bei C2 und beim Begriff «native speaker»)', G_SRC['coe_cv']),
+    src_link('Berufsberatung.ch (SDBB), Lebenslauf erstellen', CV_SRC['sdbb_de']),
+    src_link('ZHAW Career Services, Anleitung Bewerbungsunterlagen (PDF)', CV_SRC['zhaw']),
+    src_link('Kanton Waadt, Créer un curriculum vitae (Französisch, PDF)', CV_SRC['vd']),
+    src_link('Kanton Zürich, Migrationsamt, Broschüre Sprachanforderungen (PDF; Art. 60, 62 und 73a VZAE, anerkannte Zertifikate)', G_SRC['zh']),
+]
+
+LANG_ART_FR = f'''<h2>L’essentiel</h2>
+<ul>
+<li>D’abord la <strong>langue maternelle</strong>, puis chaque autre langue avec son niveau de <strong>A1 à C2</strong>, du plus élevé au plus bas.</li>
+<li>Un diplôme se met entre parenthèses : « Anglais C1 (Cambridge C1 Advanced, 2023) ».</li>
+<li>Pas de barres, d’étoiles ni de pourcentages : personne ne sait ce que veut dire « 4 points sur 5 ».</li>
+<li>Mieux vaut juste que flatteur : les langues sont souvent testées pendant l’entretien.</li>
+</ul>
+<p>L’orientation professionnelle officielle (orientation.ch), le canton de Vaud et les services carrière des hautes écoles recommandent tous d’indiquer le niveau selon le Cadre européen commun de référence pour les langues (CECR). En Suisse, pays plurilingue, c’est encore plus important : beaucoup d’annonces demandent une deuxième langue nationale, et l’employeur veut voir tout de suite si votre profil correspond.</p>
+<h2>Les six niveaux expliqués simplement</h2>
+<p>Le CECR, publié par le Conseil de l’Europe, classe les compétences en six niveaux répartis en trois catégories. Le tableau résume la grille officielle d’autoévaluation avec nos mots et ajoute des exemples tirés du travail :</p>
+{level_table('fr')}
+<h2>Évaluer son niveau soi-même</h2>
+<p>Sans diplôme, utilisez la <strong>grille d’autoévaluation</strong> d’Europass. Elle décrit chaque niveau par des phrases « Je peux… » pour cinq compétences : écouter, lire, prendre part à une conversation, s’exprimer oralement en continu et écrire. La méthode :</p>
+<ol>
+<li>Pour chaque compétence, lisez les descriptions à partir de A1.</li>
+<li>Arrêtez-vous au niveau le plus élevé pour lequel vous pouvez dire honnêtement « oui, je sais faire ».</li>
+<li>Si vos résultats sont proches, retenez la valeur du milieu. Si l’oral et l’écrit sont très différents, indiquez les deux.</li>
+</ol>
+<p>Exemple : vous comprenez et parlez l’allemand au niveau B1, mais vous l’écrivez au niveau A2. Sur le CV : « Allemand : B1 à l’oral, A2 à l’écrit ». Cette distinction est familière en Suisse, car le droit des étrangers sépare aussi l’oral et l’écrit (voir plus bas).</p>
+{cta('fr', 'Dans le générateur de CV, vous choisissez le niveau de chaque langue dans une liste. L’outil place automatiquement la langue maternelle en tête, trie les autres langues de C2 à A1, signale une erreur pour une langue sans niveau et un avertissement si la langue maternelle manque.')}
+<h2>Indiquer un diplôme de langue</h2>
+<p>Un diplôme rend l’indication crédible. Donnez son nom, le niveau et l’année, par exemple « Allemand B2 (Goethe-Zertifikat B2, 2024) » ou « Français B1 (DELF B1, 2025) ». Le certificat lui-même se joint en annexe au dossier, comme les certificats de travail, et non dans le CV. Si votre diplôme date un peu et que vous pratiquez la langue tous les jours depuis, indiquez votre niveau actuel et citez le diplôme comme preuve.</p>
+<p>Pour l’allemand, le service des migrations du canton de Zurich accepte par exemple les certificats telc, Goethe, ÖSD, SDS, TestDaF, KDE et fide. Pour le français, le canton de Genève demande une « attestation de français » pour le permis C.</p>
+<h2>Les niveaux de langue dans le droit des étrangers</h2>
+<p>Pour certains permis, la loi exige un niveau minimal dans la langue nationale du lieu de domicile. Ces seuils donnent une idée concrète des niveaux, mais ce ne sont <strong>pas</strong> des exigences pour un emploi :</p>
+<ul>
+<li>Autorisation d’établissement (permis C), octroi ordinaire : A2 à l’oral et A1 à l’écrit (Genève le précise pour le français).</li>
+<li>Octroi anticipé du permis C : B1 à l’oral et A1 à l’écrit.</li>
+<li>Regroupement familial auprès de personnes d’États tiers : A1 à l’oral, ou l’inscription à un cours qui y mène.</li>
+</ul>
+<p class="note">Information générale, pas un conseil juridique. Font foi les directives de votre service cantonal des migrations ; la liste provient des cantons de Genève et de Zurich.</p>
+<h2>Particularités suisses</h2>
+<ul>
+<li><strong>Langues nationales :</strong> si une annonce demande « de bonnes connaissances d’allemand », le niveau exact aide plus l’employeur que n’importe quel adjectif.</li>
+<li><strong>Suisse allemand :</strong> ce n’est pas l’allemand standard. S’il compte pour le poste, par exemple au contact de la clientèle alémanique, indiquez-le à part et concrètement : « Suisse allemand : bonne compréhension ».</li>
+<li><strong>Bilinguisme :</strong> deux langues maternelles sont possibles si vous avez grandi ou suivi l’école dans les deux langues.</li>
+<li><strong>Langue du CV :</strong> écrivez le nom des langues dans la langue du CV, donc « Allemand » et non « Deutsch ».</li>
+</ul>
+<h2>Trois exemples</h2>
+<p><strong>Apprentie, 15 ans, Bulle :</strong> Français – langue maternelle · Allemand – A2 · Anglais – A2. Pour une place d’apprentissage, c’est suffisant ; les notes scolaires complètent.</p>
+<p><strong>Infirmière, 34 ans, d’origine portugaise, postule à Lausanne :</strong> Portugais – langue maternelle · Français – B2 (DELF B2, 2025) · Anglais – B1 · Allemand – A2.</p>
+<p><strong>Ingénieur, 41 ans, bilingue, Fribourg :</strong> Français et allemand – langues maternelles · Anglais – C1 (Cambridge C1 Advanced, 2022) · Italien – B1 à l’oral, A2 à l’écrit · Suisse allemand – bonne compréhension.</p>
+<h2>Erreurs fréquentes</h2>
+<ul>
+<li><strong>Seulement des adjectifs :</strong> « courant », « bilingue » ou « bonnes notions » ne sont pas des niveaux officiels ; chacun les comprend à sa façon.</li>
+<li><strong>C2 au lieu de langue maternelle :</strong> C2 décrit une compétence très élevée, pas une origine. Dans son volume complémentaire de 2020, le Conseil de l’Europe a revu des descripteurs qui mentionnaient le « locuteur natif », car la notion est devenue controversée. Votre première langue reste votre « langue maternelle ».</li>
+<li><strong>Surestimer l’école :</strong> cinq ans d’allemand scolaire ne font pas automatiquement un B2. Vérifiez avec la grille.</li>
+<li><strong>Graphiques :</strong> barres et étoiles font joli, mais ne mesurent rien. Le niveau CECR, si.</li>
+</ul>
+<p>Cette page existe aussi en <a href="/de/sprachniveau-lebenslauf/" hreflang="de-CH" lang="de-CH">allemand</a>.</p>'''
+
+LANG_FAQ_FR = [
+    ('C2, est-ce la même chose que langue maternelle ?',
+     'Non. C2 décrit une maîtrise très élevée, indépendamment de l’origine. Votre première langue s’indique comme « langue maternelle », les autres avec leur niveau.'),
+    ('Le niveau B2, c’est parler couramment ?',
+     'Selon la grille d’autoévaluation, au niveau B2 vous communiquez avec assez de spontanéité et d’aisance pour une conversation normale avec un locuteur natif. Pour négocier ou présenter avec assurance, on parle plutôt de C1.'),
+    ('Comment noter son niveau de langue sur un CV ?',
+     'La langue, le niveau et, le cas échéant, le diplôme : « Allemand – B2 (Goethe-Zertifikat B2, 2024) ». La langue maternelle vient en premier, puis les autres langues du niveau le plus élevé au plus bas.'),
+    ('Je n’ai pas de diplôme : puis-je quand même indiquer un niveau ?',
+     'Oui. Évaluez-vous honnêtement avec la grille officielle d’autoévaluation. Un diplôme est un plus, pas une obligation.'),
+    ('Que veut dire « bilingue » sur un CV ?',
+     'Ce n’est pas un niveau officiel. Si vous avez deux langues maternelles, indiquez les deux comme telles ; sinon, donnez un niveau CECR, par exemple C1.'),
+    ('Comment indiquer le suisse allemand ?',
+     'À part de l’allemand et concrètement, s’il compte pour le poste : « Suisse allemand : bonne compréhension » ou « parlé couramment ».'),
+]
+
+LANG_SRC_FR = [
+    src_link('Europass (Union européenne / Conseil de l’Europe), Grille d’autoévaluation, français (PDF)', G_SRC['grid_fr']),
+    src_link('Conseil de l’Europe, CECR : description des niveaux (en anglais)', G_SRC['coe']),
+    src_link('Conseil de l’Europe, Volume complémentaire du CECR, 2020 (en anglais, PDF ; ajustements au niveau C2 et à la notion de « native speaker »)', G_SRC['coe_cv']),
+    src_link('Orientation.ch (CSFO), Créer un curriculum vitæ', CV_SRC['sdbb_fr']),
+    src_link('Canton de Vaud, OCOSP, Créer un curriculum vitae (PDF)', CV_SRC['vd']),
+    src_link('Canton de Genève, Demander un permis C (attestation de français A2 oral, A1 écrit)', G_SRC['ge']),
+    src_link('Canton de Zurich, service des migrations, brochure sur les exigences linguistiques (en allemand, PDF ; art. 60, 62 et 73a OASA, certificats reconnus)', G_SRC['zh']),
+]
+
+WORDCOUNT['lang_de'] = guide_page(
+    'g_lang', 'de', 'Sprachniveau im Lebenslauf: A1 bis C2 richtig angeben',
+    'Sprachkenntnisse im Schweizer Lebenslauf: was A1 bis C2 bedeuten, wie Sie Ihr Niveau einschätzen und korrekt angeben – mit Beispielen und Quellen.',
+    'Sprachniveau im Lebenslauf: A1 bis C2 für die Schweiz', 'Sprachniveau im Lebenslauf',
+    'Welche Stufe ist «gut», ist B2 schon fliessend, und wohin mit dem Zertifikat? So geben Sie Ihre Sprachkenntnisse im Schweizer Lebenslauf klar und ehrlich an.',
+    LANG_ART_DE, LANG_FAQ_DE, LANG_SRC_DE)
+WORDCOUNT['lang_fr'] = guide_page(
+    'g_lang', 'fr', 'Niveau de langue sur un CV suisse : A1 à C2 expliqués',
+    'Langues sur un CV suisse : ce que signifient A1 à C2, comment évaluer votre niveau et l’indiquer correctement – avec exemples et sources officielles.',
+    'Niveau de langue sur un CV suisse : de A1 à C2', 'Niveau de langue sur le CV',
+    'Quel niveau est « bon », B2 veut-il dire courant, et où mettre son diplôme ? Voici comment indiquer vos langues sur un CV suisse de façon claire et honnête.',
+    LANG_ART_FR, LANG_FAQ_FR, LANG_SRC_FR)
 
 # =====================================================================
 # 4. Home pages
