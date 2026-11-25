@@ -266,3 +266,149 @@ export function daysBetween(startStr, endStr, { includeEnd = false, excludeFixed
   }
   return { calendar, weekdays, holidaysExcluded, weeks: Math.floor(calendar / 7), restDays: calendar % 7, swapped };
 }
+
+// ---------- Gross -> net salary (employee deductions, 2026) ----------
+
+/**
+ * Employee-side payroll figures valid in 2026.
+ * AHV/IV/EO 5.3 %: ahv-iv.ch leaflet 2.01 (Stand 1.1.2026). ALV 1.1 % up to CHF 148'200, nothing above
+ * (since 1.1.2023): ahv-iv.ch leaflet 2.08, kmu.admin.ch. UVG max. insured earnings CHF 148'200: suva.ch.
+ * BVG thresholds 2026: BSV "Masszahlen 2025/2026", Art. 2, 7, 8 BVG (fedlex). Age credits: Art. 16 BVG.
+ */
+export const PAYROLL_2026 = Object.freeze({
+  ahvIvEo: 5.3,
+  alv: 1.1,
+  alvCeiling: 148200,
+  uvgMaxInsured: 148200,
+  bvgEntryThreshold: 22680,
+  bvgCoordinationDeduction: 26460,
+  bvgUpperLimit: 90720,
+  bvgMinCoordinated: 3780,
+});
+
+/** Art. 16 BVG: retirement credits in % of the coordinated salary, by age [from, to, rate]. */
+export const BVG_CREDITS = Object.freeze([[25, 34, 7], [35, 44, 10], [45, 54, 15], [55, 65, 18]]);
+
+/** BVG retirement-credit rate for an age (age reached in the calendar year). 0 outside 25-65. */
+export function bvgCreditRate(age) {
+  for (const [from, to, rate] of BVG_CREDITS) if (age >= from && age <= to) return rate;
+  return 0;
+}
+
+/** Coordinated salary under the BVG minimum (Art. 7 and 8 BVG). 0 if the annual salary is not above the entry threshold. */
+export function bvgCoordinatedSalary(annual, P = PAYROLL_2026) {
+  if (!(annual > P.bvgEntryThreshold)) return 0;
+  const c = Math.min(annual, P.bvgUpperLimit) - P.bvgCoordinationDeduction;
+  return Math.max(c, P.bvgMinCoordinated);
+}
+
+/**
+ * Employee deductions and net salary. Withholding tax (Quellensteuer) is NOT included.
+ * opts: { gross, period: 'month'|'year', salaries: 12|13, age, nbuPct, ktgPct, bvgPct (custom % of coordinated salary, or null = estimate) }
+ * BVG estimate = half of the Art. 16 credit (employer pays at least half, Art. 66 BVG); risk premiums and costs are not included.
+ * Returns annual amounts and amounts per salary payment (annual / salaries), or null on invalid input.
+ */
+export function grossToNet({ gross, period = 'month', salaries = 12, age = 40, nbuPct = 1, ktgPct = 0, bvgPct = null }, P = PAYROLL_2026) {
+  if (![gross, salaries, age, nbuPct, ktgPct].every(Number.isFinite) || gross < 0 || salaries <= 0 || nbuPct < 0 || ktgPct < 0) return null;
+  if (bvgPct !== null && !(Number.isFinite(bvgPct) && bvgPct >= 0)) return null;
+  const annual = period === 'year' ? gross : gross * salaries;
+  const coordinated = bvgCoordinatedSalary(annual, P);
+  const creditRate = bvgCreditRate(age);
+  const bvgRate = bvgPct === null ? creditRate / 2 : bvgPct;
+  const lines = {
+    ahv: round2((annual * P.ahvIvEo) / 100),
+    alv: round2((Math.min(annual, P.alvCeiling) * P.alv) / 100),
+    nbu: round2((Math.min(annual, P.uvgMaxInsured) * nbuPct) / 100),
+    ktg: round2((annual * ktgPct) / 100),
+    bvg: round2((coordinated * bvgRate) / 100),
+  };
+  const per = Object.fromEntries(Object.entries(lines).map(([k, v]) => [k, round2(v / salaries)]));
+  const total = round2(Object.values(lines).reduce((a, b) => a + b, 0));
+  const totalPer = round2(Object.values(per).reduce((a, b) => a + b, 0));
+  const grossPer = round2(annual / salaries);
+  return {
+    annual: round2(annual), grossPer, coordinated, creditRate, bvgRate,
+    lines, per, total, totalPer,
+    net: round2(annual - total), netPer: round2(grossPer - totalPer),
+  };
+}
+
+// ---------- Rent and reference interest rate (VMWG / OBLF) ----------
+
+/** Reference rate for rents (BWO), as published; checked on 25.11.2026 (next publication 01.12.2026). */
+export const REFERENCE_RATE = Object.freeze({ current: 1.25, since: '2025-09-02' });
+
+/** History of the reference rate (BWO): [valid from, rate %]. */
+export const REFERENCE_RATE_HISTORY = Object.freeze([
+  ['2008-09-10', 3.5], ['2009-06-03', 3.25], ['2009-09-02', 3], ['2010-12-02', 2.75], ['2011-12-02', 2.5],
+  ['2012-06-02', 2.25], ['2013-09-03', 2], ['2015-06-02', 1.75], ['2017-06-02', 1.5], ['2020-03-03', 1.25],
+  ['2023-06-02', 1.5], ['2023-12-02', 1.75], ['2025-03-04', 1.5], ['2025-09-02', 1.25],
+]);
+
+/** Art. 13 para. 1 VMWG: max. rent change in % for a quarter-point step ending at this mortgage rate level. */
+export function quarterStepPct(rateAfterStep) {
+  if (rateAfterStep > 6) return 2;
+  if (rateAfterStep >= 5) return 2.5;
+  return 3;
+}
+
+/**
+ * Rent change in % caused by a reference-rate change (Art. 13 VMWG).
+ * Increase: per-step percentages are added (e.g. 2 steps below 5 % = +6 %).
+ * Decrease: the inverse, -(1 - 1/(1 + x)) (e.g. 1 step = -2.91 %, 2 steps = -5.66 %), as published by the BWO.
+ * Returns { steps, pct } or null if a rate is not a multiple of 0.25.
+ */
+export function referenceRateChange(oldRate, newRate) {
+  const q = (r) => Math.round(r * 4);
+  if (![oldRate, newRate].every(Number.isFinite) || Math.abs(oldRate * 4 - q(oldRate)) > 1e-9 || Math.abs(newRate * 4 - q(newRate)) > 1e-9) return null;
+  const a = q(oldRate);
+  const b = q(newRate);
+  const lo = Math.min(a, b);
+  const hi = Math.max(a, b);
+  let x = 0;
+  for (let k = lo + 1; k <= hi; k++) x += quarterStepPct(k / 4);
+  const pct = b >= a ? x : -(1 - 1 / (1 + x / 100)) * 100;
+  return { steps: b - a, pct };
+}
+
+/** Art. 16 VMWG: inflation compensation = 40 % of the change of the consumer price index (LIK / IPC). */
+export function inflationCompensationPct(oldIndex, newIndex) {
+  if (!(oldIndex > 0) || !(newIndex > 0)) return null;
+  return 0.4 * (newIndex / oldIndex - 1) * 100;
+}
+
+/** Whole months from date a to date b ("YYYY-MM-DD"), 0 if b <= a, null if invalid. */
+export function wholeMonthsBetween(aStr, bStr) {
+  const pa = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(aStr ?? ''));
+  const pb = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(bStr ?? ''));
+  if (!pa || !pb || !Number.isFinite(parseIsoDate(aStr)) || !Number.isFinite(parseIsoDate(bStr))) return null;
+  let m = (Number(pb[1]) - Number(pa[1])) * 12 + (Number(pb[2]) - Number(pa[2]));
+  if (Number(pb[3]) < Number(pa[3])) m -= 1;
+  return Math.max(0, m);
+}
+
+/**
+ * Estimated new net rent. Percentages of the three factors are added, then applied to the current net rent.
+ * opts: { rent, oldRate, newRate, oldIndex?, newIndex?, costPctPerYear?, lastDate?, refDate? }
+ * costPctPerYear is applied pro rata for the whole months between lastDate and refDate.
+ */
+export function rentAdjustment({ rent, oldRate, newRate, oldIndex = null, newIndex = null, costPctPerYear = 0, lastDate = null, refDate = null }) {
+  if (!(rent > 0)) return null;
+  const ref = referenceRateChange(oldRate, newRate);
+  if (!ref) return null;
+  let inflPct = 0;
+  if (oldIndex !== null || newIndex !== null) {
+    inflPct = inflationCompensationPct(oldIndex, newIndex);
+    if (inflPct === null) return null;
+  }
+  let months = null;
+  let costPct = 0;
+  if (costPctPerYear) {
+    months = wholeMonthsBetween(lastDate, refDate);
+    if (months === null || !Number.isFinite(costPctPerYear)) return null;
+    costPct = (costPctPerYear * months) / 12;
+  }
+  const totalPct = ref.pct + inflPct + costPct;
+  const newRent = round2(rent * (1 + totalPct / 100));
+  return { steps: ref.steps, refPct: ref.pct, inflPct, costPct, months, totalPct, newRent, diff: round2(newRent - rent), diffYear: round2((newRent - rent) * 12) };
+}

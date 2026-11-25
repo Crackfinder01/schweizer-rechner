@@ -5,6 +5,9 @@ import {
   parseTime, dayWork, requiredBreak, breakCheck, weekCheck, formatHM, toDecimalHours,
   validateIban, formatIban, isQrIban, IBAN_LENGTHS,
   monthlyToHourly, hourlyToMonthly, parseIsoDate, daysBetween,
+  PAYROLL_2026, bvgCreditRate, bvgCoordinatedSalary, grossToNet,
+  REFERENCE_RATE, REFERENCE_RATE_HISTORY, quarterStepPct, referenceRateChange, inflationCompensationPct,
+  wholeMonthsBetween, rentAdjustment,
 } from '../js/calc.js';
 
 let pass = 0;
@@ -115,6 +118,70 @@ eq('same with fixed holidays: 13 (25.12 + 1.1 on Fridays)', daysBetween('2026-12
 eq('1 Aug 2027 is a Sunday: nothing extra removed', daysBetween('2027-07-26', '2027-08-06', { includeEnd: true, excludeFixedHolidays: true }).holidaysExcluded, 0);
 eq('reversed dates are swapped', (({ calendar, swapped }) => [calendar, swapped])(daysBetween('2027-06-01', '2027-03-01')), [92, true]);
 eq('weeks + rest days', (({ weeks, restDays }) => [weeks, restDays])(daysBetween('2027-03-01', '2027-06-01')), [13, 1]);
+
+// Gross -> net salary 2026 (hand-computed)
+eq('2026 constants (AHV 5.3, ALV 1.1, ceilings, BVG)', [PAYROLL_2026.ahvIvEo, PAYROLL_2026.alv, PAYROLL_2026.alvCeiling, PAYROLL_2026.uvgMaxInsured, PAYROLL_2026.bvgEntryThreshold, PAYROLL_2026.bvgCoordinationDeduction, PAYROLL_2026.bvgUpperLimit, PAYROLL_2026.bvgMinCoordinated], [5.3, 1.1, 148200, 148200, 22680, 26460, 90720, 3780]);
+eq('BVG credit by age 24/25/34/35/45/55/65/66', [24, 25, 34, 35, 45, 55, 65, 66].map(bvgCreditRate), [0, 7, 7, 10, 15, 18, 18, 0]);
+eq('coordinated: 84500 -> 58040', bvgCoordinatedSalary(84500), 58040);
+eq('coordinated: 180000 -> max 64260', bvgCoordinatedSalary(180000), 64260);
+eq('coordinated: 24000 -> min 3780', bvgCoordinatedSalary(24000), 3780);
+eq('coordinated: 22680 exactly -> 0 (must be more than)', bvgCoordinatedSalary(22680), 0);
+eq('coordinated: 21600 -> 0', bvgCoordinatedSalary(21600), 0);
+{
+  // 6500 x 13 = 84500; AHV 4478.50; ALV 929.50; NBU 1 % 845.00; BVG 58040 x 5 % = 2902.00; total 9155.00
+  const r = grossToNet({ gross: 6500, period: 'month', salaries: 13, age: 40, nbuPct: 1 });
+  eq('6500 x 13, age 40: annual lines', r.lines, { ahv: 4478.5, alv: 929.5, nbu: 845, ktg: 0, bvg: 2902 });
+  eq('6500 x 13, age 40: total / net per year', [r.total, r.net], [9155, 75345]);
+  eq('6500 x 13, age 40: per payment 344.50 / 71.50 / 65.00 / 223.23', [r.per.ahv, r.per.alv, r.per.nbu, r.per.bvg], [344.5, 71.5, 65, 223.23]);
+  eq('6500 x 13, age 40: net per payment 5795.77', r.netPer, 5795.77);
+}
+{
+  // 15000 x 12 = 180000; ALV on 148200 = 1630.20; NBU on 148200 = 1482; BVG 64260 x 7.5 % = 4819.50
+  const r = grossToNet({ gross: 15000, period: 'month', salaries: 12, age: 50, nbuPct: 1 });
+  eq('15000 x 12, age 50: ALV and NBU capped at 148200', [r.lines.alv, r.lines.nbu], [1630.2, 1482]);
+  eq('15000 x 12, age 50: AHV 9540, BVG 4819.50', [r.lines.ahv, r.lines.bvg], [9540, 4819.5]);
+  eq('15000 x 12, age 50: per month 795 / 135.85 / 123.50 / 401.63 -> net 13544.02', [r.per.ahv, r.per.alv, r.per.nbu, r.per.bvg, r.netPer], [795, 135.85, 123.5, 401.63, 13544.02]);
+}
+eq('1800 x 12 below BVG threshold: net 1666.80, no BVG', (({ netPer, lines }) => [netPer, lines.bvg])(grossToNet({ gross: 1800, salaries: 12, age: 30, nbuPct: 1 })), [1666.8, 0]);
+eq('annual input 62400, age 28, NBU 1.2 %, KTG 0.5 %: lines', grossToNet({ gross: 62400, period: 'year', salaries: 12, age: 28, nbuPct: 1.2, ktgPct: 0.5 }).lines, { ahv: 3307.2, alv: 686.4, nbu: 748.8, ktg: 312, bvg: 1257.9 });
+eq('custom BVG 6 % of coordinated 58040 = 3482.40', grossToNet({ gross: 84500, period: 'year', salaries: 12, age: 40, nbuPct: 0, bvgPct: 6 }).lines.bvg, 3482.4);
+eq('age 22: no BVG savings credit', grossToNet({ gross: 5000, salaries: 12, age: 22, nbuPct: 1 }).lines.bvg, 0);
+eq('NBU 0 (under 8 h per week)', grossToNet({ gross: 1000, salaries: 12, age: 30, nbuPct: 0 }).lines.nbu, 0);
+eq('invalid salary -> null', grossToNet({ gross: NaN, salaries: 12, age: 30 }), null);
+eq('negative NBU -> null', grossToNet({ gross: 5000, salaries: 12, age: 30, nbuPct: -1 }), null);
+
+// Rent and reference rate (Art. 13 / 16 VMWG; BWO)
+eq('current reference rate 1.25 % since 2025-09-02', [REFERENCE_RATE.current, REFERENCE_RATE.since], [1.25, '2025-09-02']);
+eq('history last entry = current rate', REFERENCE_RATE_HISTORY[REFERENCE_RATE_HISTORY.length - 1], ['2025-09-02', 1.25]);
+eq('history first entry 3.5 % from 2008-09-10', REFERENCE_RATE_HISTORY[0], ['2008-09-10', 3.5]);
+eq('quarter step 3 / 2.5 / 2.5 / 2 (below 5, 5, 6, above 6)', [quarterStepPct(4.75), quarterStepPct(5), quarterStepPct(6), quarterStepPct(6.25)], [3, 2.5, 2.5, 2]);
+eq('1.50 -> 1.25 = -2.91 %', round2(referenceRateChange(1.5, 1.25).pct), -2.91);
+eq('1.75 -> 1.25 = -5.66 %', round2(referenceRateChange(1.75, 1.25).pct), -5.66);
+eq('2.00 -> 1.25 = -8.26 %', round2(referenceRateChange(2, 1.25).pct), -8.26);
+eq('2.25 -> 1.25 = -10.71 %', round2(referenceRateChange(2.25, 1.25).pct), -10.71);
+eq('1.25 -> 1.50 = +3 %', referenceRateChange(1.25, 1.5), { steps: 1, pct: 3 });
+eq('1.25 -> 2.00 = +9 %', referenceRateChange(1.25, 2), { steps: 3, pct: 9 });
+eq('same rate = 0', referenceRateChange(1.25, 1.25), { steps: 0, pct: 0 });
+eq('4.75 -> 5.25 = 2.5 + 2.5 = +5 %', referenceRateChange(4.75, 5.25).pct, 5);
+eq('rate not a quarter -> null', referenceRateChange(1.3, 1.25), null);
+eq('LIK 105.0 -> 107.1: 40 % of 2 % = 0.8 %', round2(inflationCompensationPct(105, 107.1)), 0.8);
+eq('LIK falls 100 -> 99: -0.4 %', round2(inflationCompensationPct(100, 99)), -0.4);
+eq('months 2023-12-01 -> 2026-12-01 = 36', wholeMonthsBetween('2023-12-01', '2026-12-01'), 36);
+eq('months 2024-01-31 -> 2024-03-30 = 1', wholeMonthsBetween('2024-01-31', '2024-03-30'), 1);
+eq('months reversed -> 0', wholeMonthsBetween('2026-12-01', '2026-01-01'), 0);
+{
+  // 1800 x (1 - 5.6604 % + 0.8 %) = 1712.51
+  const r = rentAdjustment({ rent: 1800, oldRate: 1.75, newRate: 1.25, oldIndex: 105, newIndex: 107.1 });
+  eq('rent 1800, 1.75 -> 1.25, LIK +2 %: new rent 1712.51', [r.newRent, r.diff, r.diffYear], [1712.51, -87.49, -1049.88]);
+  eq('rent example total -4.86 %', round2(r.totalPct), -4.86);
+  const c = rentAdjustment({ rent: 1800, oldRate: 1.75, newRate: 1.25, oldIndex: 105, newIndex: 107.1, costPctPerYear: 0.5, lastDate: '2023-12-01', refDate: '2026-12-01' });
+  eq('with 0.5 %/year for 36 months: +1.5 %, new rent 1739.51', [round2(c.costPct), c.months, c.newRent], [1.5, 36, 1739.51]);
+}
+eq('rent 1450, 1.50 -> 1.25 only: 1407.77', rentAdjustment({ rent: 1450, oldRate: 1.5, newRate: 1.25 }).newRent, 1407.77);
+eq('rent 1500, 1.25 -> 1.50: +3 % = 1545', rentAdjustment({ rent: 1500, oldRate: 1.25, newRate: 1.5 }).newRent, 1545);
+eq('rent: one index missing -> null', rentAdjustment({ rent: 1500, oldRate: 1.5, newRate: 1.25, oldIndex: 100 }), null);
+eq('rent: cost without dates -> null', rentAdjustment({ rent: 1500, oldRate: 1.5, newRate: 1.25, costPctPerYear: 0.5 }), null);
+eq('rent 0 -> null', rentAdjustment({ rent: 0, oldRate: 1.5, newRate: 1.25 }), null);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail) process.exit(1);

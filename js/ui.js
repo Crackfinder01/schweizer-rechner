@@ -1,9 +1,10 @@
-// UI for the three calculators. Everything runs in the browser; nothing is sent anywhere.
+// UI for all calculators. Everything runs in the browser; nothing is sent anywhere.
 import {
   parseNumber, addVat, removeVat,
   percentOf, whatPercent, percentChange, applyPercent,
   parseTime, dayWork, breakCheck, weekCheck, formatHM, toDecimalHours,
   validateIban, monthlyToHourly, hourlyToMonthly, daysBetween,
+  grossToNet, PAYROLL_2026, rentAdjustment,
 } from './calc.js';
 
 const LANG = document.documentElement.lang.startsWith('fr') ? 'fr' : 'de';
@@ -33,6 +34,25 @@ const T = {
     holEx: (n) => `Abgezogene feste Feiertage (Mo–Fr): ${n}`,
     swapped: 'Hinweis: Das Enddatum lag vor dem Startdatum; die Daten wurden vertauscht.',
     needDates: 'Bitte zwei gültige Daten eingeben.',
+    perPay: 'pro Lohnzahlung', perYear: 'pro Jahr', grossL: 'Bruttolohn', ahvL: 'AHV/IV/EO', alvL: 'ALV', nbuL: 'NBU',
+    ktgL: 'KTG', bvgL: 'BVG (Schätzung)', bvgOwnL: 'BVG (eigener Satz)', totalL: 'Total Abzüge', netL: 'Nettolohn vor Quellensteuer',
+    coord: (c, r) => `Koordinierter Lohn BVG: ${c}; Arbeitnehmeranteil ${r} % davon.`,
+    noBvg: (t) => `Jahreslohn nicht über ${t}: keine obligatorische BVG-Versicherung.`,
+    young: 'Unter 25 Jahren gibt es noch keine Altersgutschriften; allfällige Risikobeiträge sind nicht eingerechnet.',
+    old: 'Über 65 Jahren rechnet der Rechner keine BVG-Altersgutschriften; für Rentnerinnen und Rentner gelten bei AHV und ALV besondere Regeln, die hier nicht abgebildet sind.',
+    alvCap: 'ALV nur auf dem Lohn bis CHF 148\u2019200 pro Jahr; darüber keine ALV-Beiträge.',
+    taxNote: 'Ohne Quellensteuer und ohne Einkommenssteuer.',
+    ageBad: 'Bitte ein Alter zwischen 18 und 70 eingeben.',
+    refL: 'Referenzzinssatz', inflL: 'Teuerung (40 % des LIK)', costL: 'Allgemeine Kostensteigerung', totalPctL: 'Total Anpassung',
+    newRentL: 'Neue Nettomiete (Schätzung)', diffL: 'Differenz pro Monat', diffYL: 'Differenz pro Jahr',
+    steps: (n) => `${Math.abs(n)} Viertelprozent-${Math.abs(n) === 1 ? 'Schritt' : 'Schritte'} ${n < 0 ? 'nach unten' : 'nach oben'}`,
+    noChange: 'Gleicher Referenzzinssatz: keine Anpassung aus dem Zinssatz.',
+    months: (m) => `${m} volle Monate`,
+    needDate: 'Für die Kostensteigerung bitte das Datum der letzten Anpassung und den Stichtag angeben.',
+    needIdx: 'Für die Teuerung bitte beide Indexstände angeben (gleiche Basis).',
+    lower: 'Sie können eine Senkung beantragen (schriftlich, am besten eingeschrieben).',
+    higher: 'Der Vermieter könnte eine Erhöhung geltend machen – nur mit offiziellem Formular und auf einen Kündigungstermin.',
+    legal: 'Schätzung, keine Rechtsberatung.',
   },
   fr: {
     invalid: 'Veuillez saisir des nombres valides.',
@@ -59,6 +79,25 @@ const T = {
     holEx: (n) => `Jours fériés fixes déduits (lun–ven) : ${n}`,
     swapped: 'Remarque : la date de fin précédait la date de début ; les dates ont été inversées.',
     needDates: 'Veuillez saisir deux dates valables.',
+    perPay: 'par versement', perYear: 'par an', grossL: 'Salaire brut', ahvL: 'AVS/AI/APG', alvL: 'AC', nbuL: 'AANP',
+    ktgL: 'IJM', bvgL: 'LPP (estimation)', bvgOwnL: 'LPP (taux personnel)', totalL: 'Total des déductions', netL: 'Salaire net avant impôt à la source',
+    coord: (c, r) => `Salaire coordonné LPP : ${c} ; part salariée ${r} % de ce montant.`,
+    noBvg: (t) => `Salaire annuel ne dépassant pas ${t} : pas d’assurance LPP obligatoire.`,
+    young: 'Avant 25 ans, il n’y a pas encore de bonifications de vieillesse ; d’éventuelles cotisations de risque ne sont pas comptées.',
+    old: 'Au-delà de 65 ans, le calculateur ne compte pas de bonifications LPP ; pour les retraités, l’AVS et l’AC suivent des règles particulières non reprises ici.',
+    alvCap: 'AC seulement sur le salaire jusqu’à CHF 148\u2019200 par an ; aucune cotisation AC au-delà.',
+    taxNote: 'Sans impôt à la source et sans impôt sur le revenu.',
+    ageBad: 'Veuillez saisir un âge entre 18 et 70 ans.',
+    refL: 'Taux de référence', inflL: 'Renchérissement (40 % de l’IPC)', costL: 'Hausse générale des coûts', totalPctL: 'Adaptation totale',
+    newRentL: 'Nouveau loyer net (estimation)', diffL: 'Différence par mois', diffYL: 'Différence par an',
+    steps: (n) => `${Math.abs(n)} ${Math.abs(n) === 1 ? 'palier' : 'paliers'} d’un quart de point ${n < 0 ? 'vers le bas' : 'vers le haut'}`,
+    noChange: 'Même taux de référence : pas d’adaptation liée au taux.',
+    months: (m) => `${m} mois entiers`,
+    needDate: 'Pour la hausse des coûts, indiquez la date de la dernière adaptation et la date de calcul.',
+    needIdx: 'Pour le renchérissement, indiquez les deux niveaux d’indice (même base).',
+    lower: 'Vous pouvez demander une baisse (par écrit, de préférence en recommandé).',
+    higher: 'Le bailleur pourrait faire valoir une hausse – uniquement avec la formule officielle et pour un terme de résiliation.',
+    legal: 'Estimation, pas un conseil juridique.',
   },
 }[LANG];
 
@@ -257,7 +296,91 @@ function initDays(root) {
   run();
 }
 
+// ---------- Gross -> net salary ----------
+function initNet(root) {
+  const form = $('form', root);
+  const out = $('.result', root);
+  const sync = () => { form.bvgPct.disabled = form.bvgMode.value !== 'own'; form.ktgPct.disabled = !form.ktg.checked; };
+  const run = () => {
+    sync();
+    if (form.amount.value.trim() === '') { out.textContent = ''; return; }
+    const gross = val(form.amount);
+    const age = val(form.age);
+    const nbuPct = val(form.nbuPct);
+    const ktgPct = form.ktg.checked ? val(form.ktgPct) : 0;
+    const bvgPct = form.bvgMode.value === 'own' ? val(form.bvgPct) : null;
+    if (!Number.isFinite(age) || age < 18 || age > 70) { out.textContent = T.ageBad; return; }
+    const r = grossToNet({ gross, period: form.period.value, salaries: Number(form.salaries.value), age, nbuPct, ktgPct, bvgPct });
+    if (!r) { out.textContent = T.invalid; return; }
+    const pct = (x) => `${num(x, 2)} %`;
+    const money = (x) => (x < 0 ? `− ${chf(-x)}` : chf(x));
+    const rows = [
+      [T.grossL, r.grossPer, r.annual, 'strong'],
+      [`${T.ahvL} ${pct(PAYROLL_2026.ahvIvEo)}`, -r.per.ahv, -r.lines.ahv],
+      [`${T.alvL} ${pct(PAYROLL_2026.alv)}`, -r.per.alv, -r.lines.alv],
+      [`${T.nbuL} ${pct(nbuPct)}`, -r.per.nbu, -r.lines.nbu],
+    ];
+    if (form.ktg.checked) rows.push([`${T.ktgL} ${pct(ktgPct)}`, -r.per.ktg, -r.lines.ktg]);
+    rows.push([bvgPct === null ? T.bvgL : T.bvgOwnL, -r.per.bvg, -r.lines.bvg]);
+    rows.push([T.totalL, -r.totalPer, -r.total, 'sum']);
+    rows.push([T.netL, r.netPer, r.net, 'big']);
+    const notes = [];
+    if (r.coordinated > 0) notes.push(T.coord(chf(r.coordinated), num(r.bvgRate, 2)));
+    else notes.push(T.noBvg(chf(PAYROLL_2026.bvgEntryThreshold)));
+    if (bvgPct === null && age < 25 && r.coordinated > 0) notes.push(T.young);
+    if (bvgPct === null && age > 65) notes.push(T.old);
+    if (r.annual > PAYROLL_2026.alvCeiling) notes.push(T.alvCap);
+    notes.push(T.taxNote);
+    out.innerHTML = `<table class="res-table"><thead><tr><th scope="col"></th><th scope="col">${T.perPay}</th><th scope="col">${T.perYear}</th></tr></thead><tbody>`
+      + rows.map(([k, a, b, cls]) => `<tr${cls ? ` class="${cls}"` : ''}><th scope="row">${k}</th><td>${money(a)}</td><td>${money(b)}</td></tr>`).join('')
+      + '</tbody></table>' + notes.map((n) => `<p class="note">${n}</p>`).join('');
+  };
+  form.addEventListener('input', run);
+  form.addEventListener('change', run);
+  form.addEventListener('submit', (e) => { e.preventDefault(); run(); });
+  run();
+}
+
+// ---------- Rent and reference rate ----------
+function initRent(root) {
+  const form = $('form', root);
+  const out = $('.result', root);
+  if (!form.refDate.value) {
+    const d = new Date();
+    form.refDate.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+  const run = () => {
+    if (form.rent.value.trim() === '') { out.textContent = ''; return; }
+    const rent = val(form.rent);
+    const hasIdx = form.oldIndex.value.trim() !== '' || form.newIndex.value.trim() !== '';
+    if (hasIdx && (form.oldIndex.value.trim() === '' || form.newIndex.value.trim() === '')) { out.textContent = T.needIdx; return; }
+    const cost = form.cost.value.trim() === '' ? 0 : val(form.cost);
+    if (cost && (!form.lastDate.value || !form.refDate.value)) { out.textContent = T.needDate; return; }
+    const r = rentAdjustment({
+      rent, oldRate: Number(form.oldRate.value), newRate: Number(form.newRate.value),
+      oldIndex: hasIdx ? val(form.oldIndex) : null, newIndex: hasIdx ? val(form.newIndex) : null,
+      costPctPerYear: cost, lastDate: form.lastDate.value || null, refDate: form.refDate.value || null,
+    });
+    if (!r) { out.textContent = T.invalid; return; }
+    const sp = (x) => `${x > 0 ? '+' : x < 0 ? '−' : ''}${num(Math.abs(x), 2)} %`;
+    const sc = (x) => `${x > 0 ? '+' : x < 0 ? '−' : ''}${chf(Math.abs(x))}`;
+    const rows = [[`${T.refL} ${num(Number(form.oldRate.value), 2)} % → ${num(Number(form.newRate.value), 2)} %`, sp(r.refPct)]];
+    if (hasIdx) rows.push([T.inflL, sp(r.inflPct)]);
+    if (cost) rows.push([`${T.costL} (${T.months(r.months)})`, sp(r.costPct)]);
+    rows.push([T.totalPctL, sp(r.totalPct)]);
+    out.innerHTML = '<dl class="res-grid">' + rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')
+      + `<dt>${T.newRentL}</dt><dd class="big">${chf(r.newRent)}</dd><dt>${T.diffL}</dt><dd>${sc(r.diff)}</dd><dt>${T.diffYL}</dt><dd>${sc(r.diffYear)}</dd></dl>`
+      + `<p class="note">${r.steps === 0 ? T.noChange : T.steps(r.steps)}</p>`
+      + (r.diff < 0 ? `<p class="flag ok">${T.lower}</p>` : r.diff > 0 ? `<p class="flag warn">${T.higher}</p>` : '')
+      + `<p class="note">${T.legal}</p>`;
+  };
+  form.addEventListener('input', run);
+  form.addEventListener('change', run);
+  form.addEventListener('submit', (e) => { e.preventDefault(); run(); });
+  run();
+}
+
 const tool = document.querySelector('[data-tool]');
 if (tool) {
-  ({ vat: initVat, percent: initPercent, work: initWork, iban: initIban, salary: initSalary, days: initDays })[tool.dataset.tool]?.(tool);
+  ({ vat: initVat, percent: initPercent, work: initWork, iban: initIban, salary: initSalary, days: initDays, net: initNet, rent: initRent })[tool.dataset.tool]?.(tool);
 }

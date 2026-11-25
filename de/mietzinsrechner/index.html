@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mietzinsrechner: Referenzzinssatz und Mietzinssenkung</title>
+<meta name="description" content="Mietzinssenkung nach Referenzzinssatz berechnen: Viertelprozent-Schritte nach Art. 13 VMWG, 40 % Teuerung und Kostensteigerung. Aktuell 1.25 %.">
+<link rel="canonical" href="https://schweizer-rechner.ch/de/mietzinsrechner/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/mietzinsrechner/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-loyer-taux-reference/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/mietzinsrechner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Schweizer Rechner">
+<meta property="og:title" content="Mietzinsrechner: Referenzzinssatz und Mietzinssenkung">
+<meta property="og:description" content="Mietzinssenkung nach Referenzzinssatz berechnen: Viertelprozent-Schritte nach Art. 13 VMWG, 40 % Teuerung und Kostensteigerung. Aktuell 1.25 %.">
+<meta property="og:url" content="https://schweizer-rechner.ch/de/mietzinsrechner/">
+<meta property="og:locale" content="de_CH">
+<meta property="og:locale:alternate" content="fr_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Mietzinsrechner Referenzzinssatz","url":"https://schweizer-rechner.ch/de/mietzinsrechner/","description":"Mietzinssenkung nach Referenzzinssatz berechnen: Viertelprozent-Schritte nach Art. 13 VMWG, 40 % Teuerung und Kostensteigerung. Aktuell 1.25 %.","inLanguage":"de-CH","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Wo finde ich den Referenzzinssatz meiner Miete?","acceptedAnswer":{"@type":"Answer","text":"Meist im Mietvertrag oder auf dem Formular der letzten Mietzinsanpassung. Massgebend ist der Satz bei Vertragsabschluss oder, falls die Miete seither wegen des Referenzzinssatzes angepasst und nicht angefochten wurde, der Satz dieser Anpassung."}},{"@type":"Question","name":"Warum 2.91 % und nicht 3 %?","acceptedAnswer":{"@type":"Answer","text":"Eine Erhöhung um 3 % macht aus CHF 100 CHF 103. Um wieder auf CHF 100 zu kommen, muss man 3 von 103 abziehen, also 2.91 %. Bei zwei Schritten sind es 6 von 106 oder 5.66 %."}},{"@type":"Question","name":"Darf der Vermieter die Senkung ablehnen?","acceptedAnswer":{"@type":"Answer","text":"Er darf sie mit gestiegenen Kosten und mit 40 % der Teuerung verrechnen und muss erklären, warum. Sind Sie nicht einverstanden, können Sie innert 30 Tagen die Schlichtungsbehörde anrufen."}},{"@type":"Question","name":"Gilt die Senkung auch für die Nebenkosten?","acceptedAnswer":{"@type":"Answer","text":"Nein. Der Referenzzinssatz betrifft nur die Nettomiete. Separat vereinbarte Heiz- und Nebenkosten ändern sich dadurch nicht."}},{"@type":"Question","name":"Gilt das auch bei einer Indexmiete?","acceptedAnswer":{"@type":"Answer","text":"Bei einem indexierten Mietzins nach Art. 269b OR folgt die Miete dem Landesindex der Konsumentenpreise, nicht dem Referenzzinssatz. Bei Staffelmieten gelten ebenfalls eigene Regeln. Lassen Sie solche Verträge im Zweifel prüfen."}},{"@type":"Question","name":"Werden meine Angaben gespeichert?","acceptedAnswer":{"@type":"Answer","text":"Nein. Die Berechnung läuft nur in Ihrem Browser. Ihre Miete wird weder übermittelt noch gespeichert."}}]}]}</script>
+<script type="module" src="/js/ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/de/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Schweizer Rechner</span></a>
+<nav class="lang" aria-label="Sprache"><span aria-current="page" lang="de-CH">DE</span><a href="/fr/calcul-loyer-taux-reference/" hreflang="fr-CH" lang="fr-CH">FR</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/de/">Schweizer Rechner</a> › Mietzinsrechner Referenzzinssatz</p>
+<h1>Mietzinsrechner Referenzzinssatz</h1>
+<p class="lead">Prüfen Sie, ob Ihre Miete mit dem aktuellen Referenzzinssatz von 1.25 % sinken könnte – mit Teuerung und Kostensteigerung nach Mietrecht.</p>
+<section class="tool" data-tool="rent" aria-labelledby="tool-h">
+<h2 id="tool-h">Mietzins berechnen</h2>
+<form novalidate>
+<div class="field"><label for="rent-amount">Heutige Nettomiete pro Monat (CHF)</label><input type="text" inputmode="decimal" id="rent-amount" name="rent" value="1800" autocomplete="off"></div>
+<div class="row top">
+<div class="field"><label for="rent-old">Referenzzinssatz, auf dem die Miete beruht</label><select id="rent-old" name="oldRate" aria-describedby="rent-old-h"><option value="3.50">3.50 %</option><option value="3.25">3.25 %</option><option value="3.00">3.00 %</option><option value="2.75">2.75 %</option><option value="2.50">2.50 %</option><option value="2.25">2.25 %</option><option value="2.00">2.00 %</option><option value="1.75" selected>1.75 %</option><option value="1.50">1.50 %</option><option value="1.25">1.25 %</option></select><span class="note" id="rent-old-h">Steht im Mietvertrag oder in der letzten Mietzinsanpassung.</span></div>
+<div class="field"><label for="rent-new">Neuer Referenzzinssatz</label><select id="rent-new" name="newRate"><option value="3.50">3.50 %</option><option value="3.25">3.25 %</option><option value="3.00">3.00 %</option><option value="2.75">2.75 %</option><option value="2.50">2.50 %</option><option value="2.25">2.25 %</option><option value="2.00">2.00 %</option><option value="1.75">1.75 %</option><option value="1.50">1.50 %</option><option value="1.25" selected>1.25 % (aktuell)</option></select></div>
+</div>
+<fieldset><legend>Teuerung (optional)</legend>
+<p class="note">Landesindex der Konsumentenpreise (LIK) des Bundesamts für Statistik, beide Werte auf derselben Basis.</p>
+<div class="row">
+<div class="field"><label for="rent-oi">LIK bei der letzten Anpassung</label><input type="text" inputmode="decimal" id="rent-oi" name="oldIndex" value="" autocomplete="off"></div>
+<div class="field"><label for="rent-ni">LIK heute</label><input type="text" inputmode="decimal" id="rent-ni" name="newIndex" value="" autocomplete="off"></div>
+</div>
+</fieldset>
+<fieldset><legend>Allgemeine Kostensteigerung (optional)</legend>
+<p class="note">Nur wenn Ihr Vermieter eine Pauschale geltend macht. Leer lassen = keine.</p>
+<div class="row">
+<div class="field"><label for="rent-cost">Pauschale in % pro Jahr</label><input type="text" inputmode="decimal" id="rent-cost" name="cost" value="" autocomplete="off"></div>
+<div class="field"><label for="rent-last">Datum der letzten Mietzinsanpassung</label><input type="date" id="rent-last" name="lastDate" value=""></div>
+<div class="field"><label for="rent-ref">Stichtag der Berechnung</label><input type="date" id="rent-ref" name="refDate" value=""></div>
+</div>
+</fieldset>
+<button type="submit" class="btn">Berechnen</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>So funktioniert der Rechner</h2>
+<p>Geben Sie Ihre heutige Nettomiete ein, also die Miete ohne Heiz- und Nebenkosten. Wählen Sie dann den Referenzzinssatz, auf dem Ihre Miete beruht. Er steht meist im Mietvertrag; wurde die Miete seither wegen des Referenzzinssatzes angepasst und nicht angefochten, gilt der Satz der letzten Anpassung. Als neuer Satz ist der aktuelle Referenzzinssatz vorausgewählt. Optional können Sie die Teuerung und eine Pauschale für allgemeine Kostensteigerungen erfassen, die der Vermieter mit einer Senkung verrechnen darf. Der Rechner zeigt jeden Anteil in Prozent, die geschätzte neue Nettomiete und die Differenz pro Monat und pro Jahr.</p>
+<h2>Aktueller Referenzzinssatz: 1.25 %</h2>
+<p>Der hypothekarische Referenzzinssatz für Mietverhältnisse beträgt 1.25 %. Er gilt seit dem 2. September 2025 und wurde zuletzt am 1. September 2026 unverändert bestätigt. Das Bundesamt für Wohnungswesen (BWO) publiziert ihn vierteljährlich; die nächste Publikation ist für den 1. Dezember 2026 angekündigt. Der Satz stützt sich auf den Durchschnittszinssatz der inländischen Hypotheken und wird auf Viertelprozente gerundet (Art. 12a VMWG). Stand dieser Seite: 25. November 2026.</p>
+<table class="data-table"><caption>Vom Bundesamt für Wohnungswesen (BWO) publizierte Referenzzinssätze, die neuesten zuerst</caption><thead><tr><th scope="col">Gültig ab</th><th scope="col">Satz</th></tr></thead><tbody><tr><td>02.09.2025</td><td>1.25 %</td></tr><tr><td>04.03.2025</td><td>1.50 %</td></tr><tr><td>02.12.2023</td><td>1.75 %</td></tr><tr><td>02.06.2023</td><td>1.50 %</td></tr><tr><td>03.03.2020</td><td>1.25 %</td></tr><tr><td>02.06.2017</td><td>1.50 %</td></tr><tr><td>02.06.2015</td><td>1.75 %</td></tr><tr><td>03.09.2013</td><td>2.00 %</td></tr><tr><td>02.06.2012</td><td>2.25 %</td></tr><tr><td>02.12.2011</td><td>2.50 %</td></tr><tr><td>02.12.2010</td><td>2.75 %</td></tr><tr><td>02.09.2009</td><td>3.00 %</td></tr><tr><td>03.06.2009</td><td>3.25 %</td></tr><tr><td>10.09.2008</td><td>3.50 %</td></tr></tbody></table>
+<h2>Die Regeln der Verordnung</h2>
+<p>Nach Art. 13 der Verordnung über die Miete und Pacht von Wohn- und Geschäftsräumen (VMWG) berechtigt eine Erhöhung des Hypothekarzinses um einen Viertelprozentpunkt in der Regel zu einer Mietzinserhöhung von höchstens 3 %, solange der Satz unter 5 % liegt; zwischen 5 und 6 % sind es 2.5 %, über 6 % noch 2 %. Bei einer Senkung sind die Mietzinse entsprechend herabzusetzen. Daraus ergibt sich bei einer Senkung um einen Viertelprozentpunkt ein Anspruch von 2.91 %, denn 1 − 1 ÷ 1.03 = 2.91 %. Mehrere Schritte werden zusammengezählt:</p>
+<table class="data-table">
+<thead><tr><th scope="col">Veränderung</th><th scope="col">Erhöhung</th><th scope="col">Senkung</th></tr></thead>
+<tbody><tr><td>0.25 Prozentpunkte</td><td>+3.00 %</td><td>−2.91 %</td></tr><tr><td>0.50 Prozentpunkte</td><td>+6.00 %</td><td>−5.66 %</td></tr><tr><td>0.75 Prozentpunkte</td><td>+9.00 %</td><td>−8.26 %</td></tr><tr><td>1.00 Prozentpunkt</td><td>+12.00 %</td><td>−10.71 %</td></tr></tbody>
+</table>
+<p>Zum Ausgleich der Teuerung darf der Mietzins um höchstens 40 % der Steigerung des Landesindexes der Konsumentenpreise (LIK) erhöht werden (Art. 16 VMWG). Der Vermieter darf eine Senkung ausserdem mit anderen Kostensteigerungen verrechnen, zum Beispiel höheren Gebühren. Viele Vermieter machen dafür eine jährliche Pauschale geltend; ob und in welcher Höhe sie zulässig ist, hängt vom Einzelfall ab. Deshalb ist das Feld leer voreingestellt.</p>
+<h2>Formel</h2>
+<p class="formula">Zinsanteil (Senkung) = −(1 − 1 ÷ (1 + 3 % × Anzahl Schritte))<br>Zinsanteil (Erhöhung) = +3 % × Anzahl Schritte<br>Teuerung = 40 % × (LIK heute ÷ LIK alt − 1)<br>Kosten = Pauschale pro Jahr × volle Monate ÷ 12<br>Neue Nettomiete = Nettomiete × (1 + Zinsanteil + Teuerung + Kosten)</p>
+<p>Der Rechner zählt die drei Prozentsätze zusammen und wendet sie auf die heutige Nettomiete an. Die Formel mit 3 % gilt für Sätze unter 5 %, also für alle bisher publizierten Referenzzinssätze. Einzelne Rechner und Schlichtungsbehörden runden oder kombinieren leicht anders; das Ergebnis ist eine Schätzung.</p>
+<h2>Beispiel</h2>
+<p>Ihre Nettomiete beträgt CHF 1'800 und beruht auf einem Referenzzinssatz von 1.75 %. Heute gilt 1.25 %, das sind zwei Schritte nach unten: −5.66 %. Der LIK ist seit der letzten Anpassung von 105.0 auf 107.1 Punkte gestiegen (angenommene Werte für das Beispiel), also um 2 %; davon darf der Vermieter 40 % anrechnen, +0.80 %. Total −4.86 %: Die neue Nettomiete beträgt CHF 1'712.51, das sind CHF 87.49 weniger pro Monat oder CHF 1'049.88 pro Jahr. Macht der Vermieter zusätzlich eine Pauschale von 0.5 % pro Jahr für 36 Monate geltend (ebenfalls eine Annahme), kommen +1.50 % dazu; die Miete sinkt dann noch auf CHF 1'739.51.</p>
+<h2>So verlangen Sie eine Senkung</h2>
+<p>Die Senkung erfolgt nicht automatisch. Sie stellen dem Vermieter ein schriftliches Herabsetzungsbegehren, am besten eingeschrieben, und zwar auf den nächstmöglichen Kündigungstermin (Art. 270a OR). Der Vermieter muss innert 30 Tagen Stellung nehmen. Lehnt er ab, verrechnet er oder antwortet er nicht, können Sie innert weiteren 30 Tagen die Schlichtungsbehörde Ihres Kantons anrufen. Das Verfahren dort ist in der Regel kostenlos.</p>
+<p><strong>Wichtig:</strong> Das Ergebnis ist eine Schätzung, keine Rechtsberatung. Ob und wie viel Ihre Miete sinken muss, hängt von Ihrem Vertrag und weiteren Faktoren ab. Lassen Sie Ihren Fall im Zweifel vom <a href="https://www.mieterverband.ch" rel="noopener">Mieterinnen- und Mieterverband</a> oder von der Schlichtungsbehörde prüfen.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Häufige Fragen</h2>
+<details><summary>Wo finde ich den Referenzzinssatz meiner Miete?</summary><p>Meist im Mietvertrag oder auf dem Formular der letzten Mietzinsanpassung. Massgebend ist der Satz bei Vertragsabschluss oder, falls die Miete seither wegen des Referenzzinssatzes angepasst und nicht angefochten wurde, der Satz dieser Anpassung.</p></details>
+<details><summary>Warum 2.91 % und nicht 3 %?</summary><p>Eine Erhöhung um 3 % macht aus CHF 100 CHF 103. Um wieder auf CHF 100 zu kommen, muss man 3 von 103 abziehen, also 2.91 %. Bei zwei Schritten sind es 6 von 106 oder 5.66 %.</p></details>
+<details><summary>Darf der Vermieter die Senkung ablehnen?</summary><p>Er darf sie mit gestiegenen Kosten und mit 40 % der Teuerung verrechnen und muss erklären, warum. Sind Sie nicht einverstanden, können Sie innert 30 Tagen die Schlichtungsbehörde anrufen.</p></details>
+<details><summary>Gilt die Senkung auch für die Nebenkosten?</summary><p>Nein. Der Referenzzinssatz betrifft nur die Nettomiete. Separat vereinbarte Heiz- und Nebenkosten ändern sich dadurch nicht.</p></details>
+<details><summary>Gilt das auch bei einer Indexmiete?</summary><p>Bei einem indexierten Mietzins nach Art. 269b OR folgt die Miete dem Landesindex der Konsumentenpreise, nicht dem Referenzzinssatz. Bei Staffelmieten gelten ebenfalls eigene Regeln. Lassen Sie solche Verträge im Zweifel prüfen.</p></details>
+<details><summary>Werden meine Angaben gespeichert?</summary><p>Nein. Die Berechnung läuft nur in Ihrem Browser. Ihre Miete wird weder übermittelt noch gespeichert.</p></details>
+</section>
+</article>
+<section class="sources" aria-labelledby="src-h"><h2 id="src-h">Quellen</h2><ul><li>Verordnung über die Miete und Pacht von Wohn- und Geschäftsräumen (VMWG), SR 221.213.11, Art. 12a, 13 und 16: <a href="https://www.fedlex.admin.ch/eli/cc/1990/835_835_835/de">https://www.fedlex.admin.ch/eli/cc/1990/835_835_835/de</a></li><li>Obligationenrecht (OR), SR 220, Art. 269b und 270a: <a href="https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de">https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de</a></li><li>Bundesamt für Wohnungswesen BWO, Referenzzinssatz (1.25 %, Stand 1. September 2026) und Fragen zur Mietzinsanpassung: <a href="https://www.bwo.admin.ch/de/referenzzinssatz">https://www.bwo.admin.ch/de/referenzzinssatz</a></li><li>BWO, Entwicklung Referenzzinssatz und Durchschnittszinssatz: <a href="https://www.bwo.admin.ch/de/entwicklung-referenzzinssatz-und-durchschnittszinssatz">https://www.bwo.admin.ch/de/entwicklung-referenzzinssatz-und-durchschnittszinssatz</a></li><li>Bundesamt für Statistik BFS, Landesindex der Konsumentenpreise: <a href="https://www.bfs.admin.ch/bfs/de/home/statistiken/preise/landesindex-konsumentenpreise.html">https://www.bfs.admin.ch/bfs/de/home/statistiken/preise/landesindex-konsumentenpreise.html</a></li></ul></section>
+<p class="stand">Stand: November 2026 · Referenzzinssatz geprüft am 25.11.2026; nächste Publikation des BWO: 1.12.2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Weitere Rechner</h2>
+<ul class="cards"><li><a href="/de/arbeitszeitrechner/"><strong>Arbeitszeitrechner</strong>Arbeitsstunden pro Tag und Woche, Pausen nach Arbeitsgesetz, Nachtschichten.</a></li><li><a href="/de/prozentrechner/"><strong>Prozentrechner</strong>Prozent von, Anteil in Prozent, Veränderung, Wert plus oder minus Prozent.</a></li><li><a href="/de/mwst-rechner/"><strong>MWST-Rechner</strong>Mehrwertsteuer hinzufügen oder herausrechnen, mit Rappenrundung.</a></li><li><a href="/de/brutto-netto-rechner/"><strong>Brutto-Netto-Rechner</strong>Nettolohn 2026 nach AHV/IV/EO, ALV, NBU und Pensionskasse, ohne Quellensteuer.</a></li><li><a href="/de/stundenlohn-rechner/"><strong>Stundenlohn-Rechner</strong>Monatslohn in Stundenlohn umrechnen und umgekehrt, mit 12 oder 13 Löhnen.</a></li><li><a href="/de/tage-zwischen-zwei-daten/"><strong>Tage zwischen zwei Daten</strong>Kalendertage, Arbeitstage Montag bis Freitag und Wochen.</a></li><li><a href="/de/iban-pruefen/"><strong>IBAN prüfen</strong>Länge und Prüfziffer einer IBAN offline prüfen, QR-IBAN erkennen.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Rechtliches"><a href="/de/impressum/">Impressum</a> · <a href="/de/datenschutz/">Datenschutz</a> · <a href="/de/kontakt/">Kontakt</a></nav>
+<p>Alle Berechnungen laufen nur in Ihrem Browser. Angaben ohne Gewähr.</p>
+</div></footer>
+</body>
+</html>

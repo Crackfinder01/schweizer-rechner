@@ -2,101 +2,129 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://schweizer-rechner.ch/de/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/arbeitszeitrechner/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-heures-travail/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/calcul-heures-travail/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-heures-travail/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/arbeitszeitrechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/prozentrechner/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/prozentrechner/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-pourcentage/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/prozentrechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/calcul-pourcentage/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/prozentrechner/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-pourcentage/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/prozentrechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/mwst-rechner/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/mwst-rechner/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-tva-suisse/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/mwst-rechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/calcul-tva-suisse/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/mwst-rechner/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-tva-suisse/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/mwst-rechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/iban-pruefen/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/iban-pruefen/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/verifier-iban/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/iban-pruefen/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/verifier-iban/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/iban-pruefen/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/verifier-iban/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/iban-pruefen/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/stundenlohn-rechner/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/stundenlohn-rechner/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-salaire-horaire/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/stundenlohn-rechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/calcul-salaire-horaire/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/stundenlohn-rechner/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-salaire-horaire/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/stundenlohn-rechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-jours-entre-deux-dates/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/calcul-jours-entre-deux-dates/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-jours-entre-deux-dates/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/tage-zwischen-zwei-daten/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/de/brutto-netto-rechner/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/brutto-netto-rechner/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/salaire-brut-net-suisse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/brutto-netto-rechner/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/fr/salaire-brut-net-suisse/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/brutto-netto-rechner/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/salaire-brut-net-suisse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/brutto-netto-rechner/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/de/mietzinsrechner/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/mietzinsrechner/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-loyer-taux-reference/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/mietzinsrechner/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/fr/calcul-loyer-taux-reference/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/mietzinsrechner/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/calcul-loyer-taux-reference/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/mietzinsrechner/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/impressum/</loc>

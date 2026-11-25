@@ -132,3 +132,16 @@ button { font: inherit; cursor: pointer; }
 .note { color: var(--muted); font-size: .85rem; margin: .4rem 0 0; }
 #iban-input { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-transform: uppercase; }
 input[type=date] { width: 100%; font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: .55rem .7rem; min-height: 44px; }
+/* Result table (gross -> net salary) */
+.res-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.res-table th, .res-table td { padding: .3rem .4rem; text-align: right; border-bottom: 1px solid var(--line); }
+.res-table th[scope=row] { text-align: left; font-weight: 400; color: var(--muted); }
+.res-table thead th { font-size: .85rem; color: var(--muted); font-weight: 600; }
+.res-table tr.strong td, .res-table tr.sum td { font-weight: 600; }
+.res-table tr.big td { font-size: 1.2rem; font-weight: 700; border-bottom: 0; }
+.res-table tr.big th { color: var(--text); font-weight: 700; }
+.data-table { width: 100%; border-collapse: collapse; font-size: .95rem; font-variant-numeric: tabular-nums; }
+.data-table th, .data-table td { padding: .3rem .5rem; border-bottom: 1px solid var(--line); text-align: left; }
+.data-table caption { text-align: left; color: var(--muted); font-size: .9rem; padding-bottom: .3rem; }
+input:disabled { opacity: .5; }
+.row.top { align-items: start; }

@@ -24,6 +24,8 @@ PAIRS = {
     'iban': ('/de/iban-pruefen/', '/fr/verifier-iban/'),
     'salary': ('/de/stundenlohn-rechner/', '/fr/calcul-salaire-horaire/'),
     'days': ('/de/tage-zwischen-zwei-daten/', '/fr/calcul-jours-entre-deux-dates/'),
+    'net': ('/de/brutto-netto-rechner/', '/fr/salaire-brut-net-suisse/'),
+    'rent': ('/de/mietzinsrechner/', '/fr/calcul-loyer-taux-reference/'),
     'imp': ('/de/impressum/', '/fr/mentions-legales/'),
     'priv': ('/de/datenschutz/', '/fr/confidentialite/'),
     'contact': ('/de/kontakt/', '/fr/contact/'),
@@ -51,13 +53,17 @@ TOOLS = {
     'de': [('/de/arbeitszeitrechner/', 'Arbeitszeitrechner', 'Arbeitsstunden pro Tag und Woche, Pausen nach Arbeitsgesetz, Nachtschichten.'),
            ('/de/prozentrechner/', 'Prozentrechner', 'Prozent von, Anteil in Prozent, Veränderung, Wert plus oder minus Prozent.'),
            ('/de/mwst-rechner/', 'MWST-Rechner', 'Mehrwertsteuer hinzufügen oder herausrechnen, mit Rappenrundung.'),
+           ('/de/brutto-netto-rechner/', 'Brutto-Netto-Rechner', 'Nettolohn 2026 nach AHV/IV/EO, ALV, NBU und Pensionskasse, ohne Quellensteuer.'),
            ('/de/stundenlohn-rechner/', 'Stundenlohn-Rechner', 'Monatslohn in Stundenlohn umrechnen und umgekehrt, mit 12 oder 13 Löhnen.'),
+           ('/de/mietzinsrechner/', 'Mietzinsrechner', 'Mietzinssenkung oder -erhöhung nach Referenzzinssatz, Teuerung und Kosten.'),
            ('/de/tage-zwischen-zwei-daten/', 'Tage zwischen zwei Daten', 'Kalendertage, Arbeitstage Montag bis Freitag und Wochen.'),
            ('/de/iban-pruefen/', 'IBAN prüfen', 'Länge und Prüfziffer einer IBAN offline prüfen, QR-IBAN erkennen.')],
     'fr': [('/fr/calcul-heures-travail/', 'Calcul des heures de travail', 'Heures par jour et par semaine, pauses selon la loi sur le travail, horaires de nuit.'),
            ('/fr/calcul-pourcentage/', 'Calcul de pourcentage', 'Pourcentage d’un montant, part en %, variation, montant plus ou moins %.'),
            ('/fr/calcul-tva-suisse/', 'Calcul de la TVA suisse', 'Ajouter ou extraire la TVA, avec arrondi à 5 centimes.'),
+           ('/fr/salaire-brut-net-suisse/', 'Salaire brut-net', 'Salaire net 2026 après AVS/AI/APG, AC, AANP et LPP, sans impôt à la source.'),
            ('/fr/calcul-salaire-horaire/', 'Calcul du salaire horaire', 'Salaire mensuel en salaire horaire et inversement, avec 12 ou 13 salaires.'),
+           ('/fr/calcul-loyer-taux-reference/', 'Loyer et taux de référence', 'Baisse ou hausse de loyer selon le taux de référence, le renchérissement et les coûts.'),
            ('/fr/calcul-jours-entre-deux-dates/', 'Jours entre deux dates', 'Jours calendaires, jours ouvrés du lundi au vendredi et semaines.'),
            ('/fr/verifier-iban/', 'Vérifier une IBAN', 'Longueur et clé de contrôle d’une IBAN hors ligne, détection de la QR-IBAN.')],
 }
@@ -157,7 +163,7 @@ def other_tools(lang, exclude):
     return f'<h2>{h}</h2>\n<ul class="cards">{items}</ul>'
 
 
-def tool_page(key, lang, title, desc, h1, lead, tool_html, article, faq, sources, category):
+def tool_page(key, lang, title, desc, h1, lead, tool_html, article, faq, sources, category, stand_extra=''):
     path = PAIRS[key][0 if lang == 'de' else 1]
     src_h = 'Quellen' if lang == 'de' else 'Sources'
     src = ''
@@ -172,7 +178,7 @@ def tool_page(key, lang, title, desc, h1, lead, tool_html, article, faq, sources
 {article}
 {faq_html(faq, lang)}
 </article>
-{src}<p class="stand">{STAND[lang]}</p>
+{src}<p class="stand">{STAND[lang]}{stand_extra}</p>
 {AD2}
 {other_tools(lang, path)}'''
     page(key, lang, title, desc, body, jsonld_tool(lang, BASE + path, h1, desc, faq, category),
@@ -534,12 +540,14 @@ WORDCOUNT['iban_de'] = tool_page(
     'iban', 'de', 'IBAN prüfen: Prüfziffer, Länge und QR-IBAN',
     'IBAN offline prüfen: Länge, Prüfziffer nach ISO 13616 (Modulo 97), Vierergruppen und Erkennung der Schweizer QR-IBAN. Nichts wird gesendet.',
     'IBAN prüfen', 'Prüfen Sie eine IBAN auf Länge, Zeichen und Prüfziffer – offline, mit Erkennung der Schweizer QR-IBAN.',
-    iban_tool('de'), IBAN_ART_DE, IBAN_FAQ_DE, [], 'FinanceApplication')
+    iban_tool('de'), IBAN_ART_DE, IBAN_FAQ_DE, [], 'FinanceApplication',
+    ' · Quelle QR-IID (30000–31999): <a href="https://www.six-group.com/de/products-services/banking-services/payment-standardization/standards/iban.html" rel="noopener">SIX – IBAN überprüfen</a>')
 WORDCOUNT['iban_fr'] = tool_page(
     'iban', 'fr', 'Vérifier une IBAN : clé de contrôle et QR-IBAN',
     'Vérifiez une IBAN hors ligne : longueur, clé de contrôle ISO 13616 (modulo 97), groupes de quatre et détection de la QR-IBAN suisse.',
     'Vérifier une IBAN', 'Contrôlez la longueur, les caractères et la clé d’une IBAN – hors ligne, avec détection de la QR-IBAN suisse.',
-    iban_tool('fr'), IBAN_ART_FR, IBAN_FAQ_FR, [], 'FinanceApplication')
+    iban_tool('fr'), IBAN_ART_FR, IBAN_FAQ_FR, [], 'FinanceApplication',
+    ' · Source QR-IID (30000–31999) : <a href="https://www.six-group.com/fr/products-services/banking-services/payment-standardization/standards/iban.html" rel="noopener">SIX – Vérifier un IBAN</a>')
 
 # =====================================================================
 # 7. Hourly wage
@@ -715,33 +723,401 @@ WORDCOUNT['days_fr'] = tool_page(
     days_tool('fr'), DAYS_ART_FR, DAYS_FAQ_FR, [], 'UtilitiesApplication')
 
 # =====================================================================
+# 9. Gross -> net salary (Brutto-Netto)
+# =====================================================================
+NET_SRC = {
+    'ahv_de': 'https://www.ahv-iv.ch/p/2.01.d', 'ahv_fr': 'https://www.ahv-iv.ch/p/2.01.f',
+    'alv_de': 'https://www.ahv-iv.ch/p/2.08.d', 'alv_fr': 'https://www.ahv-iv.ch/p/2.08.f',
+    'kmu_de': 'https://www.kmu.admin.ch/de/arbeitslosenversicherung-alv', 'kmu_fr': 'https://www.kmu.admin.ch/fr/assurance-chomage-ac',
+    'bvg_de': 'https://www.fedlex.admin.ch/eli/cc/1983/797_797_797/de', 'bvg_fr': 'https://www.fedlex.admin.ch/eli/cc/1983/797_797_797/fr',
+    'bsv': 'https://www.bsv.admin.ch/dam/de/sd-web/GZplHByBJoFc/Internet_Masszahlenarticles_25_26_d.pdf',
+    'uvg_de': 'https://www.fedlex.admin.ch/eli/cc/1982/1676_1676_1676/de', 'uvg_fr': 'https://www.fedlex.admin.ch/eli/cc/1982/1676_1676_1676/fr',
+    'uvv_de': 'https://www.fedlex.admin.ch/eli/cc/1983/38_38_38/de', 'uvv_fr': 'https://www.fedlex.admin.ch/eli/cc/1983/38_38_38/fr',
+    'suva_de': 'https://www.suva.ch/de-ch/unfall/leistungen-der-suva/geldleistungen', 'suva_fr': 'https://www.suva.ch/fr-ch/accident/prestations-de-la-suva/prestations-en-especes',
+    'qst_de': 'https://www.estv.admin.ch/de/quellensteuer', 'qst_fr': 'https://www.estv.admin.ch/fr/impot-a-la-source',
+}
+
+
+def net_tool(lang):
+    if lang == 'de':
+        L = dict(h='Nettolohn berechnen', amt='Bruttolohn in CHF', per='Betrag ist', pm='pro Monat', py='pro Jahr',
+                 sal='Löhne pro Jahr', s12='12 Monatslöhne', s13='13 Monatslöhne', age='Alter im Jahr 2026',
+                 age_h='2026 minus Geburtsjahr; nur für die Pensionskasse.', nbu='NBU-Satz in %',
+                 nbu_h='Voreinstellung 1.0 %: runder Annahmewert, kein offizieller Durchschnitt. Ihr Satz steht auf der Lohnabrechnung.',
+                 bvg='Pensionskasse (BVG)', est='Schätzung nach BVG-Minimum', own='Eigener Satz', bvgp='Eigener Arbeitnehmerbeitrag in % des koordinierten Lohns',
+                 ktg='Krankentaggeld (KTG) vom Lohn abziehen', ktgp='KTG-Arbeitnehmeranteil in %', btn='Berechnen')
+    else:
+        L = dict(h='Calculer le salaire net', amt='Salaire brut en CHF', per='Le montant est', pm='par mois', py='par an',
+                 sal='Salaires par an', s12='12 salaires mensuels', s13='13 salaires mensuels', age='Âge atteint en 2026',
+                 age_h='2026 moins l’année de naissance ; sert seulement pour la LPP.', nbu='Taux AANP en %',
+                 nbu_h='Valeur par défaut 1,0 % : hypothèse arrondie, pas une moyenne officielle. Votre taux figure sur la fiche de salaire.',
+                 bvg='Caisse de pension (LPP)', est='Estimation selon le minimum LPP', own='Taux personnel', bvgp='Cotisation salariée en % du salaire coordonné',
+                 ktg='Déduire une assurance perte de gain maladie (IJM)', ktgp='Part salariée IJM en %', btn='Calculer')
+    return f'''<section class="tool" data-tool="net" aria-labelledby="tool-h">
+<h2 id="tool-h">{L['h']}</h2>
+<form novalidate>
+<div class="row">
+<div class="field"><label for="net-amount">{L['amt']}</label><input type="text" inputmode="decimal" id="net-amount" name="amount" value="6500" autocomplete="off"></div>
+<div class="field"><label for="net-period">{L['per']}</label><select id="net-period" name="period"><option value="month">{L['pm']}</option><option value="year">{L['py']}</option></select></div>
+<div class="field"><label for="net-n">{L['sal']}</label><select id="net-n" name="salaries"><option value="12">{L['s12']}</option><option value="13" selected>{L['s13']}</option></select></div>
+</div>
+<div class="row top">
+<div class="field"><label for="net-age">{L['age']}</label><input type="text" inputmode="numeric" id="net-age" name="age" value="40" autocomplete="off" aria-describedby="net-age-h"><span class="note" id="net-age-h">{L['age_h']}</span></div>
+<div class="field"><label for="net-nbu">{L['nbu']}</label><input type="text" inputmode="decimal" id="net-nbu" name="nbuPct" value="1.0" autocomplete="off" aria-describedby="net-nbu-h"><span class="note" id="net-nbu-h">{L['nbu_h']}</span></div>
+</div>
+<fieldset><legend>{L['bvg']}</legend><div class="choice">
+<label><input type="radio" name="bvgMode" value="estimate" checked> {L['est']}</label>
+<label><input type="radio" name="bvgMode" value="own"> {L['own']}</label>
+</div>
+<div class="field"><label for="net-bvg">{L['bvgp']}</label><input type="text" inputmode="decimal" id="net-bvg" name="bvgPct" value="" autocomplete="off" disabled></div>
+</fieldset>
+<div class="choice field"><label><input type="checkbox" name="ktg"> {L['ktg']}</label></div>
+<div class="field"><label for="net-ktg">{L['ktgp']}</label><input type="text" inputmode="decimal" id="net-ktg" name="ktgPct" value="" autocomplete="off" disabled></div>
+<button type="submit" class="btn">{L['btn']}</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>'''
+
+
+NET_ART_DE = '''<h2>So funktioniert der Rechner</h2>
+<p>Geben Sie Ihren Bruttolohn ein und wählen Sie, ob es ein Monats- oder ein Jahreslohn ist. Bei einem Monatslohn legen Sie fest, ob Sie ihn 12- oder 13-mal im Jahr erhalten. Das Alter braucht der Rechner nur für die Pensionskasse: Massgebend ist das Alter, das Sie im Jahr 2026 erreichen, also 2026 minus Ihr Geburtsjahr. Den Satz der Nichtberufsunfallversicherung (NBU) können Sie ändern, ebenso den Pensionskassenbeitrag und ein allfälliges Krankentaggeld (KTG). Der Rechner zeigt jeden Abzug pro Lohnzahlung und pro Jahr. Pro Lohnzahlung heisst: Jahresbetrag geteilt durch die Anzahl Löhne.</p>
+<h2>Die Lohnabzüge 2026 im Überblick</h2>
+<table class="data-table">
+<thead><tr><th scope="col">Abzug</th><th scope="col">Anteil Arbeitnehmende</th><th scope="col">Berechnet auf</th></tr></thead>
+<tbody>
+<tr><td>AHV/IV/EO</td><td>5.3 % (AHV 4.35 %, IV 0.7 %, EO 0.25 %)</td><td>ganzer Lohn, ohne Obergrenze</td></tr>
+<tr><td>Arbeitslosenversicherung (ALV)</td><td>1.1 %</td><td>Lohn bis CHF 148'200 pro Jahr</td></tr>
+<tr><td>Nichtberufsunfall (NBU)</td><td>je nach Versicherer</td><td>Lohn bis CHF 148'200 pro Jahr</td></tr>
+<tr><td>Pensionskasse (BVG)</td><td>je nach Pensionskasse</td><td>koordinierter Lohn</td></tr>
+<tr><td>Krankentaggeld (KTG)</td><td>nur wenn vereinbart</td><td>je nach Vertrag</td></tr>
+</tbody>
+</table>
+<p>Die Arbeitgeberin bezahlt bei AHV/IV/EO und ALV noch einmal gleich viel wie Sie. Diese Arbeitgeberbeiträge sind kein Abzug von Ihrem Lohn und erscheinen deshalb nicht im Ergebnis. Auf dem Lohnanteil über CHF 148'200 wird seit dem 1. Januar 2023 keine ALV mehr erhoben.</p>
+<h2>Formeln</h2>
+<p class="formula">AHV/IV/EO = Jahreslohn × 5.3 %<br>ALV = min(Jahreslohn; 148'200) × 1.1 %<br>NBU = min(Jahreslohn; 148'200) × NBU-Satz<br>Koordinierter Lohn = min(Jahreslohn; 90'720) − 26'460, mindestens 3'780<br>BVG (Schätzung) = koordinierter Lohn × Altersgutschrift ÷ 2<br>Nettolohn = Bruttolohn − alle Abzüge</p>
+<h2>Pensionskasse: bewusst nur eine Schätzung</h2>
+<p>Obligatorisch versichert sind Arbeitnehmende mit einem Jahreslohn von mehr als CHF 22'680 bei einer Arbeitgeberin (Art. 2 und 7 BVG). Versichert ist der koordinierte Lohn, also der Teil des Jahreslohns von CHF 26'460 bis CHF 90'720; ist er kleiner als CHF 3'780, wird er auf diesen Betrag aufgerundet (Art. 8 BVG). Ab dem Jahr, in dem Sie 25 werden, erhalten Sie Altersgutschriften: 7 % des koordinierten Lohns von 25 bis 34 Jahren, 10 % von 35 bis 44, 15 % von 45 bis 54 und 18 % von 55 bis 65 (Art. 16 BVG). Die Arbeitgeberin muss mindestens die Hälfte der Beiträge tragen (Art. 66 BVG). Der Rechner nimmt deshalb an, dass Sie genau die Hälfte der Altersgutschrift selbst bezahlen.</p>
+<p><strong>Ihre echte Pensionskasse rechnet fast immer anders.</strong> Viele Kassen versichern mehr als das gesetzliche Minimum, verwenden einen anderen Koordinationsabzug, teilen die Beiträge anders auf oder verlangen zusätzlich Risikobeiträge und Verwaltungskosten, die hier fehlen. Den genauen Betrag finden Sie auf Ihrer Lohnabrechnung oder im Vorsorgeausweis. Kennen Sie den Prozentsatz Ihrer Kasse, wählen Sie «Eigener Satz»; er wird ebenfalls auf den koordinierten Lohn nach BVG-Minimum angewendet.</p>
+<h2>NBU und Krankentaggeld</h2>
+<p>Die Prämie für Nichtberufsunfälle geht nach Art. 91 UVG zulasten der Arbeitnehmenden, ausser es ist etwas Günstigeres vereinbart. Den Satz legt der Unfallversicherer Ihrer Arbeitgeberin fest; er ist von Betrieb zu Betrieb verschieden. Die Voreinstellung von 1.0 % ist deshalb nur ein runder Annahmewert, kein offizieller Durchschnitt: Ersetzen Sie ihn durch den Satz auf Ihrer Lohnabrechnung. Die Prämie wird höchstens auf CHF 148'200 Jahreslohn erhoben, dem Höchstbetrag des versicherten Verdienstes (Art. 22 UVV). Wer bei einer Arbeitgeberin weniger als acht Stunden pro Woche arbeitet, ist dort nicht gegen Nichtberufsunfälle versichert (Art. 13 UVV); setzen Sie dann 0 ein. Ein Krankentaggeld ist nicht obligatorisch. Zieht Ihre Arbeitgeberin einen Teil der Prämie vom Lohn ab, aktivieren Sie die Option und tragen Sie diesen Satz ein.</p>
+<h2>Warum die Quellensteuer nicht abgezogen wird</h2>
+<p>Der angezeigte Nettolohn ist der Lohn vor Steuern. Wer das Schweizer Bürgerrecht oder die Niederlassungsbewilligung C hat, zahlt die Einkommenssteuer über die Steuererklärung; sie wird nicht vom Lohn abgezogen. Bei Personen mit Wohnsitz in der Schweiz ohne Ausweis C und bei Personen ohne Wohnsitz in der Schweiz, zum Beispiel Grenzgängerinnen und Grenzgängern, zieht die Arbeitgeberin dagegen die Quellensteuer direkt vom Lohn ab. Der Tarif ist kantonsabhängig und hängt zudem von der persönlichen Situation ab. Ein einziger Satz für die ganze Schweiz wäre falsch; den richtigen Tarif erhalten Sie bei der Steuerverwaltung Ihres Kantons.</p>
+<h2>Beispiele</h2>
+<p><strong>Monatslohn CHF 6'500, 13-mal, Alter 40, NBU 1.0 %.</strong> Jahreslohn: 6'500 × 13 = CHF 84'500. AHV/IV/EO: 84'500 × 5.3 % = CHF 4'478.50. ALV: 84'500 × 1.1 % = CHF 929.50. NBU: CHF 845.00. Koordinierter Lohn: 84'500 − 26'460 = CHF 58'040; Altersgutschrift 10 %, davon die Hälfte: 58'040 × 5 % = CHF 2'902.00. Abzüge total CHF 9'155.00, Nettolohn CHF 75'345.00 pro Jahr oder CHF 5'795.77 pro Lohnzahlung.</p>
+<p><strong>Monatslohn CHF 15'000, 12-mal, Alter 50.</strong> Die ALV wird nur auf CHF 148'200 erhoben: CHF 1'630.20 pro Jahr oder CHF 135.85 pro Monat. Der koordinierte Lohn erreicht sein Maximum von CHF 64'260. Mit AHV/IV/EO von CHF 795.00, NBU von CHF 123.50 und der BVG-Schätzung von CHF 401.63 bleiben CHF 13'544.02 netto pro Monat.</p>
+<p><strong>Teilzeit mit CHF 1'800 pro Monat, 12-mal.</strong> Der Jahreslohn von CHF 21'600 liegt nicht über der Eintrittsschwelle von CHF 22'680, es gibt also keinen obligatorischen BVG-Abzug. Netto bleiben CHF 1'666.80 pro Monat.</p>'''
+
+NET_FAQ_DE = [
+    ('Ist das Ergebnis der Betrag, der auf meinem Konto landet?',
+     'Nur ungefähr. Abweichen können vor allem der Pensionskassenbeitrag, der NBU-Satz, ein Krankentaggeld und die Quellensteuer. Familienzulagen, Spesen oder andere Zulagen kommen auf der Lohnabrechnung oft noch dazu.'),
+    ('Werden auch auf dem 13. Monatslohn Abzüge gemacht?',
+     'Ja. AHV/IV/EO, ALV und NBU werden auch auf dem 13. Monatslohn erhoben, und er zählt für die BVG-Eintrittsschwelle zum Jahreslohn. Der Rechner verteilt alle Abzüge gleichmässig auf die Lohnzahlungen; manche Pensionskassen ziehen ihren Beitrag nur zwölfmal ab.'),
+    ('Warum zahle ich über CHF 148\'200 keine ALV mehr?',
+     'Seit dem 1. Januar 2023 werden auf dem Lohnanteil über CHF 148\'200 pro Jahr keine ALV-Beiträge mehr erhoben. Der Rechner berücksichtigt das automatisch.'),
+    ('Was ist der koordinierte Lohn?',
+     'Der Teil des Jahreslohns, der in der Pensionskasse obligatorisch versichert ist: Jahreslohn bis höchstens CHF 90\'720 minus Koordinationsabzug von CHF 26\'460, mindestens CHF 3\'780. Bei CHF 84\'500 Jahreslohn sind es CHF 58\'040.'),
+    ('Ich bin unter 25. Zahle ich in die Pensionskasse?',
+     'Ab dem 1. Januar nach dem 17. Geburtstag sind Sie für Tod und Invalidität versichert, das Alterssparen beginnt ab dem 1. Januar nach dem 24. Geburtstag (Art. 7 BVG). Vor 25 rechnet der Rechner deshalb keinen Sparbeitrag; Risikobeiträge Ihrer Kasse kommen allenfalls dazu.'),
+    ('Werden meine Angaben gespeichert?',
+     'Nein. Die Berechnung läuft nur in Ihrem Browser. Ihr Lohn wird weder übermittelt noch gespeichert.'),
+]
+
+NET_ART_FR = '''<h2>Mode d’emploi</h2>
+<p>Saisissez votre salaire brut et indiquez s’il s’agit d’un salaire mensuel ou annuel. Pour un salaire mensuel, choisissez s’il est versé 12 ou 13 fois par an. L’âge ne sert qu’à la caisse de pension : c’est l’âge que vous atteignez en 2026, soit 2026 moins votre année de naissance. Vous pouvez modifier le taux de l’assurance contre les accidents non professionnels (AANP), la cotisation de caisse de pension et une éventuelle assurance perte de gain maladie (indemnités journalières, IJM). Le calculateur affiche chaque déduction par versement et par an. Par versement signifie : montant annuel divisé par le nombre de salaires.</p>
+<h2>Les déductions 2026 en bref</h2>
+<table class="data-table">
+<thead><tr><th scope="col">Déduction</th><th scope="col">Part salariée</th><th scope="col">Calculée sur</th></tr></thead>
+<tbody>
+<tr><td>AVS/AI/APG</td><td>5,3 % (AVS 4,35 %, AI 0,7 %, APG 0,25 %)</td><td>tout le salaire, sans plafond</td></tr>
+<tr><td>Assurance-chômage (AC)</td><td>1,1 %</td><td>salaire jusqu’à CHF 148'200 par an</td></tr>
+<tr><td>Accidents non professionnels (AANP)</td><td>selon l’assureur</td><td>salaire jusqu’à CHF 148'200 par an</td></tr>
+<tr><td>Caisse de pension (LPP)</td><td>selon la caisse</td><td>salaire coordonné</td></tr>
+<tr><td>Perte de gain maladie (IJM)</td><td>seulement si convenu</td><td>selon le contrat</td></tr>
+</tbody>
+</table>
+<p>Pour l’AVS/AI/APG et l’AC, l’employeur paie encore une fois le même montant que vous. Ces cotisations patronales ne sont pas retenues sur votre salaire et n’apparaissent donc pas dans le résultat. Depuis le 1er janvier 2023, aucune cotisation AC n’est prélevée sur la part du salaire qui dépasse CHF 148'200.</p>
+<h2>Formules</h2>
+<p class="formula">AVS/AI/APG = salaire annuel × 5,3 %<br>AC = min(salaire annuel ; 148'200) × 1,1 %<br>AANP = min(salaire annuel ; 148'200) × taux AANP<br>Salaire coordonné = min(salaire annuel ; 90'720) − 26'460, au moins 3'780<br>LPP (estimation) = salaire coordonné × bonification de vieillesse ÷ 2<br>Salaire net = salaire brut − toutes les déductions</p>
+<h2>Caisse de pension : volontairement une estimation</h2>
+<p>Sont assurés obligatoirement les salariés qui touchent d’un même employeur un salaire annuel supérieur à CHF 22'680 (art. 2 et 7 LPP). Le salaire assuré est le salaire coordonné, c’est-à-dire la part du salaire annuel comprise entre CHF 26'460 et CHF 90'720 ; s’il est inférieur à CHF 3'780, il est arrondi à ce montant (art. 8 LPP). Dès l’année de vos 25 ans, la caisse crédite des bonifications de vieillesse : 7 % du salaire coordonné de 25 à 34 ans, 10 % de 35 à 44 ans, 15 % de 45 à 54 ans et 18 % de 55 à 65 ans (art. 16 LPP). L’employeur doit payer au moins la moitié des cotisations (art. 66 LPP). Le calculateur suppose donc que vous payez exactement la moitié de la bonification.</p>
+<p><strong>Votre vraie caisse de pension calcule presque toujours autrement.</strong> Beaucoup de caisses assurent plus que le minimum légal, utilisent une autre déduction de coordination, répartissent les cotisations autrement ou prélèvent en plus des cotisations de risque et des frais, qui ne sont pas comptés ici. Le montant exact figure sur votre fiche de salaire ou votre certificat de prévoyance. Si vous connaissez le taux de votre caisse, choisissez «Taux personnel» ; il est lui aussi appliqué au salaire coordonné selon le minimum LPP.</p>
+<h2>AANP et perte de gain maladie</h2>
+<p>Selon l’art. 91 LAA, la prime pour les accidents non professionnels est à la charge du salarié, sauf accord plus favorable. Le taux est fixé par l’assureur-accidents de l’employeur et varie d’une entreprise à l’autre. La valeur par défaut de 1,0 % n’est donc qu’une hypothèse arrondie, pas une moyenne officielle : remplacez-la par le taux de votre fiche de salaire. La prime est prélevée au plus sur CHF 148'200 de salaire annuel, le montant maximal du gain assuré (art. 22 OLAA). Une personne qui travaille moins de huit heures par semaine chez un employeur n’y est pas assurée contre les accidents non professionnels (art. 13 OLAA) ; saisissez alors 0. L’assurance perte de gain maladie n’est pas obligatoire. Si votre employeur retient une partie de la prime sur le salaire, cochez l’option et saisissez ce taux.</p>
+<h2>Pourquoi l’impôt à la source n’est pas déduit</h2>
+<p>Le salaire net affiché est un salaire avant impôts. Les personnes de nationalité suisse ou titulaires d’un permis d’établissement C paient l’impôt sur le revenu par la déclaration d’impôt ; il n’est pas retenu sur le salaire. Pour les personnes domiciliées en Suisse sans permis C et pour les personnes sans domicile en Suisse, par exemple les frontaliers, l’employeur retient en revanche l’impôt à la source directement sur le salaire. Le barème dépend du canton et de la situation personnelle. Un taux unique pour toute la Suisse serait faux ; le bon barème est disponible auprès de l’administration fiscale de votre canton.</p>
+<h2>Exemples</h2>
+<p><strong>Salaire mensuel de CHF 6'500, 13 fois, 40 ans, AANP 1,0 %.</strong> Salaire annuel : 6'500 × 13 = CHF 84'500. AVS/AI/APG : 84'500 × 5,3 % = CHF 4'478.50. AC : 84'500 × 1,1 % = CHF 929.50. AANP : CHF 845.00. Salaire coordonné : 84'500 − 26'460 = CHF 58'040 ; bonification de 10 %, dont la moitié : 58'040 × 5 % = CHF 2'902.00. Total des déductions CHF 9'155.00, salaire net CHF 75'345.00 par an ou CHF 5'795.77 par versement.</p>
+<p><strong>Salaire mensuel de CHF 15'000, 12 fois, 50 ans.</strong> L’AC n’est prélevée que sur CHF 148'200 : CHF 1'630.20 par an, soit CHF 135.85 par mois. Le salaire coordonné atteint son maximum de CHF 64'260. Avec CHF 795.00 d’AVS/AI/APG, CHF 123.50 d’AANP et CHF 401.63 de LPP estimée, il reste CHF 13'544.02 net par mois.</p>
+<p><strong>Temps partiel à CHF 1'800 par mois, 12 fois.</strong> Le salaire annuel de CHF 21'600 ne dépasse pas le seuil d’entrée de CHF 22'680 : pas de déduction LPP obligatoire. Il reste CHF 1'666.80 net par mois.</p>'''
+
+NET_FAQ_FR = [
+    ('Le résultat est-il le montant versé sur mon compte ?',
+     'Seulement approximativement. Peuvent surtout différer la cotisation de caisse de pension, le taux AANP, une assurance perte de gain et l’impôt à la source. Les allocations familiales, frais ou autres suppléments s’ajoutent souvent sur la fiche de salaire.'),
+    ('Le 13e salaire subit-il aussi des déductions ?',
+     'Oui. L’AVS/AI/APG, l’AC et l’AANP sont aussi prélevées sur le 13e salaire, et il compte dans le salaire annuel pour le seuil d’entrée LPP. Le calculateur répartit toutes les déductions de façon égale sur les versements ; certaines caisses de pension ne prélèvent leur cotisation que 12 fois.'),
+    ('Pourquoi ne paie-je plus d’AC au-delà de CHF 148\'200 ?',
+     'Depuis le 1er janvier 2023, aucune cotisation AC n’est prélevée sur la part du salaire annuel qui dépasse CHF 148\'200. Le calculateur en tient compte automatiquement.'),
+    ('Qu’est-ce que le salaire coordonné ?',
+     'La part du salaire annuel assurée obligatoirement dans la caisse de pension : salaire annuel jusqu’à CHF 90\'720 au plus, moins la déduction de coordination de CHF 26\'460, au moins CHF 3\'780. Pour CHF 84\'500 de salaire annuel, cela donne CHF 58\'040.'),
+    ('J’ai moins de 25 ans. Est-ce que je cotise à la caisse de pension ?',
+     'Dès le 1er janvier qui suit vos 17 ans, vous êtes assuré contre le décès et l’invalidité ; l’épargne vieillesse commence le 1er janvier qui suit vos 24 ans (art. 7 LPP). Avant 25 ans, le calculateur ne compte donc pas de cotisation d’épargne ; des cotisations de risque de votre caisse peuvent s’y ajouter.'),
+    ('Mes données sont-elles enregistrées ?',
+     'Non. Le calcul se fait uniquement dans votre navigateur. Votre salaire n’est ni transmis ni enregistré.'),
+]
+
+NETSRC = {
+    'de': [
+        f'Informationsstelle AHV/IV, Merkblatt 2.01 «Beiträge an die AHV, IV und EO», Stand 1. Januar 2026: <a href="{NET_SRC["ahv_de"]}">{NET_SRC["ahv_de"]}</a>',
+        f'Informationsstelle AHV/IV, Merkblatt 2.08 zur Arbeitslosenversicherung: <a href="{NET_SRC["alv_de"]}">{NET_SRC["alv_de"]}</a>',
+        f'KMU-Portal des Bundes, Arbeitslosenversicherung (2.2 % bis CHF 148\'200, kein Solidaritätsbeitrag): <a href="{NET_SRC["kmu_de"]}">{NET_SRC["kmu_de"]}</a>',
+        f'Bundesgesetz über die berufliche Vorsorge (BVG), SR 831.40, Art. 2, 7, 8, 16 und 66: <a href="{NET_SRC["bvg_de"]}">{NET_SRC["bvg_de"]}</a>',
+        f'Bundesamt für Sozialversicherungen BSV, BVG-Masszahlen 2025 und 2026: <a href="{NET_SRC["bsv"]}">{NET_SRC["bsv"]}</a>',
+        f'Bundesgesetz über die Unfallversicherung (UVG), SR 832.20, Art. 91: <a href="{NET_SRC["uvg_de"]}">{NET_SRC["uvg_de"]}</a>',
+        f'Verordnung über die Unfallversicherung (UVV), SR 832.202, Art. 13 und 22: <a href="{NET_SRC["uvv_de"]}">{NET_SRC["uvv_de"]}</a>',
+        f'Suva, höchstversicherter Jahresverdienst CHF 148\'200: <a href="{NET_SRC["suva_de"]}">{NET_SRC["suva_de"]}</a>',
+        f'Eidgenössische Steuerverwaltung ESTV, Quellensteuer: <a href="{NET_SRC["qst_de"]}">{NET_SRC["qst_de"]}</a>',
+    ],
+    'fr': [
+        f'Centre d’information AVS/AI, mémento 2.01 sur les cotisations AVS, AI et APG, état au 1er janvier 2026 : <a href="{NET_SRC["ahv_fr"]}">{NET_SRC["ahv_fr"]}</a>',
+        f'Centre d’information AVS/AI, mémento 2.08 sur l’assurance-chômage : <a href="{NET_SRC["alv_fr"]}">{NET_SRC["alv_fr"]}</a>',
+        f'Portail PME de la Confédération, assurance-chômage (2,2 % jusqu’à CHF 148\'200, pas de cotisation de solidarité) : <a href="{NET_SRC["kmu_fr"]}">{NET_SRC["kmu_fr"]}</a>',
+        f'Loi fédérale sur la prévoyance professionnelle (LPP), RS 831.40, art. 2, 7, 8, 16 et 66 : <a href="{NET_SRC["bvg_fr"]}">{NET_SRC["bvg_fr"]}</a>',
+        f'Office fédéral des assurances sociales OFAS, valeurs LPP 2025 et 2026 (document en allemand) : <a href="{NET_SRC["bsv"]}">{NET_SRC["bsv"]}</a>',
+        f'Loi fédérale sur l’assurance-accidents (LAA), RS 832.20, art. 91 : <a href="{NET_SRC["uvg_fr"]}">{NET_SRC["uvg_fr"]}</a>',
+        f'Ordonnance sur l’assurance-accidents (OLAA), RS 832.202, art. 13 et 22 : <a href="{NET_SRC["uvv_fr"]}">{NET_SRC["uvv_fr"]}</a>',
+        f'Suva, gain annuel assuré maximal de CHF 148\'200 : <a href="{NET_SRC["suva_fr"]}">{NET_SRC["suva_fr"]}</a>',
+        f'Administration fédérale des contributions AFC, impôt à la source : <a href="{NET_SRC["qst_fr"]}">{NET_SRC["qst_fr"]}</a>',
+    ],
+}
+
+WORDCOUNT['net_de'] = tool_page(
+    'net', 'de', 'Brutto-Netto-Rechner Schweiz 2026: Lohnrechner',
+    'Nettolohn aus Bruttolohn berechnen: AHV/IV/EO, ALV, NBU und Pensionskasse (BVG) mit den Werten 2026. 12 oder 13 Löhne, ohne Quellensteuer.',
+    'Brutto-Netto-Lohnrechner Schweiz 2026',
+    'Vom Bruttolohn zum Nettolohn: alle Lohnabzüge der Arbeitnehmenden mit den Sätzen und Grenzbeträgen 2026 – pro Lohnzahlung und pro Jahr.',
+    net_tool('de'), NET_ART_DE, NET_FAQ_DE, NETSRC['de'], 'FinanceApplication')
+WORDCOUNT['net_fr'] = tool_page(
+    'net', 'fr', 'Salaire brut net Suisse 2026 : calcul du salaire net',
+    'Calcul du salaire net en Suisse : AVS/AI/APG, AC, AANP et caisse de pension (LPP) avec les valeurs 2026. 12 ou 13 salaires, sans impôt à la source.',
+    'Calcul du salaire brut-net en Suisse (2026)',
+    'Du salaire brut au salaire net : toutes les déductions du salarié avec les taux et montants limites 2026 – par versement et par an.',
+    net_tool('fr'), NET_ART_FR, NET_FAQ_FR, NETSRC['fr'], 'FinanceApplication')
+
+# =====================================================================
+# 10. Rent and reference interest rate (Mietzins / loyer)
+# =====================================================================
+RENT_SRC = {
+    'vmwg_de': 'https://www.fedlex.admin.ch/eli/cc/1990/835_835_835/de', 'vmwg_fr': 'https://www.fedlex.admin.ch/eli/cc/1990/835_835_835/fr',
+    'or_de': 'https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de', 'or_fr': 'https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr',
+    'bwo_de': 'https://www.bwo.admin.ch/de/referenzzinssatz', 'bwo_fr': 'https://www.bwo.admin.ch/fr/taux-de-reference',
+    'hist_de': 'https://www.bwo.admin.ch/de/entwicklung-referenzzinssatz-und-durchschnittszinssatz',
+    'hist_fr': 'https://www.bwo.admin.ch/fr/evolution-du-taux-de-reference-et-du-taux-dinteret-moyen',
+    'lik_de': 'https://www.bfs.admin.ch/bfs/de/home/statistiken/preise/landesindex-konsumentenpreise.html',
+    'lik_fr': 'https://www.bfs.admin.ch/bfs/fr/home/statistiques/prix/indice-prix-consommation.html',
+    'mv': 'https://www.mieterverband.ch', 'asloca': 'https://www.asloca.ch',
+}
+# BWO history (checked 25.11.2026): [valid from, rate]
+REF_HISTORY = [('10.09.2008', '3.50'), ('03.06.2009', '3.25'), ('02.09.2009', '3.00'), ('02.12.2010', '2.75'),
+               ('02.12.2011', '2.50'), ('02.06.2012', '2.25'), ('03.09.2013', '2.00'), ('02.06.2015', '1.75'),
+               ('02.06.2017', '1.50'), ('03.03.2020', '1.25'), ('02.06.2023', '1.50'), ('02.12.2023', '1.75'),
+               ('04.03.2025', '1.50'), ('02.09.2025', '1.25')]
+REF_CURRENT = '1.25'
+
+
+def ref_table(lang):
+    fr = lang == 'fr'
+    cap = ('Taux de référence publiés par l’Office fédéral du logement (OFL), du plus récent au plus ancien' if fr
+           else 'Vom Bundesamt für Wohnungswesen (BWO) publizierte Referenzzinssätze, die neuesten zuerst')
+    h1, h2 = ('Valable dès', 'Taux') if fr else ('Gültig ab', 'Satz')
+    rows = ''.join(f'<tr><td>{d}</td><td>{r.replace(".", ",") if fr else r} %</td></tr>' for d, r in reversed(REF_HISTORY))
+    return (f'<table class="data-table"><caption>{cap}</caption><thead><tr><th scope="col">{h1}</th><th scope="col">{h2}</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table>')
+
+
+def rent_tool(lang):
+    fr = lang == 'fr'
+    if not fr:
+        L = dict(h='Mietzins berechnen', rent='Heutige Nettomiete pro Monat (CHF)', old='Referenzzinssatz, auf dem die Miete beruht',
+                 old_h='Steht im Mietvertrag oder in der letzten Mietzinsanpassung.', new='Neuer Referenzzinssatz', cur='aktuell',
+                 infl='Teuerung (optional)', infl_h='Landesindex der Konsumentenpreise (LIK) des Bundesamts für Statistik, beide Werte auf derselben Basis.',
+                 oi='LIK bei der letzten Anpassung', ni='LIK heute', cost='Allgemeine Kostensteigerung (optional)',
+                 cost_h='Nur wenn Ihr Vermieter eine Pauschale geltend macht. Leer lassen = keine.',
+                 cp='Pauschale in % pro Jahr', ld='Datum der letzten Mietzinsanpassung', rd='Stichtag der Berechnung', btn='Berechnen')
+    else:
+        L = dict(h='Calculer le loyer', rent='Loyer net actuel par mois (CHF)', old='Taux de référence sur lequel repose le loyer',
+                 old_h='Il figure dans le bail ou dans la dernière adaptation du loyer.', new='Nouveau taux de référence', cur='actuel',
+                 infl='Renchérissement (facultatif)', infl_h='Indice suisse des prix à la consommation (IPC) de l’Office fédéral de la statistique, les deux valeurs sur la même base.',
+                 oi='IPC lors de la dernière adaptation', ni='IPC aujourd’hui', cost='Hausse générale des coûts (facultatif)',
+                 cost_h='Seulement si votre bailleur fait valoir un forfait. Vide = aucun.',
+                 cp='Forfait en % par an', ld='Date de la dernière adaptation du loyer', rd='Date du calcul', btn='Calculer')
+    rates = [r for _, r in REF_HISTORY]
+    uniq = sorted(set(rates), key=float, reverse=True)
+    fmt = (lambda r: r.replace('.', ',')) if fr else (lambda r: r)
+    opt_old = ''.join(f'<option value="{r}"{" selected" if r == "1.75" else ""}>{fmt(r)} %</option>' for r in uniq)
+    opt_new = ''.join(f'<option value="{r}"{" selected" if r == REF_CURRENT else ""}>{fmt(r)} %{" (" + L["cur"] + ")" if r == REF_CURRENT else ""}</option>' for r in uniq)
+    return f'''<section class="tool" data-tool="rent" aria-labelledby="tool-h">
+<h2 id="tool-h">{L['h']}</h2>
+<form novalidate>
+<div class="field"><label for="rent-amount">{L['rent']}</label><input type="text" inputmode="decimal" id="rent-amount" name="rent" value="1800" autocomplete="off"></div>
+<div class="row top">
+<div class="field"><label for="rent-old">{L['old']}</label><select id="rent-old" name="oldRate" aria-describedby="rent-old-h">{opt_old}</select><span class="note" id="rent-old-h">{L['old_h']}</span></div>
+<div class="field"><label for="rent-new">{L['new']}</label><select id="rent-new" name="newRate">{opt_new}</select></div>
+</div>
+<fieldset><legend>{L['infl']}</legend>
+<p class="note">{L['infl_h']}</p>
+<div class="row">
+<div class="field"><label for="rent-oi">{L['oi']}</label><input type="text" inputmode="decimal" id="rent-oi" name="oldIndex" value="" autocomplete="off"></div>
+<div class="field"><label for="rent-ni">{L['ni']}</label><input type="text" inputmode="decimal" id="rent-ni" name="newIndex" value="" autocomplete="off"></div>
+</div>
+</fieldset>
+<fieldset><legend>{L['cost']}</legend>
+<p class="note">{L['cost_h']}</p>
+<div class="row">
+<div class="field"><label for="rent-cost">{L['cp']}</label><input type="text" inputmode="decimal" id="rent-cost" name="cost" value="" autocomplete="off"></div>
+<div class="field"><label for="rent-last">{L['ld']}</label><input type="date" id="rent-last" name="lastDate" value=""></div>
+<div class="field"><label for="rent-ref">{L['rd']}</label><input type="date" id="rent-ref" name="refDate" value=""></div>
+</div>
+</fieldset>
+<button type="submit" class="btn">{L['btn']}</button>
+</form>
+<div class="result" aria-live="polite"></div>
+<noscript><p>JavaScript</p></noscript>
+</section>'''
+
+
+RENT_ART_DE = f'''<h2>So funktioniert der Rechner</h2>
+<p>Geben Sie Ihre heutige Nettomiete ein, also die Miete ohne Heiz- und Nebenkosten. Wählen Sie dann den Referenzzinssatz, auf dem Ihre Miete beruht. Er steht meist im Mietvertrag; wurde die Miete seither wegen des Referenzzinssatzes angepasst und nicht angefochten, gilt der Satz der letzten Anpassung. Als neuer Satz ist der aktuelle Referenzzinssatz vorausgewählt. Optional können Sie die Teuerung und eine Pauschale für allgemeine Kostensteigerungen erfassen, die der Vermieter mit einer Senkung verrechnen darf. Der Rechner zeigt jeden Anteil in Prozent, die geschätzte neue Nettomiete und die Differenz pro Monat und pro Jahr.</p>
+<h2>Aktueller Referenzzinssatz: 1.25 %</h2>
+<p>Der hypothekarische Referenzzinssatz für Mietverhältnisse beträgt 1.25 %. Er gilt seit dem 2. September 2025 und wurde zuletzt am 1. September 2026 unverändert bestätigt. Das Bundesamt für Wohnungswesen (BWO) publiziert ihn vierteljährlich; die nächste Publikation ist für den 1. Dezember 2026 angekündigt. Der Satz stützt sich auf den Durchschnittszinssatz der inländischen Hypotheken und wird auf Viertelprozente gerundet (Art. 12a VMWG). Stand dieser Seite: 25. November 2026.</p>
+{ref_table('de')}
+<h2>Die Regeln der Verordnung</h2>
+<p>Nach Art. 13 der Verordnung über die Miete und Pacht von Wohn- und Geschäftsräumen (VMWG) berechtigt eine Erhöhung des Hypothekarzinses um einen Viertelprozentpunkt in der Regel zu einer Mietzinserhöhung von höchstens 3 %, solange der Satz unter 5 % liegt; zwischen 5 und 6 % sind es 2.5 %, über 6 % noch 2 %. Bei einer Senkung sind die Mietzinse entsprechend herabzusetzen. Daraus ergibt sich bei einer Senkung um einen Viertelprozentpunkt ein Anspruch von 2.91 %, denn 1 − 1 ÷ 1.03 = 2.91 %. Mehrere Schritte werden zusammengezählt:</p>
+<table class="data-table">
+<thead><tr><th scope="col">Veränderung</th><th scope="col">Erhöhung</th><th scope="col">Senkung</th></tr></thead>
+<tbody><tr><td>0.25 Prozentpunkte</td><td>+3.00 %</td><td>−2.91 %</td></tr><tr><td>0.50 Prozentpunkte</td><td>+6.00 %</td><td>−5.66 %</td></tr><tr><td>0.75 Prozentpunkte</td><td>+9.00 %</td><td>−8.26 %</td></tr><tr><td>1.00 Prozentpunkt</td><td>+12.00 %</td><td>−10.71 %</td></tr></tbody>
+</table>
+<p>Zum Ausgleich der Teuerung darf der Mietzins um höchstens 40 % der Steigerung des Landesindexes der Konsumentenpreise (LIK) erhöht werden (Art. 16 VMWG). Der Vermieter darf eine Senkung ausserdem mit anderen Kostensteigerungen verrechnen, zum Beispiel höheren Gebühren. Viele Vermieter machen dafür eine jährliche Pauschale geltend; ob und in welcher Höhe sie zulässig ist, hängt vom Einzelfall ab. Deshalb ist das Feld leer voreingestellt.</p>
+<h2>Formel</h2>
+<p class="formula">Zinsanteil (Senkung) = −(1 − 1 ÷ (1 + 3 % × Anzahl Schritte))<br>Zinsanteil (Erhöhung) = +3 % × Anzahl Schritte<br>Teuerung = 40 % × (LIK heute ÷ LIK alt − 1)<br>Kosten = Pauschale pro Jahr × volle Monate ÷ 12<br>Neue Nettomiete = Nettomiete × (1 + Zinsanteil + Teuerung + Kosten)</p>
+<p>Der Rechner zählt die drei Prozentsätze zusammen und wendet sie auf die heutige Nettomiete an. Die Formel mit 3 % gilt für Sätze unter 5 %, also für alle bisher publizierten Referenzzinssätze. Einzelne Rechner und Schlichtungsbehörden runden oder kombinieren leicht anders; das Ergebnis ist eine Schätzung.</p>
+<h2>Beispiel</h2>
+<p>Ihre Nettomiete beträgt CHF 1'800 und beruht auf einem Referenzzinssatz von 1.75 %. Heute gilt 1.25 %, das sind zwei Schritte nach unten: −5.66 %. Der LIK ist seit der letzten Anpassung von 105.0 auf 107.1 Punkte gestiegen (angenommene Werte für das Beispiel), also um 2 %; davon darf der Vermieter 40 % anrechnen, +0.80 %. Total −4.86 %: Die neue Nettomiete beträgt CHF 1'712.51, das sind CHF 87.49 weniger pro Monat oder CHF 1'049.88 pro Jahr. Macht der Vermieter zusätzlich eine Pauschale von 0.5 % pro Jahr für 36 Monate geltend (ebenfalls eine Annahme), kommen +1.50 % dazu; die Miete sinkt dann noch auf CHF 1'739.51.</p>
+<h2>So verlangen Sie eine Senkung</h2>
+<p>Die Senkung erfolgt nicht automatisch. Sie stellen dem Vermieter ein schriftliches Herabsetzungsbegehren, am besten eingeschrieben, und zwar auf den nächstmöglichen Kündigungstermin (Art. 270a OR). Der Vermieter muss innert 30 Tagen Stellung nehmen. Lehnt er ab, verrechnet er oder antwortet er nicht, können Sie innert weiteren 30 Tagen die Schlichtungsbehörde Ihres Kantons anrufen. Das Verfahren dort ist in der Regel kostenlos.</p>
+<p><strong>Wichtig:</strong> Das Ergebnis ist eine Schätzung, keine Rechtsberatung. Ob und wie viel Ihre Miete sinken muss, hängt von Ihrem Vertrag und weiteren Faktoren ab. Lassen Sie Ihren Fall im Zweifel vom <a href="{RENT_SRC['mv']}" rel="noopener">Mieterinnen- und Mieterverband</a> oder von der Schlichtungsbehörde prüfen.</p>'''
+
+RENT_FAQ_DE = [
+    ('Wo finde ich den Referenzzinssatz meiner Miete?',
+     'Meist im Mietvertrag oder auf dem Formular der letzten Mietzinsanpassung. Massgebend ist der Satz bei Vertragsabschluss oder, falls die Miete seither wegen des Referenzzinssatzes angepasst und nicht angefochten wurde, der Satz dieser Anpassung.'),
+    ('Warum 2.91 % und nicht 3 %?',
+     'Eine Erhöhung um 3 % macht aus CHF 100 CHF 103. Um wieder auf CHF 100 zu kommen, muss man 3 von 103 abziehen, also 2.91 %. Bei zwei Schritten sind es 6 von 106 oder 5.66 %.'),
+    ('Darf der Vermieter die Senkung ablehnen?',
+     'Er darf sie mit gestiegenen Kosten und mit 40 % der Teuerung verrechnen und muss erklären, warum. Sind Sie nicht einverstanden, können Sie innert 30 Tagen die Schlichtungsbehörde anrufen.'),
+    ('Gilt die Senkung auch für die Nebenkosten?',
+     'Nein. Der Referenzzinssatz betrifft nur die Nettomiete. Separat vereinbarte Heiz- und Nebenkosten ändern sich dadurch nicht.'),
+    ('Gilt das auch bei einer Indexmiete?',
+     'Bei einem indexierten Mietzins nach Art. 269b OR folgt die Miete dem Landesindex der Konsumentenpreise, nicht dem Referenzzinssatz. Bei Staffelmieten gelten ebenfalls eigene Regeln. Lassen Sie solche Verträge im Zweifel prüfen.'),
+    ('Werden meine Angaben gespeichert?',
+     'Nein. Die Berechnung läuft nur in Ihrem Browser. Ihre Miete wird weder übermittelt noch gespeichert.'),
+]
+
+RENT_ART_FR = f'''<h2>Mode d’emploi</h2>
+<p>Saisissez votre loyer net actuel, c’est-à-dire le loyer sans les frais de chauffage et les frais accessoires. Choisissez ensuite le taux de référence sur lequel repose votre loyer. Il figure en général dans le bail ; si le loyer a depuis été adapté en raison du taux de référence et que cette adaptation n’a pas été contestée, c’est le taux de cette adaptation qui compte. Le taux de référence actuel est présélectionné comme nouveau taux. Vous pouvez aussi saisir le renchérissement et un forfait pour la hausse générale des coûts, que le bailleur peut compenser avec une baisse. Le calculateur affiche chaque part en pour cent, le nouveau loyer net estimé et la différence par mois et par an.</p>
+<h2>Taux de référence actuel : 1,25 %</h2>
+<p>Le taux d’intérêt de référence applicable aux contrats de bail est de 1,25 %. Il est valable depuis le 2 septembre 2025 et a été confirmé sans changement le 1er septembre 2026. L’Office fédéral du logement (OFL) le publie chaque trimestre ; la prochaine publication est annoncée pour le 1er décembre 2026. Le taux repose sur le taux d’intérêt moyen des créances hypothécaires en Suisse, arrondi au quart de pour cent (art. 12a OBLF). État de cette page : 25 novembre 2026.</p>
+{ref_table('fr')}
+<h2>Les règles de l’ordonnance</h2>
+<p>Selon l’art. 13 de l’ordonnance sur le bail à loyer et le bail à ferme d’habitations et de locaux commerciaux (OBLF), une hausse du taux hypothécaire d’un quart de point autorise en règle générale une hausse de loyer de 3 % au plus tant que le taux est inférieur à 5 % ; entre 5 et 6 %, c’est 2,5 %, au-delà de 6 %, 2 %. En cas de baisse, les loyers doivent être baissés en conséquence. Pour une baisse d’un quart de point, cela donne un droit à une réduction de 2,91 %, car 1 − 1 ÷ 1,03 = 2,91 %. Plusieurs paliers s’additionnent :</p>
+<table class="data-table">
+<thead><tr><th scope="col">Variation</th><th scope="col">Hausse</th><th scope="col">Baisse</th></tr></thead>
+<tbody><tr><td>0,25 point</td><td>+3,00 %</td><td>−2,91 %</td></tr><tr><td>0,50 point</td><td>+6,00 %</td><td>−5,66 %</td></tr><tr><td>0,75 point</td><td>+9,00 %</td><td>−8,26 %</td></tr><tr><td>1,00 point</td><td>+12,00 %</td><td>−10,71 %</td></tr></tbody>
+</table>
+<p>Pour compenser le renchérissement, le loyer peut être augmenté au plus de 40 % de la hausse de l’indice suisse des prix à la consommation (IPC) (art. 16 OBLF). Le bailleur peut aussi compenser une baisse avec d’autres hausses de coûts, par exemple des taxes plus élevées. Beaucoup de bailleurs font valoir pour cela un forfait annuel ; son admissibilité et son montant dépendent du cas concret. C’est pourquoi le champ est vide par défaut.</p>
+<h2>Formule</h2>
+<p class="formula">Part du taux (baisse) = −(1 − 1 ÷ (1 + 3 % × nombre de paliers))<br>Part du taux (hausse) = +3 % × nombre de paliers<br>Renchérissement = 40 % × (IPC actuel ÷ IPC ancien − 1)<br>Coûts = forfait annuel × mois entiers ÷ 12<br>Nouveau loyer net = loyer net × (1 + part du taux + renchérissement + coûts)</p>
+<p>Le calculateur additionne les trois pourcentages et les applique au loyer net actuel. La formule avec 3 % vaut pour les taux inférieurs à 5 %, donc pour tous les taux de référence publiés jusqu’ici. Certains calculateurs et autorités de conciliation arrondissent ou combinent un peu autrement ; le résultat est une estimation.</p>
+<h2>Exemple</h2>
+<p>Votre loyer net est de CHF 1'800 et repose sur un taux de référence de 1,75 %. Aujourd’hui, le taux est de 1,25 %, soit deux paliers à la baisse : −5,66 %. L’IPC est passé de 105,0 à 107,1 points depuis la dernière adaptation (valeurs supposées pour l’exemple), soit +2 % ; le bailleur peut en compter 40 %, soit +0,80 %. Au total −4,86 % : le nouveau loyer net est de CHF 1'712.51, soit CHF 87.49 de moins par mois ou CHF 1'049.88 par an. Si le bailleur fait valoir en plus un forfait de 0,5 % par an sur 36 mois (également une hypothèse), il faut ajouter +1,50 % ; le loyer ne baisse alors plus qu’à CHF 1'739.51.</p>
+<h2>Comment demander une baisse de loyer</h2>
+<p>La baisse n’est pas automatique. Vous adressez au bailleur une demande écrite de diminution, de préférence en recommandé, pour le prochain terme de résiliation (art. 270a CO). Le bailleur doit se prononcer dans les 30 jours. S’il refuse, compense ou ne répond pas, vous pouvez saisir l’autorité de conciliation de votre canton dans un nouveau délai de 30 jours. La procédure y est en général gratuite.</p>
+<p><strong>Important :</strong> le résultat est une estimation, pas un conseil juridique. La baisse à laquelle vous avez droit dépend de votre bail et d’autres facteurs. En cas de doute, faites vérifier votre situation par l’<a href="{RENT_SRC['asloca']}" rel="noopener">ASLOCA</a>, le Mieterverband en Suisse alémanique ou l’office de conciliation.</p>'''
+
+RENT_FAQ_FR = [
+    ('Où trouver le taux de référence de mon loyer ?',
+     'En général dans le bail ou sur la formule de la dernière adaptation du loyer. Le taux déterminant est celui en vigueur à la conclusion du bail ou, si le loyer a depuis été adapté en raison du taux de référence sans contestation, celui de cette adaptation.'),
+    ('Pourquoi 2,91 % et pas 3 % ?',
+     'Une hausse de 3 % transforme CHF 100 en CHF 103. Pour revenir à CHF 100, il faut retirer 3 sur 103, soit 2,91 %. Pour deux paliers, c’est 6 sur 106, soit 5,66 %.'),
+    ('Le bailleur peut-il refuser la baisse ?',
+     'Il peut la compenser avec des hausses de coûts et 40 % du renchérissement, et doit expliquer pourquoi. Si vous n’êtes pas d’accord, vous pouvez saisir l’autorité de conciliation dans les 30 jours.'),
+    ('La baisse s’applique-t-elle aux frais accessoires ?',
+     'Non. Le taux de référence concerne seulement le loyer net. Les frais de chauffage et frais accessoires convenus séparément ne changent pas.'),
+    ('Et pour un loyer indexé ?',
+     'Avec un loyer indexé selon l’art. 269b CO, le loyer suit l’indice suisse des prix à la consommation et non le taux de référence. Les loyers échelonnés suivent aussi leurs propres règles. En cas de doute, faites vérifier ce type de bail.'),
+    ('Mes données sont-elles enregistrées ?',
+     'Non. Le calcul se fait uniquement dans votre navigateur. Votre loyer n’est ni transmis ni enregistré.'),
+]
+
+RENTSRC = {
+    'de': [
+        f'Verordnung über die Miete und Pacht von Wohn- und Geschäftsräumen (VMWG), SR 221.213.11, Art. 12a, 13 und 16: <a href="{RENT_SRC["vmwg_de"]}">{RENT_SRC["vmwg_de"]}</a>',
+        f'Obligationenrecht (OR), SR 220, Art. 269b und 270a: <a href="{RENT_SRC["or_de"]}">{RENT_SRC["or_de"]}</a>',
+        f'Bundesamt für Wohnungswesen BWO, Referenzzinssatz (1.25 %, Stand 1. September 2026) und Fragen zur Mietzinsanpassung: <a href="{RENT_SRC["bwo_de"]}">{RENT_SRC["bwo_de"]}</a>',
+        f'BWO, Entwicklung Referenzzinssatz und Durchschnittszinssatz: <a href="{RENT_SRC["hist_de"]}">{RENT_SRC["hist_de"]}</a>',
+        f'Bundesamt für Statistik BFS, Landesindex der Konsumentenpreise: <a href="{RENT_SRC["lik_de"]}">{RENT_SRC["lik_de"]}</a>',
+    ],
+    'fr': [
+        f'Ordonnance sur le bail à loyer et le bail à ferme d’habitations et de locaux commerciaux (OBLF), RS 221.213.11, art. 12a, 13 et 16 : <a href="{RENT_SRC["vmwg_fr"]}">{RENT_SRC["vmwg_fr"]}</a>',
+        f'Code des obligations (CO), RS 220, art. 269b et 270a : <a href="{RENT_SRC["or_fr"]}">{RENT_SRC["or_fr"]}</a>',
+        f'Office fédéral du logement OFL, taux de référence (1,25 %, état au 1er septembre 2026) et questions sur l’adaptation des loyers : <a href="{RENT_SRC["bwo_fr"]}">{RENT_SRC["bwo_fr"]}</a>',
+        f'OFL, évolution du taux de référence et du taux d’intérêt moyen : <a href="{RENT_SRC["hist_fr"]}">{RENT_SRC["hist_fr"]}</a>',
+        f'Office fédéral de la statistique OFS, indice suisse des prix à la consommation : <a href="{RENT_SRC["lik_fr"]}">{RENT_SRC["lik_fr"]}</a>',
+    ],
+}
+
+WORDCOUNT['rent_de'] = tool_page(
+    'rent', 'de', 'Mietzinsrechner: Referenzzinssatz und Mietzinssenkung',
+    'Mietzinssenkung nach Referenzzinssatz berechnen: Viertelprozent-Schritte nach Art. 13 VMWG, 40 % Teuerung und Kostensteigerung. Aktuell 1.25 %.',
+    'Mietzinsrechner Referenzzinssatz',
+    'Prüfen Sie, ob Ihre Miete mit dem aktuellen Referenzzinssatz von 1.25 % sinken könnte – mit Teuerung und Kostensteigerung nach Mietrecht.',
+    rent_tool('de'), RENT_ART_DE, RENT_FAQ_DE, RENTSRC['de'], 'FinanceApplication',
+    ' · Referenzzinssatz geprüft am 25.11.2026; nächste Publikation des BWO: 1.12.2026')
+WORDCOUNT['rent_fr'] = tool_page(
+    'rent', 'fr', 'Baisse de loyer et taux de référence : calcul en ligne',
+    'Calculez une baisse de loyer selon le taux de référence : paliers d’un quart de point (art. 13 OBLF), 40 % du renchérissement et coûts. Actuel 1,25 %.',
+    'Calcul du loyer selon le taux de référence',
+    'Vérifiez si votre loyer peut baisser avec le taux de référence actuel de 1,25 % – avec le renchérissement et la hausse des coûts selon le droit du bail.',
+    rent_tool('fr'), RENT_ART_FR, RENT_FAQ_FR, RENTSRC['fr'], 'FinanceApplication',
+    ' · Taux de référence vérifié le 25.11.2026 ; prochaine publication de l’OFL : 1.12.2026')
+
+# =====================================================================
 # 4. Home pages
 # =====================================================================
 def home(lang):
     if lang == 'de':
         body = f'''<h1>Schweizer Rechner</h1>
-<p class="lead">Einfache Online-Rechner für den Alltag in der Schweiz: Arbeitszeit, Lohn, Prozent, Mehrwertsteuer, Datum und IBAN.</p>
+<p class="lead">Einfache Online-Rechner für den Alltag in der Schweiz: Arbeitszeit, Brutto-Netto-Lohn, Miete, Prozent, Mehrwertsteuer, Datum und IBAN.</p>
 <ul class="cards">{''.join(f'<li><a href="{u}"><strong>{n}</strong>{d}</a></li>' for u, n, d in TOOLS['de'])}</ul>
 <h2>Was diese Seite ist</h2>
-<p>Diese Seite sammelt kleine Rechner für Fragen, die im Schweizer Berufsalltag immer wieder vorkommen: Wie viele Stunden habe ich diese Woche gearbeitet? War meine Pause lang genug? Wie viel Mehrwertsteuer steckt in einer Rechnung? Um wie viel Prozent ist ein Preis gestiegen? Was ist mein Monatslohn pro Stunde wert? Stimmt diese IBAN?</p>
+<p>Diese Seite sammelt kleine Rechner für Fragen, die im Schweizer Berufsalltag immer wieder vorkommen: Wie viele Stunden habe ich diese Woche gearbeitet? War meine Pause lang genug? Wie viel Mehrwertsteuer steckt in einer Rechnung? Um wie viel Prozent ist ein Preis gestiegen? Was ist mein Monatslohn pro Stunde wert? Wie viel bleibt vom Bruttolohn netto? Darf meine Miete wegen des Referenzzinssatzes sinken? Stimmt diese IBAN?</p>
 <p>Jeder Rechner erklärt die Formel, zeigt ein Beispiel in Franken und beantwortet häufige Fragen. Gesetzliche Werte wie MWST-Sätze oder Mindestpausen stammen aus offiziellen Quellen des Bundes, die auf der jeweiligen Seite verlinkt sind.</p>
 <h2>Ihre Daten bleiben bei Ihnen</h2>
 <p>Alle Berechnungen laufen direkt in Ihrem Browser. Es werden keine Eingaben übermittelt oder gespeichert, und die Seite setzt keine Cookies. Mehr dazu in der <a href="/de/datenschutz/">Datenschutzerklärung</a>.</p>
 <p>Die Seite gibt es auch auf <a href="/fr/" hreflang="fr-CH" lang="fr-CH">Französisch</a>.</p>
 <p class="stand">{STAND['de']}</p>'''
-        title, desc = 'Schweizer Rechner: Arbeitszeit, Lohn, MWST, IBAN', 'Kostenlose Rechner für die Schweiz: Arbeitszeit nach ArG, Stundenlohn, Prozent, MWST, Tage zwischen Daten und IBAN-Prüfung. Ohne Cookies.'
+        title, desc = 'Schweizer Rechner: Arbeitszeit, Lohn, MWST, IBAN', 'Kostenlose Rechner für die Schweiz: Brutto-Netto-Lohn, Mietzins nach Referenzzinssatz, Arbeitszeit, Stundenlohn, Prozent, MWST, Daten und IBAN.'
     else:
         body = f'''<h1>Calculateurs suisses</h1>
-<p class="lead">Des calculateurs simples pour le quotidien en Suisse : heures de travail, salaire, pourcentages, TVA, dates et IBAN.</p>
+<p class="lead">Des calculateurs simples pour le quotidien en Suisse : heures de travail, salaire brut-net, loyer, pourcentages, TVA, dates et IBAN.</p>
 <ul class="cards">{''.join(f'<li><a href="{u}"><strong>{n}</strong>{d}</a></li>' for u, n, d in TOOLS['fr'])}</ul>
 <h2>À propos de ce site</h2>
-<p>Ce site réunit de petits calculateurs pour des questions qui reviennent sans cesse dans la vie professionnelle en Suisse : combien d’heures ai-je travaillé cette semaine ? Ma pause était-elle assez longue ? Quelle TVA contient cette facture ? De combien de pour cent un prix a-t-il augmenté ? Combien vaut mon salaire mensuel à l’heure ? Cette IBAN est-elle correcte ?</p>
+<p>Ce site réunit de petits calculateurs pour des questions qui reviennent sans cesse dans la vie professionnelle en Suisse : combien d’heures ai-je travaillé cette semaine ? Ma pause était-elle assez longue ? Quelle TVA contient cette facture ? De combien de pour cent un prix a-t-il augmenté ? Combien vaut mon salaire mensuel à l’heure ? Que reste-t-il du salaire brut une fois les cotisations déduites ? Mon loyer peut-il baisser avec le taux de référence ? Cette IBAN est-elle correcte ?</p>
 <p>Chaque calculateur explique la formule, donne un exemple en francs et répond aux questions fréquentes. Les valeurs légales, comme les taux de TVA ou les pauses minimales, proviennent de sources officielles de la Confédération, citées sur chaque page.</p>
 <h2>Vos données restent chez vous</h2>
 <p>Tous les calculs se font directement dans votre navigateur. Aucune saisie n’est transmise ni enregistrée, et le site n’utilise pas de cookies. Plus de détails dans la <a href="/fr/confidentialite/">politique de confidentialité</a>.</p>
 <p>Le site existe aussi en <a href="/de/" hreflang="de-CH" lang="de-CH">allemand</a>.</p>
 <p class="stand">{STAND['fr']}</p>'''
-        title, desc = 'Calculateurs suisses : heures, salaire, TVA, IBAN', 'Calculateurs gratuits pour la Suisse : heures de travail selon la LTr, salaire horaire, pourcentage, TVA, jours entre dates et IBAN. Sans cookies.'
+        title, desc = 'Calculateurs suisses : heures, salaire, TVA, IBAN', 'Calculateurs gratuits pour la Suisse : salaire brut-net, loyer et taux de référence, heures de travail, salaire horaire, TVA, dates et IBAN.'
     path = PAIRS['home'][0 if lang == 'de' else 1]
     ld = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': SITE[lang], 'url': BASE + path,
           'inLanguage': 'de-CH' if lang == 'de' else 'fr-CH'}
@@ -882,12 +1258,14 @@ for path, doc, _, _ in ALL_PAGES:
 (ROOT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n', encoding='utf-8')
 
 # Sitemap with hreflang alternates
+# Tool and home pages changed on 2026-11-25 (new tools, new links); legal pages unchanged.
+LASTMOD = {k: '2026-11-25' for k in PAIRS if k not in ('imp', 'priv', 'contact')}
 urls = []
 for key, (de, fr) in PAIRS.items():
     for p in (de, fr):
         urls.append(f'''  <url>
     <loc>{BASE}{p}</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>{LASTMOD.get(key, '2026-11-24')}</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="{BASE}{de}"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="{BASE}{fr}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="{BASE}{de}"/>
