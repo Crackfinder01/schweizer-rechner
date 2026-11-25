@@ -26,6 +26,7 @@ PAIRS = {
     'days': ('/de/tage-zwischen-zwei-daten/', '/fr/calcul-jours-entre-deux-dates/'),
     'net': ('/de/brutto-netto-rechner/', '/fr/salaire-brut-net-suisse/'),
     'rent': ('/de/mietzinsrechner/', '/fr/calcul-loyer-taux-reference/'),
+    'cv': ('/de/lebenslauf-schweiz/', '/fr/cv-suisse/'),
     'imp': ('/de/impressum/', '/fr/mentions-legales/'),
     'priv': ('/de/datenschutz/', '/fr/confidentialite/'),
     'contact': ('/de/kontakt/', '/fr/contact/'),
@@ -57,7 +58,8 @@ TOOLS = {
            ('/de/stundenlohn-rechner/', 'Stundenlohn-Rechner', 'Monatslohn in Stundenlohn umrechnen und umgekehrt, mit 12 oder 13 Löhnen.'),
            ('/de/mietzinsrechner/', 'Mietzinsrechner', 'Mietzinssenkung oder -erhöhung nach Referenzzinssatz, Teuerung und Kosten.'),
            ('/de/tage-zwischen-zwei-daten/', 'Tage zwischen zwei Daten', 'Kalendertage, Arbeitstage Montag bis Freitag und Wochen.'),
-           ('/de/iban-pruefen/', 'IBAN prüfen', 'Länge und Prüfziffer einer IBAN offline prüfen, QR-IBAN erkennen.')],
+           ('/de/iban-pruefen/', 'IBAN prüfen', 'Länge und Prüfziffer einer IBAN offline prüfen, QR-IBAN erkennen.'),
+           ('/de/lebenslauf-schweiz/', 'Lebenslauf Schweiz', 'Lebenslauf nach Schweizer Standard erstellen und prüfen, als A4-PDF.')],
     'fr': [('/fr/calcul-heures-travail/', 'Calcul des heures de travail', 'Heures par jour et par semaine, pauses selon la loi sur le travail, horaires de nuit.'),
            ('/fr/calcul-pourcentage/', 'Calcul de pourcentage', 'Pourcentage d’un montant, part en %, variation, montant plus ou moins %.'),
            ('/fr/calcul-tva-suisse/', 'Calcul de la TVA suisse', 'Ajouter ou extraire la TVA, avec arrondi à 5 centimes.'),
@@ -65,7 +67,8 @@ TOOLS = {
            ('/fr/calcul-salaire-horaire/', 'Calcul du salaire horaire', 'Salaire mensuel en salaire horaire et inversement, avec 12 ou 13 salaires.'),
            ('/fr/calcul-loyer-taux-reference/', 'Loyer et taux de référence', 'Baisse ou hausse de loyer selon le taux de référence, le renchérissement et les coûts.'),
            ('/fr/calcul-jours-entre-deux-dates/', 'Jours entre deux dates', 'Jours calendaires, jours ouvrés du lundi au vendredi et semaines.'),
-           ('/fr/verifier-iban/', 'Vérifier une IBAN', 'Longueur et clé de contrôle d’une IBAN hors ligne, détection de la QR-IBAN.')],
+           ('/fr/verifier-iban/', 'Vérifier une IBAN', 'Longueur et clé de contrôle d’une IBAN hors ligne, détection de la QR-IBAN.'),
+           ('/fr/cv-suisse/', 'CV suisse', 'Créer et vérifier un CV aux normes suisses, en PDF A4.')],
 }
 
 ALL_PAGES = []  # (path, html_text)
@@ -110,7 +113,7 @@ def page(key, lang, title, desc, body, jsonld=None, script=False, crumbs=None):
                 + '</nav>')
     ld = (f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False, separators=(",", ":"))}</script>\n'
           if jsonld else '')
-    js = '<script type="module" src="/js/ui.js"></script>\n' if script else ''
+    js = (f'<script type="module" src="{script if isinstance(script, str) else "/js/ui.js"}"></script>\n' if script else '')
     foot = ' · '.join(f'<a href="{h}">{t}</a>' for h, t in FOOT[lang])
     crumb_html = ''
     if crumbs:
@@ -163,7 +166,7 @@ def other_tools(lang, exclude):
     return f'<h2>{h}</h2>\n<ul class="cards">{items}</ul>'
 
 
-def tool_page(key, lang, title, desc, h1, lead, tool_html, article, faq, sources, category, stand_extra=''):
+def tool_page(key, lang, title, desc, h1, lead, tool_html, article, faq, sources, category, stand_extra='', script=True):
     path = PAIRS[key][0 if lang == 'de' else 1]
     src_h = 'Quellen' if lang == 'de' else 'Sources'
     src = ''
@@ -182,7 +185,7 @@ def tool_page(key, lang, title, desc, h1, lead, tool_html, article, faq, sources
 {AD2}
 {other_tools(lang, path)}'''
     page(key, lang, title, desc, body, jsonld_tool(lang, BASE + path, h1, desc, faq, category),
-         script=True, crumbs=h1)
+         script=script, crumbs=h1)
     words = len(strip_tags(article + ' ' + ' '.join(q + ' ' + a for q, a in faq)).split())
     return words
 
@@ -1091,33 +1094,308 @@ WORDCOUNT['rent_fr'] = tool_page(
     ' · Taux de référence vérifié le 25.11.2026 ; prochaine publication de l’OFL : 1.12.2026')
 
 # =====================================================================
+# 3b. Swiss CV (Lebenslauf / CV)
+# =====================================================================
+CV_SRC = {
+    'sdbb_de': 'https://www.berufsberatung.ch/de/lehre-und-schule/lehrstellenbewerbung/sich-um-eine-lehrstelle-bewerben/lebenslauf-erstellen',
+    'sdbb_fr': 'https://www.orientation.ch/fr/creer-un-curriculum-vitae',
+    'job_de': 'https://www.berufsberatung.ch/dyn/show/22269',
+    'job_fr': 'https://www.orientation.ch/dyn/show/22269?lang=fr',
+    'zhaw': 'https://www.zhaw.ch/storage/hochschule/career-services/Dokumente/Anleitung_Bewerbungsunterlagen.pdf',
+    'vd': 'https://www.vd.ch/fileadmin/user_upload/themes/formation/orientation/fichiers_pdf/publications/postuler_adultes_1curriculum_web.pdf',
+    'fr_de': 'https://www.fr.ch/de/alltag/aufenthaltsbewilligungen-und-einbuergerung/die-verschiedenen-bewilligungsarten-0',
+    'fr_fr': 'https://www.fr.ch/vie-quotidienne/permis-de-sejour-et-naturalisation/les-types-de-permis-de-sejour',
+    'sem': 'https://www.sem.admin.ch/en/residence-permits-for-non-eu-efta-nationals',
+    'or_de': 'https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de#art_330_a',
+    'or_fr': 'https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_330_a',
+}
+
+CV_PERMITS = {
+    'de': [('B', 'Ausweis B (Aufenthaltsbewilligung)'), ('C', 'Ausweis C (Niederlassungsbewilligung)'), ('G', 'Ausweis G (Grenzgängerbewilligung)'),
+           ('L', 'Ausweis L (Kurzaufenthaltsbewilligung)'), ('Ci', 'Ausweis Ci'), ('F', 'Ausweis F (vorläufig aufgenommen)'),
+           ('N', 'Ausweis N (Asylsuchende)'), ('S', 'Ausweis S (Schutzstatus S)')],
+    'fr': [('B', 'Permis B (autorisation de séjour)'), ('C', 'Permis C (autorisation d’établissement)'), ('G', 'Permis G (autorisation frontalière)'),
+           ('L', 'Permis L (autorisation de courte durée)'), ('Ci', 'Permis Ci'), ('F', 'Permis F (admission provisoire)'),
+           ('N', 'Permis N (requérant d’asile)'), ('S', 'Permis S (statut de protection S)')],
+}
+
+
+def cv_tool(lang):
+    fr = lang == 'fr'
+    L = dict(
+        h='Lebenslauf erstellen', personal='Persönliche Angaben', first='Vorname', last='Nachname',
+        headline='Beruf oder gesuchte Stelle (optional)', street='Strasse und Nr.', city='PLZ und Ort', phone='Telefon', email='E-Mail',
+        birth='Geburtsdatum', birth_h='TT.MM.JJJJ', nat='Nationalität', nat_h='z. B. Schweiz, Italien, Portugal',
+        permit='Bewilligung (ohne Schweizer Pass)', none='– keine / Schweizer Pass –', origin='Heimatort (optional)',
+        civil='Zivilstand (optional)', license='Führerausweis (optional)', license_h='z. B. Kat. B',
+        photo='Foto (optional)', photo_h='Wird nur in Ihrem Browser verarbeitet und auf das Passformat 35 × 45 zugeschnitten. Nichts wird hochgeladen.',
+        photo_rm='Foto entfernen', profile='Kurzprofil (optional, 2–4 Sätze)',
+        work='Berufserfahrung', add_work='+ Stelle hinzufügen', edu='Aus- und Weiterbildung', add_edu='+ Ausbildung hinzufügen',
+        langs='Sprachen', add_lang='+ Sprache hinzufügen', more='Weitere Angaben', it='IT-Kenntnisse', interests='Interessen und Hobbys',
+        refs='Referenzen', ref_req='«Auf Anfrage» (empfohlen)', ref_list='Personen angeben', add_ref='+ Referenz hinzufügen',
+        cvlang='Sprache des Lebenslaufs', print='Als PDF speichern', print_h='Öffnet das Druckfenster: wählen Sie «Als PDF speichern» und Papierformat A4.',
+        example='Beispiel laden', save='Entwurf speichern (Datei)', open='Entwurf öffnen', clear='Alles löschen',
+        checks='Prüfung nach Schweizer Standard', preview='Vorschau',
+        from_='Von', to='Bis', month_h='MM.JJJJ', current='bis heute', role='Funktion', org='Arbeitgeber', place='Ort',
+        tasks='Tätigkeiten und Erfolge (eine pro Zeile)', cert='Arbeitszeugnis vorhanden', title='Abschluss oder Kurs', school='Schule oder Institution',
+        lang='Sprache', level='Niveau', choose='– wählen –', native='Muttersprache', name='Name', func='Funktion', firm='Firma',
+        remove='Entfernen', job='Stelle', training='Ausbildung', reference='Referenz', privacy='Ihre Angaben und Ihr Foto bleiben in diesem Browserfenster. Nichts wird gesendet oder gespeichert – wer die Seite schliesst, verliert die Eingaben, ausser er speichert den Entwurf als Datei auf dem eigenen Gerät.',
+        noscript='Für den Lebenslauf-Generator wird JavaScript benötigt.',
+    ) if not fr else dict(
+        h='Créer son CV', personal='Données personnelles', first='Prénom', last='Nom',
+        headline='Métier ou poste visé (facultatif)', street='Rue et n°', city='NPA et localité', phone='Téléphone', email='E-mail',
+        birth='Date de naissance', birth_h='JJ.MM.AAAA', nat='Nationalité', nat_h='p. ex. Suisse, Italie, Portugal',
+        permit='Permis (sans passeport suisse)', none='– aucun / passeport suisse –', origin='Lieu d’origine (facultatif)',
+        civil='État civil (facultatif)', license='Permis de conduire (facultatif)', license_h='p. ex. cat. B',
+        photo='Photo (facultative)', photo_h='Traitée uniquement dans votre navigateur et recadrée au format passeport 35 × 45. Rien n’est envoyé.',
+        photo_rm='Retirer la photo', profile='Profil (facultatif, 2 à 4 phrases)',
+        work='Expérience professionnelle', add_work='+ Ajouter un poste', edu='Formation et formation continue', add_edu='+ Ajouter une formation',
+        langs='Langues', add_lang='+ Ajouter une langue', more='Autres informations', it='Informatique', interests='Centres d’intérêt',
+        refs='Références', ref_req='« Sur demande » (recommandé)', ref_list='Indiquer des personnes', add_ref='+ Ajouter une référence',
+        cvlang='Langue du CV', print='Enregistrer en PDF', print_h='Ouvre la fenêtre d’impression : choisissez « Enregistrer au format PDF » et le format A4.',
+        example='Charger un exemple', save='Enregistrer le brouillon (fichier)', open='Ouvrir un brouillon', clear='Tout effacer',
+        checks='Contrôle selon les usages suisses', preview='Aperçu',
+        from_='Du', to='Au', month_h='MM.AAAA', current='à ce jour', role='Fonction', org='Employeur', place='Lieu',
+        tasks='Tâches et réalisations (une par ligne)', cert='Certificat de travail disponible', title='Diplôme ou cours', school='École ou institution',
+        lang='Langue', level='Niveau', choose='– choisir –', native='Langue maternelle', name='Nom', func='Fonction', firm='Entreprise',
+        remove='Supprimer', job='Poste', training='Formation', reference='Référence', privacy='Vos données et votre photo restent dans cette fenêtre du navigateur. Rien n’est envoyé ni enregistré : en fermant la page, vous perdez la saisie, sauf si vous enregistrez le brouillon comme fichier sur votre appareil.',
+        noscript='Le générateur de CV nécessite JavaScript.',
+    )
+    f = lambda name, label, hint='', typ='text', extra='': (
+        f'<div class="field"><label for="cv-{name}">{label}</label><input type="{typ}" id="cv-{name}" name="{name}"{extra}'
+        + (f' aria-describedby="cv-{name}-h"' if hint else '') + '>'
+        + (f'<span class="note" id="cv-{name}-h">{hint}</span>' if hint else '') + '</div>')
+    permits = ''.join(f'<option value="{k}">{n}</option>' for k, n in CV_PERMITS[lang])
+    levels = ''.join(f'<option value="{v}">{t}</option>' for v, t in [('native', L['native']), ('C2', 'C2'), ('C1', 'C1'), ('B2', 'B2'), ('B1', 'B1'), ('A2', 'A2'), ('A1', 'A1')])
+    cvlangs = ''.join(f'<option value="{v}"{" selected" if v == lang else ""} lang="{v}">{t}</option>' for v, t in
+                      [('de', 'Deutsch'), ('fr', 'Français'), ('it', 'Italiano'), ('en', 'English')])
+    rm = f'<button type="button" class="link-btn" data-remove aria-label="{L["remove"]}" title="{L["remove"]}">×</button>'
+    lf = lambda k, label, hint='', typ='text', extra='': (
+        f'<div class="field"><label data-for="{k}">{label}</label><input type="{typ}" data-k="{k}"{extra}'
+        + (f' placeholder="{hint}"' if hint else '') + '></div>')
+    return f'''<section class="tool cv-tool" data-tool="cv" aria-labelledby="tool-h">
+<h2 id="tool-h">{L['h']}</h2>
+<p class="note cv-privacy">{L['privacy']}</p>
+<form id="cv-form" class="cv-form" novalidate autocomplete="off">
+<div class="row">
+<div class="field"><label for="cv-cvlang">{L['cvlang']}</label><select id="cv-cvlang" name="cvlang">{cvlangs}</select></div>
+<div class="field"><button type="button" class="btn-sec" data-act="example">{L['example']}</button></div>
+</div>
+<fieldset><legend>{L['personal']}</legend>
+<div class="row">{f('first', L['first'], extra=' autocomplete="given-name"')}{f('last', L['last'], extra=' autocomplete="family-name"')}</div>
+{f('headline', L['headline'])}
+<div class="row">{f('street', L['street'], extra=' autocomplete="street-address"')}{f('city', L['city'])}</div>
+<div class="row">{f('phone', L['phone'], typ='tel', extra=' autocomplete="tel"')}{f('email', L['email'], typ='email', extra=' autocomplete="email"')}</div>
+<div class="row">{f('birth', L['birth'], L['birth_h'], extra=' inputmode="numeric" maxlength="10"')}{f('nationality', L['nat'], L['nat_h'])}</div>
+<div class="row"><div class="field"><label for="cv-permit">{L['permit']}</label><select id="cv-permit" name="permit"><option value="">{L['none']}</option>{permits}</select></div>{f('origin', L['origin'])}</div>
+<div class="row">{f('civil', L['civil'])}{f('license', L['license'], L['license_h'])}</div>
+<div class="field"><label for="cv-photo">{L['photo']}</label><input type="file" id="cv-photo" accept="image/jpeg,image/png,image/webp" aria-describedby="cv-photo-h"><span class="note" id="cv-photo-h">{L['photo_h']}</span>
+<button type="button" class="btn-sec" id="cv-photo-remove" hidden>{L['photo_rm']}</button></div>
+<div class="field"><label for="cv-profile">{L['profile']}</label><textarea id="cv-profile" name="profile" rows="3"></textarea></div>
+</fieldset>
+<fieldset><legend>{L['work']}</legend>
+<div data-list="work" class="cv-list"></div>
+<button type="button" class="btn-sec" data-act="add-work">{L['add_work']}</button>
+</fieldset>
+<fieldset><legend>{L['edu']}</legend>
+<div data-list="edu" class="cv-list"></div>
+<button type="button" class="btn-sec" data-act="add-edu">{L['add_edu']}</button>
+</fieldset>
+<fieldset><legend>{L['langs']}</legend>
+<div data-list="lang" class="cv-list cv-langs"></div>
+<button type="button" class="btn-sec" data-act="add-lang">{L['add_lang']}</button>
+</fieldset>
+<fieldset><legend>{L['more']}</legend>
+<div class="row">{f('it', L['it'])}{f('interests', L['interests'])}</div>
+</fieldset>
+<fieldset><legend>{L['refs']}</legend>
+<div class="choice"><label><input type="radio" name="refMode" value="request" checked> {L['ref_req']}</label><label><input type="radio" name="refMode" value="list"> {L['ref_list']}</label></div>
+<div class="cv-refs-list" hidden><div data-list="ref" class="cv-list"></div>
+<button type="button" class="btn-sec" data-act="add-ref">{L['add_ref']}</button></div>
+</fieldset>
+</form>
+<template id="tpl-work"><div class="cv-item"><p class="cv-item-h"><span>{L['job']} <span class="cv-num"></span></span> {rm}</p>
+<div class="row">{lf('from', L['from_'], L['month_h'])}{lf('to', L['to'], L['month_h'])}<div class="field"><label class="cv-check"><input type="checkbox" data-k="current"> {L['current']}</label></div></div>
+<div class="row">{lf('role', L['role'])}{lf('org', L['org'])}{lf('place', L['place'])}</div>
+<div class="field"><label data-for="tasks">{L['tasks']}</label><textarea data-k="tasks" rows="3"></textarea></div>
+<label class="cv-check"><input type="checkbox" data-k="cert"> {L['cert']}</label></div></template>
+<template id="tpl-edu"><div class="cv-item"><p class="cv-item-h"><span>{L['training']} <span class="cv-num"></span></span> {rm}</p>
+<div class="row">{lf('from', L['from_'], L['month_h'])}{lf('to', L['to'], L['month_h'])}<div class="field"><label class="cv-check"><input type="checkbox" data-k="current"> {L['current']}</label></div></div>
+<div class="row">{lf('title', L['title'])}{lf('school', L['school'])}{lf('place', L['place'])}</div></div></template>
+<template id="tpl-lang"><div class="cv-item cv-item-inline"><div class="row">{lf('name', L['lang'])}<div class="field"><label data-for="level">{L['level']}</label><select data-k="level"><option value="">{L['choose']}</option>{levels}</select></div><div class="field cv-rm">{rm}</div></div></div></template>
+<template id="tpl-ref"><div class="cv-item"><p class="cv-item-h"><span>{L['reference']} <span class="cv-num"></span></span> {rm}</p>
+<div class="row">{lf('name', L['name'])}{lf('role', L['func'])}{lf('org', L['firm'])}{lf('phone', L['phone'], typ='tel')}</div></div></template>
+<h3>{L['checks']}</h3>
+<ul class="cv-checks" aria-live="polite"></ul>
+<div class="cv-actions">
+<button type="button" class="btn" data-act="print" aria-describedby="cv-print-h">{L['print']}</button>
+<button type="button" class="btn-sec" data-act="save">{L['save']}</button>
+<label class="btn-sec cv-file">{L['open']}<input type="file" id="cv-open" accept="application/json,.json"></label>
+<button type="button" class="btn-sec" data-act="clear">{L['clear']}</button>
+</div>
+<p class="note" id="cv-print-h">{L['print_h']}</p>
+<p class="note cv-status" role="status"></p>
+<h3>{L['preview']} <span class="cv-pages note"></span></h3>
+<div class="cv-preview"><div class="cv-sheet" id="cv-sheet"></div></div>
+<noscript><p>{L['noscript']}</p></noscript>
+</section>'''
+
+
+CV_ART_DE = f'''<h2>So funktioniert der Lebenslauf-Generator</h2>
+<p>Füllen Sie die Felder aus. Rechts davon, beziehungsweise darunter auf dem Handy, sehen Sie sofort die A4-Vorschau. Die Reihenfolge erledigt das Werkzeug selbst: Die neueste Stelle und die neueste Ausbildung stehen zuoberst, die Muttersprache steht bei den Sprachen an erster Stelle. Gleichzeitig prüft es Ihre Angaben nach den Gepflogenheiten in der Schweiz und zeigt, was fehlt oder falsch aussieht: eine fehlende Bewilligung, ein Sprachniveau ohne Angabe, ein Enddatum vor dem Beginn, eine Lücke von mehr als sechs Monaten oder ein «ß», das in der Schweiz nicht verwendet wird.</p>
+<p>Mit <strong>Als PDF speichern</strong> öffnet sich das Druckfenster Ihres Browsers. Wählen Sie dort «Als PDF speichern» (oder «Microsoft Print to PDF») und das Format A4. Der Dateiname wird automatisch vorgeschlagen, zum Beispiel <em>Lebenslauf_Laura_Beispiel.pdf</em>.</p>
+<p><strong>Datenschutz:</strong> Alles läuft in Ihrem Browser – auch das Foto. Es gibt kein Konto, keine Cookies und keinen Server, der Ihre Daten sieht. Weil nichts gespeichert wird, können Sie Ihren Entwurf als kleine Datei auf Ihr Gerät herunterladen und später wieder öffnen.</p>
+<h2>Was in einen Schweizer Lebenslauf gehört</h2>
+<p>Die Berufs-, Studien- und Laufbahnberatung und die Career Services der Hochschulen beschreiben einen ähnlichen Aufbau:</p>
+<ul>
+<li><strong>Persönliche Angaben:</strong> Name, Adresse, Telefon, E-Mail, vollständiges Geburtsdatum und Nationalität. Wer keinen Schweizer Pass hat, gibt die Bewilligung an, zum Beispiel Ausweis B oder C. Den Heimatort nennen viele Schweizerinnen und Schweizer zusätzlich; Zivilstand und Familie sind freiwillig.</li>
+<li><strong>Berufserfahrung:</strong> Funktion, Arbeitgeber, Ort und Zeitraum mit Monat und Jahr, darunter die wichtigsten Tätigkeiten und Erfolge in Stichworten.</li>
+<li><strong>Aus- und Weiterbildung:</strong> Abschluss, Schule, Ort und Zeitraum, ebenfalls von neu nach alt.</li>
+<li><strong>Sprachen:</strong> zuerst die Muttersprache, dann die übrigen Sprachen mit Niveau nach dem Europäischen Referenzrahmen, von A1 bis C2.</li>
+<li><strong>IT-Kenntnisse, Interessen</strong> und am Schluss <strong>Referenzen</strong>, meist mit dem Vermerk «Auf Anfrage».</li>
+</ul>
+<h2>Die Schweizer Besonderheiten</h2>
+<ul>
+<li><strong>Foto:</strong> In der Schweiz verbreitet, aber rechtlich keine Pflicht. Wenn, dann ein aktuelles, professionelles Bild, kein Selfie. Der Generator schneidet es auf das Passformat 35 × 45 zu.</li>
+<li><strong>Umgekehrt chronologisch:</strong> Die aktuelle oder letzte Tätigkeit steht oben.</li>
+<li><strong>Länge:</strong> in der Regel eine bis zwei Seiten. Die Vorschau zeigt die Seitenumbrüche und warnt ab der dritten Seite.</li>
+<li><strong>Kein «ß»:</strong> In der Schweiz schreibt man «Strasse» und «gross». Ein Klick ersetzt alle «ß» im Lebenslauf.</li>
+<li><strong>Keine Unterschrift</strong> und kein Datum auf dem Lebenslauf nötig.</li>
+<li><strong>Arbeitszeugnisse:</strong> Sie haben in der Schweiz grosses Gewicht und gehören als Beilage ins Bewerbungsdossier, nicht in den Lebenslauf selbst. Arbeitnehmende können jederzeit ein Zeugnis verlangen (Art. 330a OR). Kreuzen Sie bei jeder Stelle an, ob Sie ein Zeugnis haben: Der Generator erinnert Sie daran, welche Zeugnisse Sie beilegen sollten.</li>
+</ul>
+<h2>Bewilligungen im Überblick</h2>
+<table class="data-table"><caption>Ausweise für Ausländerinnen und Ausländer</caption>
+<thead><tr><th scope="col">Ausweis</th><th scope="col">Bezeichnung</th></tr></thead>
+<tbody>{''.join(f'<tr><td>{k}</td><td>{n.split("(", 1)[1].rstrip(")") if "(" in n else "–"}</td></tr>' for k, n in CV_PERMITS['de'])}</tbody></table>
+<h2>Beispiel</h2>
+<p>Laura Beispiel, 30, Italienerin mit Ausweis C, bewirbt sich in Bern als Sachbearbeiterin. Ihr Lebenslauf beginnt mit Name, Beruf und Foto. Darunter stehen Adresse, Telefon, E-Mail, Geburtsdatum, Nationalität und «Ausweis C (Niederlassungsbewilligung)». Es folgen ihre zwei Stellen, die aktuelle zuerst, je mit zwei bis drei Stichworten, dann ihre Weiterbildung und die kaufmännische Lehre. Bei den Sprachen steht Italienisch als Muttersprache, danach Deutsch C1, Französisch B2 und Englisch B1. Ganz unten: «Referenzen: Auf Anfrage». Ergebnis: eine Seite A4. Die zwei Arbeitszeugnisse legt sie dem Dossier als PDF bei. Mit «Beispiel laden» sehen Sie diesen Lebenslauf direkt im Generator.</p>
+<p>Weitere Werkzeuge für die Stellensuche: der <a href="/de/brutto-netto-rechner/">Brutto-Netto-Rechner</a> für die Lohnfrage und der <a href="/de/stundenlohn-rechner/">Stundenlohn-Rechner</a>.</p>'''
+
+CV_FAQ_DE = [
+    ('Ist ein Foto im Lebenslauf in der Schweiz Pflicht?',
+     'Nein. Ein Foto ist üblich und wird oft erwartet, rechtlich ist es aber freiwillig. Bei Bewerbungen in englischsprachige Länder lässt man es meist weg. Im Generator ist das Foto optional.'),
+    ('Muss ich meine Aufenthaltsbewilligung angeben?',
+     'Wer keinen Schweizer Pass hat, nennt sie üblicherweise bei den persönlichen Angaben, zum Beispiel «Ausweis B». So sieht der Arbeitgeber sofort, ob eine Arbeitsbewilligung nötig ist.'),
+    ('Wie lang darf ein Lebenslauf sein?',
+     'In der Regel eine bis zwei Seiten A4. Nur bei sehr langer Erfahrung oder einer akademischen Laufbahn sind mehr Seiten üblich. Die Vorschau zeigt, wie viele Seiten Ihr Lebenslauf hat.'),
+    ('Wie gebe ich Sprachkenntnisse richtig an?',
+     'Zuerst die Muttersprache, dann jede weitere Sprache mit Niveau nach dem Europäischen Referenzrahmen: A1 und A2 für Grundkenntnisse, B1 und B2 für selbständige Sprachverwendung, C1 und C2 für sehr gute Kenntnisse.'),
+    ('Gehören Arbeitszeugnisse in den Lebenslauf?',
+     'Nein, sie kommen als Beilage ins Bewerbungsdossier, zusammen mit Diplomen. Der Lebenslauf nennt die Stellen; die Zeugnisse belegen sie.'),
+    ('Werden meine Daten oder mein Foto gespeichert?',
+     'Nein. Alles bleibt in Ihrem Browserfenster, nichts wird gesendet. Damit Sie später weiterarbeiten können, speichern Sie den Entwurf als Datei auf Ihrem eigenen Gerät.'),
+]
+
+CV_ART_FR = f'''<h2>Comment fonctionne le générateur de CV</h2>
+<p>Remplissez les champs : l’aperçu A4 se met à jour aussitôt. L’outil gère l’ordre tout seul : le poste et la formation les plus récents viennent en premier, et la langue maternelle ouvre la rubrique des langues. En même temps, il vérifie vos données selon les usages suisses et signale ce qui manque ou semble faux : un permis absent, une langue sans niveau, une date de fin antérieure au début, une période vide de plus de six mois, ou un « ß » dans un CV en allemand.</p>
+<p>Le bouton <strong>Enregistrer en PDF</strong> ouvre la fenêtre d’impression de votre navigateur. Choisissez « Enregistrer au format PDF » (ou « Microsoft Print to PDF ») et le format A4. Le nom du fichier est proposé automatiquement, par exemple <em>CV_Julie_Exemple.pdf</em>.</p>
+<p><strong>Protection des données :</strong> tout se passe dans votre navigateur – la photo aussi. Pas de compte, pas de cookies, aucun serveur ne voit vos données. Comme rien n’est enregistré, vous pouvez télécharger votre brouillon sous forme de petit fichier sur votre appareil et le rouvrir plus tard.</p>
+<h2>Ce que contient un CV suisse</h2>
+<p>L’orientation professionnelle, les offices cantonaux et les services carrière des hautes écoles décrivent une structure semblable :</p>
+<ul>
+<li><strong>Données personnelles :</strong> nom, adresse, téléphone, e-mail, date de naissance et nationalité. Sans passeport suisse, on indique son permis, par exemple permis B ou C. Les Suisses ajoutent souvent leur lieu d’origine ; l’état civil est facultatif.</li>
+<li><strong>Expérience professionnelle :</strong> fonction, employeur, lieu et période (mois et année), avec les principales tâches et réalisations en mots-clés.</li>
+<li><strong>Formation et formation continue :</strong> diplôme, école, lieu et période, du plus récent au plus ancien.</li>
+<li><strong>Langues :</strong> d’abord la langue maternelle, puis les autres langues avec leur niveau selon le Cadre européen commun de référence (CECR), de A1 à C2.</li>
+<li><strong>Informatique, centres d’intérêt</strong> et, à la fin, les <strong>références</strong>, le plus souvent avec la mention « sur demande ».</li>
+</ul>
+<h2>Les particularités suisses</h2>
+<ul>
+<li><strong>Photo :</strong> courante en Suisse, mais pas obligatoire. Si vous en mettez une : récente, soignée, sur fond neutre, pas de selfie. Le générateur la recadre au format passeport 35 × 45.</li>
+<li><strong>Ordre antichronologique :</strong> le poste actuel ou le dernier en premier.</li>
+<li><strong>Longueur :</strong> une à deux pages en général. L’aperçu montre les sauts de page et avertit dès la troisième page.</li>
+<li><strong>Pas de signature</strong> ni de date sur le CV.</li>
+<li><strong>Certificats de travail :</strong> ils comptent beaucoup en Suisse et se joignent en annexe au dossier de candidature, pas dans le CV lui-même. Le travailleur peut demander un certificat en tout temps (art. 330a CO). Cochez pour chaque poste si vous avez un certificat : le générateur vous rappelle lesquels joindre.</li>
+<li><strong>CV en allemand :</strong> en Suisse, on écrit « ss » au lieu de « ß ». Un clic corrige tout le CV.</li>
+</ul>
+<h2>Les permis en bref</h2>
+<table class="data-table"><caption>Permis pour les personnes de nationalité étrangère</caption>
+<thead><tr><th scope="col">Permis</th><th scope="col">Désignation</th></tr></thead>
+<tbody>{''.join(f'<tr><td>{k}</td><td>{n.split("(", 1)[1].rstrip(")") if "(" in n else "–"}</td></tr>' for k, n in CV_PERMITS['fr'])}</tbody></table>
+<h2>Exemple</h2>
+<p>Julie Exemple, 30 ans, Portugaise avec permis C, postule à Fribourg comme collaboratrice administrative. Son CV commence par son nom, son métier et sa photo. Viennent ensuite l’adresse, le téléphone, l’e-mail, la date de naissance, la nationalité et « Permis C (autorisation d’établissement) ». Puis ses deux postes, le plus récent d’abord, chacun avec deux ou trois mots-clés, sa formation continue et son CFC. Côté langues : portugais et français comme langues maternelles, allemand B2, anglais B1. Tout en bas : « Références : sur demande ». Résultat : une page A4. Elle joint ses deux certificats de travail en PDF à son dossier. Le bouton « Charger un exemple » affiche ce CV dans le générateur.</p>
+<p>Autres outils utiles pour la recherche d’emploi : le calculateur <a href="/fr/salaire-brut-net-suisse/">salaire brut-net</a> et le <a href="/fr/calcul-salaire-horaire/">calcul du salaire horaire</a>.</p>'''
+
+CV_FAQ_FR = [
+    ('La photo est-elle obligatoire sur un CV en Suisse ?',
+     'Non. Elle est courante et souvent attendue, mais facultative. Pour une candidature dans un pays anglophone, on l’omet en général. Dans le générateur, la photo est facultative.'),
+    ('Dois-je indiquer mon permis de séjour ?',
+     'Sans passeport suisse, on l’indique en général dans les données personnelles, par exemple « Permis B ». L’employeur voit ainsi tout de suite si une autorisation de travail est nécessaire.'),
+    ('Quelle longueur pour un CV suisse ?',
+     'En général une à deux pages A4. Plus de pages ne se justifient qu’avec une très longue expérience ou un parcours académique. L’aperçu indique le nombre de pages.'),
+    ('Comment indiquer ses langues ?',
+     'D’abord la langue maternelle, puis chaque langue avec son niveau CECR : A1 et A2 pour un niveau élémentaire, B1 et B2 pour un niveau indépendant, C1 et C2 pour un niveau expérimenté.'),
+    ('Les certificats de travail vont-ils dans le CV ?',
+     'Non, ils se joignent en annexe au dossier de candidature, avec les diplômes. Le CV cite les postes ; les certificats les attestent.'),
+    ('Mes données ou ma photo sont-elles enregistrées ?',
+     'Non. Tout reste dans votre fenêtre de navigateur, rien n’est envoyé. Pour reprendre plus tard, enregistrez le brouillon comme fichier sur votre propre appareil.'),
+]
+
+CVSRC = {
+    'de': [
+        f'Berufs-, Studien- und Laufbahnberatung (SDBB), Lebenslauf erstellen: <a href="{CV_SRC["sdbb_de"]}">{CV_SRC["sdbb_de"]}</a>',
+        f'SDBB, Eine Stelle suchen (Bewerbungsdossier mit Arbeitszeugnissen, PDF): <a href="{CV_SRC["job_de"]}">{CV_SRC["job_de"]}</a>',
+        f'ZHAW Career Services, Anleitung Bewerbungsunterlagen (Reihenfolge, Länge, Foto, Bewilligung, Sprachniveau, kein ß): <a href="{CV_SRC["zhaw"]}">{CV_SRC["zhaw"]}</a>',
+        f'Kanton Waadt, Office cantonal d’orientation scolaire et professionnelle, Créer un curriculum vitae: <a href="{CV_SRC["vd"]}">{CV_SRC["vd"]}</a>',
+        f'Kanton Freiburg, Die verschiedenen Bewilligungsarten (L, B, C, G, Ci): <a href="{CV_SRC["fr_de"]}">{CV_SRC["fr_de"]}</a>',
+        f'Staatssekretariat für Migration SEM, Ausweise F, N, S, Ci und G: <a href="{CV_SRC["sem"]}">{CV_SRC["sem"]}</a>',
+        f'Obligationenrecht (OR), SR 220, Art. 330a (Arbeitszeugnis): <a href="{CV_SRC["or_de"]}">{CV_SRC["or_de"]}</a>',
+    ],
+    'fr': [
+        f'Orientation professionnelle, universitaire et de carrière (CSFO), Créer un curriculum vitæ : <a href="{CV_SRC["sdbb_fr"]}">{CV_SRC["sdbb_fr"]}</a>',
+        f'CSFO, Rechercher un emploi (dossier avec certificats de travail, PDF) : <a href="{CV_SRC["job_fr"]}">{CV_SRC["job_fr"]}</a>',
+        f'Canton de Vaud, Office cantonal d’orientation scolaire et professionnelle, Créer un curriculum vitae (une page, antichronologique, niveau CECR, références sur demande) : <a href="{CV_SRC["vd"]}">{CV_SRC["vd"]}</a>',
+        f'ZHAW Career Services, Anleitung Bewerbungsunterlagen (en allemand ; longueur, photo, permis, langues) : <a href="{CV_SRC["zhaw"]}">{CV_SRC["zhaw"]}</a>',
+        f'Canton de Fribourg, Les types de permis de séjour (L, B, C, G, Ci) : <a href="{CV_SRC["fr_fr"]}">{CV_SRC["fr_fr"]}</a>',
+        f'Secrétariat d’État aux migrations SEM, permis F, N, S, Ci et G (en anglais) : <a href="{CV_SRC["sem"]}">{CV_SRC["sem"]}</a>',
+        f'Code des obligations (CO), RS 220, art. 330a (certificat de travail) : <a href="{CV_SRC["or_fr"]}">{CV_SRC["or_fr"]}</a>',
+    ],
+}
+
+WORDCOUNT['cv_de'] = tool_page(
+    'cv', 'de', 'Lebenslauf Schweiz erstellen: gratis, mit Prüfung',
+    'Lebenslauf nach Schweizer Standard erstellen und prüfen: Bewilligung, Sprachniveau A1–C2, Foto freiwillig, A4-PDF. Ohne Konto, Daten bleiben im Browser.',
+    'Lebenslauf für die Schweiz erstellen',
+    'Damit Ihr Lebenslauf in der Schweiz nichts falsch macht: Das Werkzeug ordnet, prüft und gestaltet ihn nach Schweizer Gepflogenheiten – als PDF im Format A4.',
+    cv_tool('de'), CV_ART_DE, CV_FAQ_DE, CVSRC['de'], 'BusinessApplication',
+    ' · Quellen geprüft am 25.11.2026', script='/js/cv-ui.js')
+WORDCOUNT['cv_fr'] = tool_page(
+    'cv', 'fr', 'CV suisse : créer et vérifier son CV gratuitement',
+    'Créez un CV aux normes suisses et vérifiez-le : permis, langues A1–C2, photo facultative, PDF A4. Sans compte, vos données restent dans le navigateur.',
+    'Créer un CV aux normes suisses',
+    'Pour que votre CV ne commette aucune erreur en Suisse : l’outil le trie, le vérifie et le met en page selon les usages suisses – en PDF au format A4.',
+    cv_tool('fr'), CV_ART_FR, CV_FAQ_FR, CVSRC['fr'], 'BusinessApplication',
+    ' · Sources vérifiées le 25.11.2026', script='/js/cv-ui.js')
+
+
+# =====================================================================
 # 4. Home pages
 # =====================================================================
 def home(lang):
     if lang == 'de':
         body = f'''<h1>Schweizer Rechner</h1>
-<p class="lead">Einfache Online-Rechner für den Alltag in der Schweiz: Arbeitszeit, Brutto-Netto-Lohn, Miete, Prozent, Mehrwertsteuer, Datum und IBAN.</p>
+<p class="lead">Einfache Online-Rechner für den Alltag in der Schweiz: Arbeitszeit, Brutto-Netto-Lohn, Miete, Prozent, Mehrwertsteuer, Datum und IBAN – und ein Lebenslauf nach Schweizer Standard.</p>
 <ul class="cards">{''.join(f'<li><a href="{u}"><strong>{n}</strong>{d}</a></li>' for u, n, d in TOOLS['de'])}</ul>
 <h2>Was diese Seite ist</h2>
-<p>Diese Seite sammelt kleine Rechner für Fragen, die im Schweizer Berufsalltag immer wieder vorkommen: Wie viele Stunden habe ich diese Woche gearbeitet? War meine Pause lang genug? Wie viel Mehrwertsteuer steckt in einer Rechnung? Um wie viel Prozent ist ein Preis gestiegen? Was ist mein Monatslohn pro Stunde wert? Wie viel bleibt vom Bruttolohn netto? Darf meine Miete wegen des Referenzzinssatzes sinken? Stimmt diese IBAN?</p>
+<p>Diese Seite sammelt kleine Rechner für Fragen, die im Schweizer Berufsalltag immer wieder vorkommen: Wie viele Stunden habe ich diese Woche gearbeitet? War meine Pause lang genug? Wie viel Mehrwertsteuer steckt in einer Rechnung? Um wie viel Prozent ist ein Preis gestiegen? Was ist mein Monatslohn pro Stunde wert? Wie viel bleibt vom Bruttolohn netto? Darf meine Miete wegen des Referenzzinssatzes sinken? Stimmt diese IBAN? Und wie sieht ein Lebenslauf aus, der in der Schweiz alles richtig macht?</p>
 <p>Jeder Rechner erklärt die Formel, zeigt ein Beispiel in Franken und beantwortet häufige Fragen. Gesetzliche Werte wie MWST-Sätze oder Mindestpausen stammen aus offiziellen Quellen des Bundes, die auf der jeweiligen Seite verlinkt sind.</p>
 <h2>Ihre Daten bleiben bei Ihnen</h2>
 <p>Alle Berechnungen laufen direkt in Ihrem Browser. Es werden keine Eingaben übermittelt oder gespeichert, und die Seite setzt keine Cookies. Mehr dazu in der <a href="/de/datenschutz/">Datenschutzerklärung</a>.</p>
 <p>Die Seite gibt es auch auf <a href="/fr/" hreflang="fr-CH" lang="fr-CH">Französisch</a>.</p>
 <p class="stand">{STAND['de']}</p>'''
-        title, desc = 'Schweizer Rechner: Arbeitszeit, Lohn, MWST, IBAN', 'Kostenlose Rechner für die Schweiz: Brutto-Netto-Lohn, Mietzins nach Referenzzinssatz, Arbeitszeit, Stundenlohn, Prozent, MWST, Daten und IBAN.'
+        title, desc = 'Schweizer Rechner: Arbeitszeit, Lohn, MWST, IBAN', 'Kostenlose Rechner für die Schweiz: Brutto-Netto-Lohn, Mietzins, Arbeitszeit, Stundenlohn, Prozent, MWST, Daten, IBAN und Lebenslauf.'
     else:
         body = f'''<h1>Calculateurs suisses</h1>
-<p class="lead">Des calculateurs simples pour le quotidien en Suisse : heures de travail, salaire brut-net, loyer, pourcentages, TVA, dates et IBAN.</p>
+<p class="lead">Des calculateurs simples pour le quotidien en Suisse : heures de travail, salaire brut-net, loyer, pourcentages, TVA, dates et IBAN – et un CV aux normes suisses.</p>
 <ul class="cards">{''.join(f'<li><a href="{u}"><strong>{n}</strong>{d}</a></li>' for u, n, d in TOOLS['fr'])}</ul>
 <h2>À propos de ce site</h2>
-<p>Ce site réunit de petits calculateurs pour des questions qui reviennent sans cesse dans la vie professionnelle en Suisse : combien d’heures ai-je travaillé cette semaine ? Ma pause était-elle assez longue ? Quelle TVA contient cette facture ? De combien de pour cent un prix a-t-il augmenté ? Combien vaut mon salaire mensuel à l’heure ? Que reste-t-il du salaire brut une fois les cotisations déduites ? Mon loyer peut-il baisser avec le taux de référence ? Cette IBAN est-elle correcte ?</p>
+<p>Ce site réunit de petits calculateurs pour des questions qui reviennent sans cesse dans la vie professionnelle en Suisse : combien d’heures ai-je travaillé cette semaine ? Ma pause était-elle assez longue ? Quelle TVA contient cette facture ? De combien de pour cent un prix a-t-il augmenté ? Combien vaut mon salaire mensuel à l’heure ? Que reste-t-il du salaire brut une fois les cotisations déduites ? Mon loyer peut-il baisser avec le taux de référence ? Cette IBAN est-elle correcte ? Et à quoi ressemble un CV qui respecte les usages suisses ?</p>
 <p>Chaque calculateur explique la formule, donne un exemple en francs et répond aux questions fréquentes. Les valeurs légales, comme les taux de TVA ou les pauses minimales, proviennent de sources officielles de la Confédération, citées sur chaque page.</p>
 <h2>Vos données restent chez vous</h2>
 <p>Tous les calculs se font directement dans votre navigateur. Aucune saisie n’est transmise ni enregistrée, et le site n’utilise pas de cookies. Plus de détails dans la <a href="/fr/confidentialite/">politique de confidentialité</a>.</p>
 <p>Le site existe aussi en <a href="/de/" hreflang="de-CH" lang="de-CH">allemand</a>.</p>
 <p class="stand">{STAND['fr']}</p>'''
-        title, desc = 'Calculateurs suisses : heures, salaire, TVA, IBAN', 'Calculateurs gratuits pour la Suisse : salaire brut-net, loyer et taux de référence, heures de travail, salaire horaire, TVA, dates et IBAN.'
+        title, desc = 'Calculateurs suisses : heures, salaire, TVA, IBAN', 'Calculateurs gratuits pour la Suisse : salaire brut-net, loyer, heures de travail, salaire horaire, TVA, dates, IBAN et CV suisse.'
     path = PAIRS['home'][0 if lang == 'de' else 1]
     ld = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': SITE[lang], 'url': BASE + path,
           'inLanguage': 'de-CH' if lang == 'de' else 'fr-CH'}
@@ -1156,7 +1434,7 @@ page('priv', 'de', 'Datenschutzerklärung – Schweizer Rechner', 'Datenschutz b
 <h2>Grundsatz</h2>
 <p>Diese Website ist so gebaut, dass möglichst wenige Personendaten anfallen. Sie richtet sich nach dem Schweizer Bundesgesetz über den Datenschutz (DSG).</p>
 <h2>Berechnungen</h2>
-<p>Alle Rechner laufen ausschliesslich in Ihrem Browser. Ihre Eingaben (Zeiten, Beträge, Prozentwerte) werden nicht an uns oder an Dritte übermittelt und nicht gespeichert.</p>
+<p>Alle Rechner laufen ausschliesslich in Ihrem Browser. Ihre Eingaben (Zeiten, Beträge, Prozentwerte, Angaben im Lebenslauf und ein allfälliges Foto) werden nicht an uns oder an Dritte übermittelt und nicht gespeichert. Einen Lebenslauf-Entwurf können Sie selbst als Datei auf Ihr Gerät herunterladen; diese Datei erhalten wir nicht.</p>
 <h2>Cookies und Tracking</h2>
 <p>Die Website setzt derzeit keine Cookies und verwendet keine Analyse- oder Tracking-Werkzeuge.</p>
 <h2>Hosting und Server-Logdaten</h2>
@@ -1175,7 +1453,7 @@ page('priv', 'fr', 'Politique de confidentialité – Calculateurs suisses', 'Co
 <h2>Principe</h2>
 <p>Ce site est conçu pour traiter le moins possible de données personnelles. Il suit la loi fédérale suisse sur la protection des données (LPD).</p>
 <h2>Calculs</h2>
-<p>Tous les calculateurs fonctionnent uniquement dans votre navigateur. Vos saisies (horaires, montants, pourcentages) ne sont transmises ni à nous ni à des tiers, et ne sont pas enregistrées.</p>
+<p>Tous les calculateurs fonctionnent uniquement dans votre navigateur. Vos saisies (horaires, montants, pourcentages, données du CV et photo éventuelle) ne sont transmises ni à nous ni à des tiers, et ne sont pas enregistrées. Vous pouvez télécharger vous-même un brouillon de CV sous forme de fichier sur votre appareil ; nous ne recevons pas ce fichier.</p>
 <h2>Cookies et suivi</h2>
 <p>Le site n’utilise actuellement aucun cookie ni aucun outil d’analyse ou de suivi.</p>
 <h2>Hébergement et journaux du serveur</h2>
@@ -1258,8 +1536,8 @@ for path, doc, _, _ in ALL_PAGES:
 (ROOT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n', encoding='utf-8')
 
 # Sitemap with hreflang alternates
-# Tool and home pages changed on 2026-11-25 (new tools, new links); legal pages unchanged.
-LASTMOD = {k: '2026-11-25' for k in PAIRS if k not in ('imp', 'priv', 'contact')}
+# Tool and home pages changed on 2026-11-25 (new tools, new links); privacy page updated for the CV tool.
+LASTMOD = {k: '2026-11-25' for k in PAIRS if k not in ('imp', 'contact')}
 urls = []
 for key, (de, fr) in PAIRS.items():
     for p in (de, fr):

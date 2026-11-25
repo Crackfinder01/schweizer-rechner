@@ -145,3 +145,73 @@ input[type=date] { width: 100%; font: inherit; color: inherit; background: var(-
 .data-table caption { text-align: left; color: var(--muted); font-size: .9rem; padding-bottom: .3rem; }
 input:disabled { opacity: .5; }
 .row.top { align-items: start; }
+
+/* ---------- Swiss CV builder ---------- */
+[hidden] { display: none !important; }
+.cv-form .row { align-items: start; }
+textarea { width: 100%; font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: .55rem .7rem; resize: vertical; }
+textarea:focus { border-color: var(--accent); }
+input[type=tel], input[type=email] { width: 100%; font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: .55rem .7rem; min-height: 44px; }
+.btn-sec { display: inline-flex; align-items: center; justify-content: center; background: var(--card); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: .55rem .9rem; min-height: 44px; font-weight: 600; cursor: pointer; }
+.btn-sec:hover { border-color: var(--accent); }
+.flag.err { color: #a1121f; background: #fde8ea; }
+.flag.info { color: var(--muted); background: var(--bg); }
+@media (prefers-color-scheme: dark) { .flag.err { color: #ffb3bc; background: #3a1418; } }
+.cv-form fieldset { border-top: 1px solid var(--line); padding-top: .9rem; margin-top: .6rem; }
+.cv-form legend { font-size: 1.05rem; padding: 0 .3rem 0 0; }
+.cv-list { display: grid; gap: .8rem; margin-bottom: .8rem; }
+.cv-item { border: 1px solid var(--line); border-radius: 10px; padding: .7rem .8rem .2rem; background: var(--bg); }
+.cv-item .field { margin-bottom: .6rem; }
+.cv-item input[type=text], .cv-item select, .cv-item textarea { background: var(--card); }
+.cv-item-h { display: flex; align-items: center; justify-content: space-between; margin: 0 0 .4rem; font-weight: 700; }
+.cv-item-inline { padding-bottom: 0; }
+.cv-rm { justify-content: flex-end; flex-direction: row; }
+.cv-check { display: inline-flex; gap: .45rem; align-items: center; font-weight: 400; min-height: 44px; }
+.cv-checks { list-style: none; padding: 0; margin: .4rem 0 1rem; }
+.cv-checks li { margin: .25rem 0; font-size: .9rem; }
+.cv-inline { width: auto; height: auto; font-size: .85rem; padding: .1rem .5rem; margin-left: .3rem; color: inherit; }
+.cv-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0 .3rem; }
+.cv-file { position: relative; overflow: hidden; }
+.cv-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.cv-file:focus-within { outline: 3px solid var(--accent); outline-offset: 2px; }
+.cv-pages { font-weight: 400; }
+.cv-pages.warn { color: var(--warn); }
+.cv-privacy { margin-top: -.3rem; }
+.cv-preview { position: relative; overflow: hidden; margin: .6rem 0 0; }
+
+/* The CV sheet itself: A4, fixed light colours (it is a document), absolute units so screen = print. */
+.cv-sheet {
+  position: relative; width: 210mm; min-height: 297mm; padding: 14mm; box-sizing: border-box;
+  background: #fff; color: #1a1a1a; transform-origin: top left; box-shadow: 0 1px 6px rgb(0 0 0 / .18);
+  font: 10pt/1.36 "Helvetica Neue", Helvetica, Arial, sans-serif; color-scheme: light;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.cv-sheet p { margin: 0; }
+.cv-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8mm; border-bottom: 1.2pt solid #c8102e; padding-bottom: 3.5mm; margin-bottom: 4mm; }
+.cv-doc { font-size: 8.5pt; letter-spacing: .08em; text-transform: uppercase; color: #6b6b6b; }
+.cv-name { font-size: 21pt; font-weight: 700; line-height: 1.15; margin-top: 1mm !important; }
+.cv-headline { font-size: 11.5pt; color: #333; margin-top: 1mm !important; }
+.cv-photo { width: 25mm; height: 32.1mm; object-fit: cover; border-radius: 1mm; flex: none; }
+.cv-sec { margin-bottom: 3.6mm; }
+.cv-sec h3 { break-after: avoid; page-break-after: avoid; font-size: 10.5pt; margin: 0 0 2mm; padding-bottom: 1mm; border-bottom: .6pt solid #bdbdbd; text-transform: uppercase; letter-spacing: .05em; color: #1a1a1a; }
+.cv-dl { display: grid; grid-template-columns: 38mm 1fr; gap: .6mm 4mm; margin: 0; }
+.cv-dl dt { color: #555; }
+.cv-dl dd { margin: 0; }
+.cv-entry { display: grid; grid-template-columns: 38mm 1fr; gap: 4mm; margin-bottom: 2mm; break-inside: avoid; page-break-inside: avoid; }
+.cv-when { color: #555; font-variant-numeric: tabular-nums; }
+.cv-role { font-weight: 700; }
+.cv-what ul { margin: .8mm 0 0; padding-left: 4.5mm; }
+.cv-what li { margin: 0; }
+.cv-ref { margin-bottom: 1mm !important; }
+.cv-break { position: absolute; left: 0; right: 0; border-top: 1px dashed #c8102e; font: 8pt/1 system-ui, sans-serif; color: #c8102e; text-align: right; padding: 1mm 2mm 0 0; pointer-events: none; }
+
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body.cv-print { background: #fff; margin: 0; }
+  body.cv-print .site-header, body.cv-print .site-footer, body.cv-print .skip,
+  body.cv-print main > :not(.cv-tool), body.cv-print .cv-tool > :not(.cv-preview), body.cv-print .cv-break { display: none !important; }
+  body.cv-print main { max-width: none; padding: 0; margin: 0; }
+  body.cv-print .cv-tool { border: 0; padding: 0; margin: 0; box-shadow: none; background: none; }
+  body.cv-print .cv-preview { height: auto !important; overflow: visible; margin: 0; }
+  body.cv-print .cv-sheet { transform: none !important; width: auto; min-height: 0; padding: 0; box-shadow: none; }
+}

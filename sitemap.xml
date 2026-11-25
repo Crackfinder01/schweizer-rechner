@@ -127,6 +127,20 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/mietzinsrechner/"/>
   </url>
   <url>
+    <loc>https://schweizer-rechner.ch/de/lebenslauf-schweiz/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/lebenslauf-schweiz/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/cv-suisse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/lebenslauf-schweiz/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/fr/cv-suisse/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/lebenslauf-schweiz/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/cv-suisse/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/lebenslauf-schweiz/"/>
+  </url>
+  <url>
     <loc>https://schweizer-rechner.ch/de/impressum/</loc>
     <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/impressum/"/>
@@ -142,14 +156,14 @@
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/datenschutz/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/datenschutz/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/confidentialite/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/datenschutz/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/confidentialite/</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/datenschutz/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/confidentialite/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/datenschutz/"/>
