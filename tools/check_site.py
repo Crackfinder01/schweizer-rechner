@@ -31,7 +31,7 @@ class Checker(HTMLParser):
         for k in ('href', 'src'):
             if a.get(k):
                 self.links.append((tag, k, a[k]))
-        if tag == 'script' and a.get('src') and urlparse(a['src']).netloc:
+        if tag == 'script' and a.get('src') and urlparse(a['src']).netloc and urlparse(a['src']).netloc != 'static.cloudflareinsights.com':
             errors.append(f'{self.path}: external script {a["src"]}')
         if tag not in VOID:
             self.stack.append((tag, self.getpos()))

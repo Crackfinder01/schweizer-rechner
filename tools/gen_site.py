@@ -139,6 +139,7 @@ def page(key, lang, title, desc, body, jsonld=None, script=False, crumbs=None):
 <meta name="theme-color" content="#c8102e">
 <link rel="icon" type="image/svg+xml" href="{FAVICON_URI}">
 <link rel="stylesheet" href="/style.css">
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{{"token": "c6c40acee4024671ab11eac33bb28de7"}}'></script>
 {ld}{js}</head>
 <body>
 <a class="skip" href="#main">{"Zum Inhalt springen" if lang == "de" else "Aller au contenu"}</a>
@@ -1428,7 +1429,7 @@ page('imp', 'fr', 'Mentions légales – Calculateurs suisses', 'Mentions légal
 <p>Les exploitants des sites externes liés sont seuls responsables de leur contenu.</p>
 <p class="stand">{STAND['fr']}</p>''', crumbs='Mentions légales')
 
-page('priv', 'de', 'Datenschutzerklärung – Schweizer Rechner', 'Datenschutz bei Schweizer Rechner: keine Cookies, keine Tracker, alle Berechnungen nur im Browser.', f'''<h1>Datenschutzerklärung</h1>
+page('priv', 'de', 'Datenschutzerklärung – Schweizer Rechner', 'Datenschutz bei Schweizer Rechner: keine Cookies, anonyme Besucherzählung ohne Cookies, alle Berechnungen nur im Browser.', f'''<h1>Datenschutzerklärung</h1>
 <h2>Verantwortlich</h2>
 <p>Thibaut Keller, Route des Riaux 1, 1782 Lossy, Schweiz. E-Mail: <a href="mailto:kontakt@schweizer-rechner.ch">kontakt@schweizer-rechner.ch</a></p>
 <h2>Grundsatz</h2>
@@ -1436,7 +1437,7 @@ page('priv', 'de', 'Datenschutzerklärung – Schweizer Rechner', 'Datenschutz b
 <h2>Berechnungen</h2>
 <p>Alle Rechner laufen ausschliesslich in Ihrem Browser. Ihre Eingaben (Zeiten, Beträge, Prozentwerte, Angaben im Lebenslauf und ein allfälliges Foto) werden nicht an uns oder an Dritte übermittelt und nicht gespeichert. Einen Lebenslauf-Entwurf können Sie selbst als Datei auf Ihr Gerät herunterladen; diese Datei erhalten wir nicht.</p>
 <h2>Cookies und Tracking</h2>
-<p>Die Website setzt derzeit keine Cookies und verwendet keine Analyse- oder Tracking-Werkzeuge.</p>
+<p>Die Website setzt keine Cookies. Um zu sehen, welche Seiten genutzt werden, zählen wir Seitenaufrufe mit Cloudflare Web Analytics (Cloudflare Inc., USA). Dieser Dienst setzt keine Cookies, verwendet keinen Fingerabdruck des Browsers und erstellt keine Profile von Besucherinnen und Besuchern; wir sehen nur zusammengefasste Zahlen (z. B. Aufrufe pro Seite, Land, Gerätetyp). Ihre Eingaben in den Rechnern werden dabei nie übermittelt.</p>
 <h2>Hosting und Server-Logdaten</h2>
 <p>Die Website wird bei GitHub Pages (GitHub Inc., USA) gehostet. Beim Aufruf einer Seite kann der Hosting-Anbieter technisch notwendige Daten verarbeiten, zum Beispiel IP-Adresse, Datum und Uhrzeit, aufgerufene Seite und Browsertyp. Diese Daten dienen dem sicheren Betrieb der Website.</p>
 <h2>Geplant: Werbung mit Google AdSense</h2>
@@ -1447,7 +1448,7 @@ page('priv', 'de', 'Datenschutzerklärung – Schweizer Rechner', 'Datenschutz b
 <p>Sie können Auskunft über Ihre Daten verlangen sowie deren Berichtigung oder Löschung beantragen. Schreiben Sie dazu an die oben genannte E-Mail-Adresse.</p>
 <p class="stand">{STAND['de']}</p>''', crumbs='Datenschutz')
 
-page('priv', 'fr', 'Politique de confidentialité – Calculateurs suisses', 'Confidentialité sur Calculateurs suisses : pas de cookies, pas de traceurs, tous les calculs dans le navigateur.', f'''<h1>Politique de confidentialité</h1>
+page('priv', 'fr', 'Politique de confidentialité – Calculateurs suisses', 'Confidentialité sur Calculateurs suisses : pas de cookies, comptage anonyme des visites sans cookie, tous les calculs dans le navigateur.', f'''<h1>Politique de confidentialité</h1>
 <h2>Responsable</h2>
 <p>Thibaut Keller, Route des Riaux 1, 1782 Lossy, Suisse. E-mail : <a href="mailto:kontakt@schweizer-rechner.ch">kontakt@schweizer-rechner.ch</a></p>
 <h2>Principe</h2>
@@ -1455,7 +1456,7 @@ page('priv', 'fr', 'Politique de confidentialité – Calculateurs suisses', 'Co
 <h2>Calculs</h2>
 <p>Tous les calculateurs fonctionnent uniquement dans votre navigateur. Vos saisies (horaires, montants, pourcentages, données du CV et photo éventuelle) ne sont transmises ni à nous ni à des tiers, et ne sont pas enregistrées. Vous pouvez télécharger vous-même un brouillon de CV sous forme de fichier sur votre appareil ; nous ne recevons pas ce fichier.</p>
 <h2>Cookies et suivi</h2>
-<p>Le site n’utilise actuellement aucun cookie ni aucun outil d’analyse ou de suivi.</p>
+<p>Le site n’utilise aucun cookie. Pour savoir quelles pages sont utilisées, nous comptons les pages vues avec Cloudflare Web Analytics (Cloudflare Inc., États-Unis). Ce service ne dépose aucun cookie, n’utilise pas d’empreinte du navigateur et ne crée pas de profil des visiteurs ; nous ne voyons que des chiffres globaux (par ex. visites par page, pays, type d’appareil). Vos saisies dans les calculateurs ne sont jamais transmises.</p>
 <h2>Hébergement et journaux du serveur</h2>
 <p>Le site est hébergé chez GitHub Pages (GitHub Inc., USA). Lors de la consultation d’une page, l’hébergeur peut traiter des données techniquement nécessaires, par exemple l’adresse IP, la date et l’heure, la page consultée et le type de navigateur. Ces données servent au fonctionnement sûr du site.</p>
 <h2>Prévu : publicité avec Google AdSense</h2>
