@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://schweizer-rechner.ch/de/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/fr/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/"/>
@@ -139,6 +139,20 @@
     <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/lebenslauf-schweiz/"/>
     <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/cv-suisse/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/lebenslauf-schweiz/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/de/qr-rechnung-erstellen/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/qr-rechnung-erstellen/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/creer-facture-qr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/qr-rechnung-erstellen/"/>
+  </url>
+  <url>
+    <loc>https://schweizer-rechner.ch/fr/creer-facture-qr/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/qr-rechnung-erstellen/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/creer-facture-qr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/qr-rechnung-erstellen/"/>
   </url>
   <url>
     <loc>https://schweizer-rechner.ch/de/lebenslauf-bewilligung/</loc>

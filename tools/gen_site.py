@@ -27,6 +27,7 @@ PAIRS = {
     'net': ('/de/brutto-netto-rechner/', '/fr/salaire-brut-net-suisse/'),
     'rent': ('/de/mietzinsrechner/', '/fr/calcul-loyer-taux-reference/'),
     'cv': ('/de/lebenslauf-schweiz/', '/fr/cv-suisse/'),
+    'qr': ('/de/qr-rechnung-erstellen/', '/fr/creer-facture-qr/'),
     'g_permit': ('/de/lebenslauf-bewilligung/', '/fr/cv-permis-de-sejour/'),
     'g_lang': ('/de/sprachniveau-lebenslauf/', '/fr/niveau-de-langue-cv/'),
     'imp': ('/de/impressum/', '/fr/mentions-legales/'),
@@ -60,6 +61,7 @@ TOOLS = {
            ('/de/stundenlohn-rechner/', 'Stundenlohn-Rechner', 'Monatslohn in Stundenlohn umrechnen und umgekehrt, mit 12 oder 13 Löhnen.'),
            ('/de/mietzinsrechner/', 'Mietzinsrechner', 'Mietzinssenkung oder -erhöhung nach Referenzzinssatz, Teuerung und Kosten.'),
            ('/de/tage-zwischen-zwei-daten/', 'Tage zwischen zwei Daten', 'Kalendertage, Arbeitstage Montag bis Freitag und Wochen.'),
+           ('/de/qr-rechnung-erstellen/', 'QR-Rechnung erstellen', 'Zahlteil mit Swiss QR Code als PDF, mit IBAN oder QR-IBAN und Referenz.'),
            ('/de/iban-pruefen/', 'IBAN prüfen', 'Länge und Prüfziffer einer IBAN offline prüfen, QR-IBAN erkennen.'),
            ('/de/lebenslauf-schweiz/', 'Lebenslauf Schweiz', 'Lebenslauf nach Schweizer Standard erstellen und prüfen, als A4-PDF.')],
     'fr': [('/fr/calcul-heures-travail/', 'Calcul des heures de travail', 'Heures par jour et par semaine, pauses selon la loi sur le travail, horaires de nuit.'),
@@ -69,6 +71,7 @@ TOOLS = {
            ('/fr/calcul-salaire-horaire/', 'Calcul du salaire horaire', 'Salaire mensuel en salaire horaire et inversement, avec 12 ou 13 salaires.'),
            ('/fr/calcul-loyer-taux-reference/', 'Loyer et taux de référence', 'Baisse ou hausse de loyer selon le taux de référence, le renchérissement et les coûts.'),
            ('/fr/calcul-jours-entre-deux-dates/', 'Jours entre deux dates', 'Jours calendaires, jours ouvrés du lundi au vendredi et semaines.'),
+           ('/fr/creer-facture-qr/', 'Créer une facture QR', 'Section paiement avec Swiss QR Code en PDF, avec IBAN ou QR-IBAN et référence.'),
            ('/fr/verifier-iban/', 'Vérifier une IBAN', 'Longueur et clé de contrôle d’une IBAN hors ligne, détection de la QR-IBAN.'),
            ('/fr/cv-suisse/', 'CV suisse', 'Créer et vérifier un CV aux normes suisses, en PDF A4.')],
 }
@@ -1424,6 +1427,8 @@ def src_link(label, url):
     return f'{label}: <a href="{url}">{url}</a>'
 
 
+exec(compile((ROOT / 'tools' / 'qr_section.py').read_text(encoding='utf-8'), 'qr_section.py', 'exec'))
+
 def guide_page(key, lang, title, desc, h1, crumb, lead, article, faq, sources, legal=False):
     de_path, fr_path = PAIRS[key]
     path = de_path if lang == 'de' else fr_path
@@ -2019,6 +2024,7 @@ for path, doc, _, _ in ALL_PAGES:
 # Sitemap with hreflang alternates
 # Tool and home pages changed on 2026-11-25 (new tools, new links); privacy page updated for the CV tool.
 LASTMOD = {k: '2026-11-25' for k in PAIRS if k not in ('imp', 'contact')}
+LASTMOD.update({k: '2026-11-26' for k in ('home', 'qr') if k in PAIRS})
 urls = []
 for key, (de, fr) in PAIRS.items():
     for p in (de, fr):

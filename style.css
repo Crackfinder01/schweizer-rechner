@@ -218,3 +218,55 @@ input[type=tel], input[type=email] { width: 100%; font: inherit; color: inherit;
   body.cv-print .cv-preview { height: auto !important; overflow: visible; margin: 0; }
   body.cv-print .cv-sheet { transform: none !important; width: auto; min-height: 0; padding: 0; box-shadow: none; }
 }
+
+/* ---------- QR-bill generator (/de/qr-rechnung-erstellen/) ---------- */
+/* ---------- Swiss QR-bill: payment part + receipt (IG QR-bill v2.4, 210 x 105 mm) ---------- */
+.qrb { position: relative; width: 210mm; height: 105mm; background: #fff; color: #000;
+  font-family: Arial, Helvetica, "Liberation Sans", sans-serif; font-style: normal; text-decoration: none; }
+.qrb::before { content: ""; position: absolute; left: 0; right: 0; top: 0; border-top: 0.5pt dashed #000; }
+.qrb::after { content: ""; position: absolute; top: 0; bottom: 0; left: 62mm; border-left: 0.5pt dashed #000; }
+.qrb-cut-h, .qrb-cut-v { position: absolute; width: 4.5mm; height: 4.5mm; background: #fff; z-index: 1; line-height: 0; }
+.qrb-cut-h { left: 4mm; top: -2.25mm; }
+.qrb-cut-v { left: 59.75mm; top: 3mm; transform: rotate(90deg); }
+.qrb-scissors { width: 100%; height: 100%; }
+.qrb section { position: absolute; top: 0; height: 105mm; }
+.qrb-receipt { left: 0; width: 62mm; }
+.qrb-pay { left: 62mm; width: 148mm; }
+.qrb h3, .qrb h4, .qrb p { margin: 0; padding: 0; font-weight: bold; }
+.qrb p { font-weight: normal; }
+.qrb .qrb-title { position: absolute; left: 5mm; top: 5mm; font-size: 11pt; line-height: 11pt; }
+.qrb-r-info { position: absolute; left: 5mm; top: 12mm; width: 52mm; height: 56mm; overflow: hidden; }
+.qrb-r-amount { position: absolute; left: 5mm; top: 68mm; width: 52mm; height: 14mm; display: flex; }
+.qrb-r-accept { position: absolute; left: 5mm; top: 82mm; width: 52mm; height: 18mm; text-align: right; font-size: 6pt; line-height: 8pt; font-weight: bold; }
+.qrb-qr { position: absolute; left: 5mm; top: 17mm; width: 46mm; height: 46mm; }
+.qrb-qr svg { display: block; width: 46mm; height: 46mm; }
+.qrb-p-amount { position: absolute; left: 5mm; top: 68mm; width: 46mm; height: 22mm; display: flex; }
+.qrb-p-info { position: absolute; left: 56mm; top: 5mm; width: 87mm; height: 85mm; overflow: hidden; }
+.qrb-receipt h4 { font-size: 6pt; line-height: 9pt; }
+.qrb-receipt p { font-size: 8pt; line-height: 9pt; }
+.qrb-r-info p { margin-bottom: 9pt; }
+.qrb-pay h4 { font-size: 8pt; line-height: 11pt; }
+.qrb-pay p { font-size: 10pt; line-height: 11pt; }
+.qrb-p-info p { margin-bottom: 9pt; overflow-wrap: anywhere; }
+.qrb-cur { width: 13mm; flex: none; }
+.qrb-pay .qrb-cur { width: 15mm; }
+.qrb-amt p { white-space: nowrap; }
+.qrb svg.qrb-box { display: block; margin-top: 1pt; }
+.qr-preview { margin-top: 1rem; }
+.qr-preview h3 { font-size: 1rem; margin: 0 0 .5rem; }
+.qr-sheet { overflow: hidden; border: 1px solid var(--line); background: #fff; }
+.qr-sheet .qrb { transform-origin: 0 0; }
+.qr-tool .result.warn { background: var(--warn-bg); color: var(--warn); }
+.qr-tool .result ul { margin: .3rem 0 0; padding-left: 1.2rem; }
+@page qrbill { size: A4; margin: 0; }
+@media print {
+  body.qr-print-mode { background: #fff; margin: 0; }
+  body.qr-print-mode .site-header, body.qr-print-mode .site-footer, body.qr-print-mode .skip,
+  body.qr-print-mode main > :not(.qr-tool), body.qr-print-mode .qr-tool > :not(.qr-preview),
+  body.qr-print-mode .qr-preview > :not(.qr-sheet) { display: none !important; }
+  body.qr-print-mode main { max-width: none; padding: 0; margin: 0; }
+  body.qr-print-mode .qr-tool { border: 0; padding: 0; margin: 0; box-shadow: none; background: none; }
+  body.qr-print-mode .qr-preview { margin: 0; }
+  body.qr-print-mode .qr-sheet { page: qrbill; position: relative; width: 210mm; height: 297mm !important; border: 0; overflow: hidden; }
+  body.qr-print-mode .qr-sheet .qrb { position: absolute; left: 0; bottom: 0; transform: none !important; }
+}

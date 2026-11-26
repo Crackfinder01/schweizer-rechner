@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR-Rechnung erstellen: kostenloser Generator</title>
+<meta name="description" content="QR-Rechnung kostenlos erstellen: Zahlteil mit Swiss QR Code als PDF, mit QR-IBAN, QR- oder RF-Referenz und strukturierter Adresse. Ohne Anmeldung.">
+<link rel="canonical" href="https://schweizer-rechner.ch/de/qr-rechnung-erstellen/">
+<link rel="alternate" hreflang="de-CH" href="https://schweizer-rechner.ch/de/qr-rechnung-erstellen/">
+<link rel="alternate" hreflang="fr-CH" href="https://schweizer-rechner.ch/fr/creer-facture-qr/">
+<link rel="alternate" hreflang="x-default" href="https://schweizer-rechner.ch/de/qr-rechnung-erstellen/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Schweizer Rechner">
+<meta property="og:title" content="QR-Rechnung erstellen: kostenloser Generator">
+<meta property="og:description" content="QR-Rechnung kostenlos erstellen: Zahlteil mit Swiss QR Code als PDF, mit QR-IBAN, QR- oder RF-Referenz und strukturierter Adresse. Ohne Anmeldung.">
+<meta property="og:url" content="https://schweizer-rechner.ch/de/qr-rechnung-erstellen/">
+<meta property="og:locale" content="de_CH">
+<meta property="og:locale:alternate" content="fr_CH">
+<meta name="theme-color" content="#c8102e">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c8102e'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c6c40acee4024671ab11eac33bb28de7"}'></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"QR-Rechnung erstellen","url":"https://schweizer-rechner.ch/de/qr-rechnung-erstellen/","description":"QR-Rechnung kostenlos erstellen: Zahlteil mit Swiss QR Code als PDF, mit QR-IBAN, QR- oder RF-Referenz und strukturierter Adresse. Ohne Anmeldung.","inLanguage":"de-CH","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CHF"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Ist der QR-Rechnungs-Generator kostenlos?","acceptedAnswer":{"@type":"Answer","text":"Ja, ohne Anmeldung und ohne Wasserzeichen. Alles läuft in Ihrem Browser; Ihre IBAN und Adressen werden nicht gesendet und nicht gespeichert."}},{"@type":"Question","name":"Brauche ich eine QR-IBAN?","acceptedAnswer":{"@type":"Answer","text":"Nein. Eine normale IBAN genügt, dann ohne Referenz oder mit RF-Referenz. Die QR-IBAN mit QR-Referenz lohnt sich, wenn Ihre Bank Zahlungseingänge automatisch Ihren Rechnungen zuordnen soll."}},{"@type":"Question","name":"Warum meldet der Generator meine Adresse als unvollständig?","acceptedAnswer":{"@type":"Answer","text":"Seit November 2025 verlangt die QR-Rechnung strukturierte Adressen. Name, PLZ, Ort und Land sind Pflicht; Strasse und Hausnummer gehören in getrennte Felder."}},{"@type":"Question","name":"Kann ich eine QR-Rechnung ohne Betrag erstellen?","acceptedAnswer":{"@type":"Answer","text":"Ja. Lassen Sie das Feld Betrag leer. Auf dem Zahlteil erscheint dann ein leeres Feld mit Eckmarken, in das der Zahler den Betrag schreibt."}},{"@type":"Question","name":"Kann ich eine QR-Rechnung in Euro erstellen?","acceptedAnswer":{"@type":"Answer","text":"Ja, mit einer normalen CH- oder LI-IBAN. Mit einer QR-IBAN und QR-Referenz ist nur CHF möglich."}},{"@type":"Question","name":"Wie drucke ich den Zahlteil richtig?","acceptedAnswer":{"@type":"Answer","text":"Auf weissem A4-Papier, Skalierung 100 % (nicht «an Seite anpassen»). Der Zahlteil misst 210 × 105 mm und steht unten auf der Seite; die gestrichelten Linien zeigen, wo abgetrennt wird."}}]}]}</script>
+<script type="module" src="/js/qr-ui.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="site-header"><div class="wrap">
+<a class="brand" href="/de/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#c8102e"/><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#fff"/></svg><span>Schweizer Rechner</span></a>
+<nav class="lang" aria-label="Sprache"><span aria-current="page" lang="de-CH">DE</span><a href="/fr/creer-facture-qr/" hreflang="fr-CH" lang="fr-CH">FR</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<p class="crumbs"><a href="/de/">Schweizer Rechner</a> › QR-Rechnung erstellen</p>
+<h1>QR-Rechnung erstellen</h1>
+<p class="lead">Zahlteil mit Empfangsschein und Swiss QR Code erstellen – mit IBAN oder QR-IBAN, als PDF oder zum Drucken. Kostenlos, ohne Anmeldung.</p>
+<section class="tool qr-tool" data-tool="qr" aria-labelledby="tool-h">
+<h2 id="tool-h">QR-Rechnung erstellen</h2>
+<p class="note">Ihre Angaben bleiben in diesem Browserfenster. Nichts wird gesendet oder gespeichert.</p>
+<p><button type="button" class="btn-sec qr-example">Beispiel laden</button> <button type="button" class="btn-sec qr-clear">Alles löschen</button></p>
+<form novalidate>
+<fieldset><legend>Zahlungsempfänger (Konto / Zahlbar an)</legend>
+<div class="field"><label for="qr-iban">IBAN oder QR-IBAN</label><input type="text" id="qr-iban" name="iban" autocomplete="off" spellcheck="false" autocapitalize="characters" maxlength="34" aria-describedby="qr-iban-h"><span class="note" id="qr-iban-h">Nur CH- oder LI-IBAN, z. B. CH44 3199 9123 0008 8901 2</span></div>
+<div class="row"><div class="field"><label for="qr-name">Name oder Firma</label><input type="text" id="qr-name" name="name" autocomplete="off" maxlength="70"></div></div><div class="row"><div class="field"><label for="qr-street">Strasse</label><input type="text" id="qr-street" name="street" autocomplete="off" maxlength="70"></div><div class="field"><label for="qr-no">Nr.</label><input type="text" id="qr-no" name="no" autocomplete="off" maxlength="16"></div></div><div class="row"><div class="field"><label for="qr-zip">PLZ</label><input type="text" id="qr-zip" name="zip" autocomplete="off" maxlength="16"></div><div class="field"><label for="qr-town">Ort</label><input type="text" id="qr-town" name="town" autocomplete="off" maxlength="35"></div><div class="field"><label for="qr-country">Land</label><input type="text" id="qr-country" name="country" autocomplete="off" value="CH" maxlength="2" autocapitalize="characters"></div></div>
+</fieldset>
+<fieldset><legend>Zahlung</legend>
+<div class="row"><div class="field"><label for="qr-amount">Betrag (leer = Zahler füllt aus)</label><input type="text" id="qr-amount" name="amount" autocomplete="off" inputmode="decimal"></div>
+<div class="field"><label for="qr-currency">Währung</label><select id="qr-currency" name="currency"><option>CHF</option><option>EUR</option></select></div></div>
+<div class="row"><div class="field"><label for="qr-number">Rechnungsnummer</label><input type="text" id="qr-number" name="number" autocomplete="off" maxlength="26"></div>
+<div class="field"><button type="button" class="btn-sec qr-makeref">Referenz erzeugen</button></div></div>
+<div class="field"><label for="qr-reference">Referenz</label><input type="text" id="qr-reference" name="reference" autocomplete="off" spellcheck="false" maxlength="40" aria-describedby="qr-ref-h qr-ref-hint"><span class="note" id="qr-ref-h">Mit QR-IBAN: QR-Referenz (27 Ziffern). Mit normaler IBAN: leer lassen oder RF-Referenz.</span><span class="note" id="qr-ref-hint" aria-live="polite"></span></div>
+<div class="field"><label for="qr-message">Zusätzliche Informationen (max. 140 Zeichen)</label><input type="text" id="qr-message" name="message" autocomplete="off" maxlength="140" aria-describedby="qr-message-h"><span class="note" id="qr-message-h">z. B. Rechnung 2026117 vom 26.11.2026</span></div>
+</fieldset>
+<div class="choice field"><label><input type="checkbox" name="debtor"> Adresse des Zahlungspflichtigen angeben</label></div>
+<fieldset class="qr-debtor" hidden><legend>Zahlungspflichtiger (Zahlbar durch)</legend>
+<div class="row"><div class="field"><label for="qr-d_name">Name oder Firma</label><input type="text" id="qr-d_name" name="d_name" autocomplete="off" maxlength="70"></div></div><div class="row"><div class="field"><label for="qr-d_street">Strasse</label><input type="text" id="qr-d_street" name="d_street" autocomplete="off" maxlength="70"></div><div class="field"><label for="qr-d_no">Nr.</label><input type="text" id="qr-d_no" name="d_no" autocomplete="off" maxlength="16"></div></div><div class="row"><div class="field"><label for="qr-d_zip">PLZ</label><input type="text" id="qr-d_zip" name="d_zip" autocomplete="off" maxlength="16"></div><div class="field"><label for="qr-d_town">Ort</label><input type="text" id="qr-d_town" name="d_town" autocomplete="off" maxlength="35"></div><div class="field"><label for="qr-d_country">Land</label><input type="text" id="qr-d_country" name="d_country" autocomplete="off" value="CH" maxlength="2" autocapitalize="characters"></div></div>
+</fieldset>
+<div class="field"><label for="qr-billlang">Sprache des Zahlteils</label><select id="qr-billlang" name="billlang"><option value="de" selected lang="de">Deutsch</option><option value="fr" lang="fr">Français</option><option value="it" lang="it">Italiano</option><option value="en" lang="en">English</option></select></div>
+</form>
+<div class="result" aria-live="polite"></div>
+<div class="qr-preview" hidden>
+<h3>Vorschau des Zahlteils</h3>
+<div class="qr-sheet"></div>
+<p><button type="button" class="btn qr-print" disabled>Drucken / als PDF speichern</button></p>
+<p class="note">Druckt eine A4-Seite mit dem Zahlteil unten (210 × 105 mm). Im Druckfenster «Als PDF speichern» wählen, Skalierung 100 %.</p>
+</div>
+<noscript><p>Für den QR-Rechnungs-Generator wird JavaScript benötigt.</p></noscript>
+</section>
+<!-- AD SLOT 1 (below the result): reserved for a future advertising unit. Empty on purpose - no ad code. Add only after the consent banner exists. -->
+<div class="ad-slot"></div>
+<article>
+<h2>So funktioniert der Generator</h2>
+<p>Geben Sie Ihre IBAN und Ihre Adresse als Zahlungsempfänger ein, dann den Betrag und eine Mitteilung. Der Generator prüft jede Angabe sofort und zeigt den fertigen Zahlteil mit Empfangsschein und Swiss QR Code. Mit «Drucken / als PDF speichern» erhalten Sie eine A4-Seite mit dem Zahlteil unten, so wie ihn Banken und Post erwarten. Sie können die Seite ausdrucken oder als PDF an Ihre Rechnung anhängen.</p>
+<p>Der Betrag ist freiwillig: Lassen Sie ihn leer, erscheint ein Feld mit Eckmarken, in das der Zahler den Betrag selbst schreibt – praktisch für Spenden oder Mitgliederbeiträge.</p>
+<h2>IBAN oder QR-IBAN: welche Referenz?</h2>
+<p>Mit einer <strong>normalen IBAN</strong> können Sie ohne Referenz arbeiten oder eine RF-Referenz (Creditor Reference nach ISO 11649) verwenden. Mit einer <strong>QR-IBAN</strong> – erkennbar an der Bank-Identifikation 30000 bis 31999 an den Stellen 5 bis 9 – ist eine QR-Referenz mit 27 Ziffern Pflicht. Die QR-IBAN gibt Ihnen die Bank, wenn Sie Zahlungen automatisch zuordnen wollen. Geben Sie Ihre Rechnungsnummer ein und klicken Sie auf «Referenz erzeugen»: Der Generator baut daraus die passende QR-Referenz (mit Prüfziffer Modulo 10 rekursiv) oder RF-Referenz (Modulo 97).</p>
+<h2>Strukturierte Adressen seit November 2025</h2>
+<p>Seit dem 21. November 2025 sind im Swiss QR Code nur noch strukturierte Adressen erlaubt: Strasse, Hausnummer, PLZ und Ort stehen in getrennten Feldern (Adresstyp «S»). Die alte, kombinierte Adresse in zwei Freitextzeilen (Typ «K») gilt nicht mehr. Für die QR-Rechnung sind mindestens Name, PLZ, Ort und Land nötig. Dieser Generator erstellt ausschliesslich strukturierte Adressen.</p>
+<h2>Beispiel</h2>
+<p>Eine Malerfirma in Zürich stellt einer Kundin in Lausanne CHF 1'250.50 in Rechnung, Rechnungsnummer 2026117. Mit ihrer QR-IBAN erzeugt der Generator die QR-Referenz 00 00000 00000 00000 00202 61178 und den Zahlteil mit beiden Adressen. Die Kundin scannt den QR-Code in ihrer Banking-App: Betrag, Konto und Referenz sind sofort ausgefüllt, und die Firma sieht beim Zahlungseingang, welche Rechnung bezahlt ist.</p>
+<h2>Grenzen des Generators</h2>
+<p>Der Generator erstellt einen Zahlteil pro Seite, ohne Rechnungsbriefkopf, ohne Alternative Verfahren und ohne Rechnungsinformationen (Swico-Syntax). Für viele Rechnungen pro Monat ist eine Buchhaltungssoftware praktischer. Vor dem ersten Versand: Drucken Sie den Zahlteil in Originalgrösse (100 %) und scannen Sie ihn einmal mit Ihrer eigenen Banking-App.</p>
+<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">Häufige Fragen</h2>
+<details><summary>Ist der QR-Rechnungs-Generator kostenlos?</summary><p>Ja, ohne Anmeldung und ohne Wasserzeichen. Alles läuft in Ihrem Browser; Ihre IBAN und Adressen werden nicht gesendet und nicht gespeichert.</p></details>
+<details><summary>Brauche ich eine QR-IBAN?</summary><p>Nein. Eine normale IBAN genügt, dann ohne Referenz oder mit RF-Referenz. Die QR-IBAN mit QR-Referenz lohnt sich, wenn Ihre Bank Zahlungseingänge automatisch Ihren Rechnungen zuordnen soll.</p></details>
+<details><summary>Warum meldet der Generator meine Adresse als unvollständig?</summary><p>Seit November 2025 verlangt die QR-Rechnung strukturierte Adressen. Name, PLZ, Ort und Land sind Pflicht; Strasse und Hausnummer gehören in getrennte Felder.</p></details>
+<details><summary>Kann ich eine QR-Rechnung ohne Betrag erstellen?</summary><p>Ja. Lassen Sie das Feld Betrag leer. Auf dem Zahlteil erscheint dann ein leeres Feld mit Eckmarken, in das der Zahler den Betrag schreibt.</p></details>
+<details><summary>Kann ich eine QR-Rechnung in Euro erstellen?</summary><p>Ja, mit einer normalen CH- oder LI-IBAN. Mit einer QR-IBAN und QR-Referenz ist nur CHF möglich.</p></details>
+<details><summary>Wie drucke ich den Zahlteil richtig?</summary><p>Auf weissem A4-Papier, Skalierung 100 % (nicht «an Seite anpassen»). Der Zahlteil misst 210 × 105 mm und steht unten auf der Seite; die gestrichelten Linien zeigen, wo abgetrennt wird.</p></details>
+</section>
+</article>
+<section class="sources" aria-labelledby="src-h"><h2 id="src-h">Quellen</h2><ul><li>SIX, Schweizer Implementation Guidelines QR-Rechnung, Version 2.4: <a href="https://www.six-group.com/dam/download/banking-services/standardization/qr-bill/ig-qr-bill-v2.4-de.pdf">https://www.six-group.com/dam/download/banking-services/standardization/qr-bill/ig-qr-bill-v2.4-de.pdf</a></li><li>SIX, Merkblatt QR-Rechnung – Übergangsfrist 2025–2026 (KMU): <a href="https://www.six-group.com/dam/download/banking-services/standardization/qr-bill/factsheet-qr-bill-transition-period-sme-de.pdf">https://www.six-group.com/dam/download/banking-services/standardization/qr-bill/factsheet-qr-bill-transition-period-sme-de.pdf</a></li><li>PostFinance, Anpassungen bei den Adressen: <a href="https://www.postfinance.ch/de/unternehmen/wissen/news/adressen-anpassungen.html">https://www.postfinance.ch/de/unternehmen/wissen/news/adressen-anpassungen.html</a></li></ul></section>
+<p class="stand">Stand: November 2026</p>
+<!-- AD SLOT 2 (bottom of page): reserved for a future advertising unit. Empty on purpose - no ad code. -->
+<div class="ad-slot"></div>
+<h2>Weitere Rechner</h2>
+<ul class="cards"><li><a href="/de/arbeitszeitrechner/"><strong>Arbeitszeitrechner</strong>Arbeitsstunden pro Tag und Woche, Pausen nach Arbeitsgesetz, Nachtschichten.</a></li><li><a href="/de/prozentrechner/"><strong>Prozentrechner</strong>Prozent von, Anteil in Prozent, Veränderung, Wert plus oder minus Prozent.</a></li><li><a href="/de/mwst-rechner/"><strong>MWST-Rechner</strong>Mehrwertsteuer hinzufügen oder herausrechnen, mit Rappenrundung.</a></li><li><a href="/de/brutto-netto-rechner/"><strong>Brutto-Netto-Rechner</strong>Nettolohn 2026 nach AHV/IV/EO, ALV, NBU und Pensionskasse, ohne Quellensteuer.</a></li><li><a href="/de/stundenlohn-rechner/"><strong>Stundenlohn-Rechner</strong>Monatslohn in Stundenlohn umrechnen und umgekehrt, mit 12 oder 13 Löhnen.</a></li><li><a href="/de/mietzinsrechner/"><strong>Mietzinsrechner</strong>Mietzinssenkung oder -erhöhung nach Referenzzinssatz, Teuerung und Kosten.</a></li><li><a href="/de/tage-zwischen-zwei-daten/"><strong>Tage zwischen zwei Daten</strong>Kalendertage, Arbeitstage Montag bis Freitag und Wochen.</a></li><li><a href="/de/iban-pruefen/"><strong>IBAN prüfen</strong>Länge und Prüfziffer einer IBAN offline prüfen, QR-IBAN erkennen.</a></li><li><a href="/de/lebenslauf-schweiz/"><strong>Lebenslauf Schweiz</strong>Lebenslauf nach Schweizer Standard erstellen und prüfen, als A4-PDF.</a></li></ul>
+</main>
+<footer class="site-footer"><div class="wrap">
+<nav aria-label="Rechtliches"><a href="/de/impressum/">Impressum</a> · <a href="/de/datenschutz/">Datenschutz</a> · <a href="/de/kontakt/">Kontakt</a></nav>
+<p>Alle Berechnungen laufen nur in Ihrem Browser. Angaben ohne Gewähr.</p>
+</div></footer>
+</body>
+</html>
